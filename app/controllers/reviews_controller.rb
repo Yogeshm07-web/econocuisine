@@ -1,8 +1,5 @@
 # app/controllers/reviews_controller.rb
 class ReviewsController < ApplicationController
-  def new
-    @review = Review.new
-  end
 
   def create
     @review = Review.new(review_params)
@@ -11,6 +8,14 @@ class ReviewsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def index
+    @review=Review.all
+  end
+
+  def show
+    @review = Review.find(params[:id])
   end
 
   private
