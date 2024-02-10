@@ -1,13 +1,16 @@
 class ProductController < ApplicationController
-
+  before_action :set_product
 def index
   @products=Product.all
 end
 
 def create
   @product = Product.new(product_params)
-  @product.save
+  if @product.save
   redirect_to product_path(@products)
+  else
+  render :new
+  end
 end
 
 def show
@@ -27,6 +30,11 @@ def destroy
   @product.destroy
   redirect_to product_path, status: :see_other
 end
+private
+
+    def set_product
+      @product = Product.find(params[:id])
+    end
 
 def product_params
   params.require(:product).permit(:id, :name, :description,:category,:price,:stock)
