@@ -1,3 +1,3 @@
 class Product < ApplicationRecord
-  belongs_to :basket
-end
+  belongs_to :basket, optional: true
+  end
