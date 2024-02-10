@@ -1,4 +1,4 @@
 class Inventory < ApplicationRecord
   belongs_to :user
-  has_ many :products
+  has_one :basket
 end
