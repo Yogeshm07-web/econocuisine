@@ -6,28 +6,8 @@ class BasketsController < ApplicationController
     @baskets = Basket.all
   end
 
-  # GET /baskets/1
-  def show
-  end
-
-  # GET /baskets/new
-  def new
-    @basket = Basket.new
-  end
-
   # GET /baskets/1/edit
   def edit
-  end
-
-  # POST /baskets
-  def create
-    @basket = Basket.new(basket_params)
-
-    if @basket.save
-      redirect_to @basket, notice: 'Basket was successfully created.'
-    else
-      render :new
-    end
   end
 
   # PATCH/PUT /baskets/1
