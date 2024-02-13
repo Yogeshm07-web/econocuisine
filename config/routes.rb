@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :inventories
-  resources :basket
+  resources :baskets
   resources :product
   root to: "pages#home"  # Keep this line for pages#home as the root route
   # root 'pages#index'    # Comment out or remove this line
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/signin', to: 'sessions#new'
   get '/signup', to: 'users#new'
 
+  get 'budgets', to: 'pages#budget', as: 'budgets'
 
 
   # Defines the root path route ("/")

@@ -1,0 +1,5 @@
+<% if user_signed_in? %>
+  <%= link_to 'Inventory', inventories_path, class: 'btn btn-primary' %>
+  <%= link_to 'Budget', budgets_path, class: 'btn btn-primary' %>
+  <%= link_to 'Basket', baskets_path, class: 'btn btn-primary' %>
+<% end %>

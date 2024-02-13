@@ -16,6 +16,10 @@ class BasketsController < ApplicationController
     end
   end
 
+  def show
+  end
+
+
   def destroy
     @basket.destroy
     redirect_to baskets_url, notice: 'Basket was successfully destroyed.'
