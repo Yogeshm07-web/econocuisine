@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   # Define resourceful routes
   resources :inventories
   resources :baskets
-  resources :products do
+  resources :product do
     post 'add_to_inventory', on: :member
   end
-  resources :products
+  resources :product
 
   # Define custom routes
   root to: "pages#home"
