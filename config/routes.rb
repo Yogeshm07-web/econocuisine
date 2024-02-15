@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :products do
     post 'add_to_inventory', on: :member
   end
-  resources :products, only: [:index]
+  resources :products
 
   # Define custom routes
   root to: "pages#home"
