@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :inventories
-  resources :baskets
+  resources :basket
   resources :product
+  resources :order_items
+  resources :order
   root to: "pages#home"  # Keep this line for pages#home as the root route
   # root 'pages#index'    # Comment out or remove this line
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

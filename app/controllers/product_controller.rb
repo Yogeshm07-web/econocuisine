@@ -1,5 +1,5 @@
 class ProductController < ApplicationController
-  before_action :set_product
+  before_action :set_product,except: :index
 def index
   @products=Product.all
 end
