@@ -1,1 +1,167 @@
-<h1>Inventory Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management</title>
+  <!-- Add any necessary CSS links or styles -->
+  <link rel="stylesheet" href="inventories.css">
+</head>
+<body>
+
+
+  <div id="new-inventory-item-section">
+    <!-- Include the form for adding new inventory items -->
+    <%= render 'form', inventory: @inventory %>
+  </div>
+
+  <table class="table" id="inventory-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Quantity Unit</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="inventory-table-body">
+      <!-- Render existing inventory items -->
+      <%= render @inventory_items %>
+    </tbody>
+  </table>
+
+  <form id="new-inventory-item-form">
+    <!-- Form for adding new inventory items -->
+    <select id="product-list" name="product_id">
+      <% @products.each do |product| %>
+        <option value="<%= product.id %>"><%= product.name %></option>
+      <% end %>
+    </select>
+    <input type="number" id="quantity" name="quantity" required placeholder="Quantity">
+    <input type="text" id="quantity-unit" name="quantity-unit" required placeholder="Quantity Unit">
+    <!-- Button with dynamic color based on product name -->
+    <button type="button" id="add-to-inventory-btn" class="btn btn-secondary">Add to Inventory</button>
+  </form>
+
+  <!-- JavaScript code -->
+  <script>
+    // Function to dynamically update button color based on product name
+    function updateButtonColor(productName) {
+      const btn = document.getElementById('add-to-inventory-btn');
+      // Example: Set color based on the first letter of the product name
+      const color = productName.charAt(0).toLowerCase();
+      btn.style.backgroundColor = getColorCode(color);
+    }
+
+    // Function to get color code based on a given character
+    function getColorCode(character) {
+      switch (character) {
+        case 'a': return 'red';
+        case 'b': return 'blue';
+        case 'c': return 'green';
+        // Add more cases for other letters if needed
+        default: return 'blue';
+      }
+    }
+
+    // Call updateButtonColor when the product selection changes
+    document.getElementById('product-list').addEventListener('change', function() {
+      const productName = this.options[this.selectedIndex].text;
+      updateButtonColor(productName);
+    });
+
+    // Add event listener for the button click
+    document.getElementById('add-to-inventory-btn').addEventListener('click', function() {
+      addToInventory();
+    });
+
+    function addToInventory() {
+      const quantityInput = document.getElementById('quantity');
+      const quantity = parseInt(quantityInput.value);
+      const productName = document.getElementById('product-list').options[document.getElementById('product-list').selectedIndex].text;
+      const quantityUnit = document.getElementById('quantity-unit').value;
+      if (isNaN(quantity) || quantity <= 0 || !quantityUnit.trim()) {
+        alert('Please enter a valid quantity and quantity unit.');
+        return;
+      }
+      const newItemData = {
+        productName: productName,
+        quantity: quantity,
+        quantityUnit: quantityUnit
+      };
+      addNewInventoryItem(newItemData);
+      document.getElementById('new-inventory-item-form').reset();
+    }
+
+    function addNewInventoryItem(item) {
+      const inventoryTableBody = document.getElementById('inventory-table-body');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${item.productName}</td>
+        <td>${item.quantity}</td>
+        <td>${item.quantityUnit}</td>
+        <td>
+          <button type="button" class="edit-btn">Edit</button>
+          <button type="button" class="save-btn" style="display: none;">Save</button> <!-- Initially hidden -->
+          <button type="button" class="delete-btn">Delete</button>
+        </td>
+      `;
+      inventoryTableBody.appendChild(newRow);
+      newRow.querySelector('.edit-btn').addEventListener('click', function() {
+        editInventoryItem(newRow);
+      });
+      newRow.querySelector('.save-btn').addEventListener('click', function() {
+        saveInventoryItem(newRow);
+      });
+      newRow.querySelector('.delete-btn').addEventListener('click', function() {
+        deleteInventoryItem(newRow);
+      });
+    }
+
+    function editInventoryItem(row) {
+      const nameCell = row.cells[0];
+      const quantityCell = row.cells[1];
+      const quantityUnitCell = row.cells[2];
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.value = nameCell.textContent.trim();
+      const quantityInput = document.createElement('input');
+      quantityInput.type = 'number';
+      quantityInput.value = quantityCell.textContent;
+      const quantityUnitInput = document.createElement('input');
+      quantityUnitInput.type = 'text';
+      quantityUnitInput.value = quantityUnitCell.textContent;
+      nameCell.textContent = '';
+      quantityCell.textContent = '';
+      quantityUnitCell.textContent = '';
+      nameCell.appendChild(nameInput);
+      quantityCell.appendChild(quantityInput);
+      quantityUnitCell.appendChild(quantityUnitInput);
+      // Toggle visibility of buttons
+      row.querySelector('.edit-btn').style.display = 'none';
+      row.querySelector('.save-btn').style.display = 'inline-block';
+    }
+
+    function saveInventoryItem(row) {
+      const nameCell = row.cells[0];
+      const quantityCell = row.cells[1];
+      const quantityUnitCell = row.cells[2];
+      const nameInput = nameCell.querySelector('input');
+      const quantityInput = quantityCell.querySelector('input');
+      const quantityUnitInput = quantityUnitCell.querySelector('input');
+      // Update cell contents with input values
+      nameCell.textContent = nameInput.value;
+      quantityCell.textContent = quantityInput.value;
+      quantityUnitCell.textContent = quantityUnitInput.value;
+      // Toggle visibility of buttons
+      row.querySelector('.edit-btn').style.display = 'inline-block';
+      row.querySelector('.save-btn').style.display = 'none';
+    }
+
+    function deleteInventoryItem(row) {
+      row.remove();
+    }
+  </script>
+
+</body>
+</html>

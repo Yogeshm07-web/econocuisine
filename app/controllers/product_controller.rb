@@ -1,42 +1,57 @@
+
 class ProductController < ApplicationController
   before_action :set_product,except: :index
-def index
-  @products=Product.all
-end
-
-def create
-  @product = Product.new(product_params)
-  if @product.save
-  redirect_to product_path(@products)
-  else
-  render :new
+  def index
+    @products=Product.all
   end
-end
+  def index
+    @products = Product.all
+  end
 
-def show
-  @product = Product.find(params[:id])
-end
+  def add_to_inventory
+    product = Product.find(params[:id])
+    # You can add logic here to add the selected product to the inventory
+    redirect_to inventories_path, notice: "#{product.name} was successfully added to inventory."
+  end
 
+  def show
+  end
 
+  def new
+    @product = Product.new
+  end
 
-def update
-  @product = Product.find(params[:id])
-  @product.update(product_params)
-  redirect_to product_path(@product)
-end
+  def edit
+  end
 
-def destroy
-  @product = Product.find(params[:id])
-  @product.destroy
-  redirect_to product_path, status: :see_other
-end
-private
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      redirect_to @product, notice: 'Product was successfully created.'
+    else
+      render :new
+    end
+  end
 
+  def update
+    if @product.update(product_params)
+      redirect_to @product, notice: 'Product was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @product.destroy
+    redirect_to products_url, notice: 'Product was successfully destroyed.'
+  end
+
+  private
     def set_product
       @product = Product.find(params[:id])
     end
 
-def product_params
-  params.require(:product).permit(:id, :name, :description,:category,:price,:stock)
-end
+    def product_params
+      params.require(:product).permit(:name, :description, :category, :price, :stock)
+    end
 end
