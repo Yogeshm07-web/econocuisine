@@ -1,0 +1,41 @@
+<%= render "shared/flashes" %>
+
+<h1>Inventory</h1>
+
+<div class="container">
+  <!-- Form for adding new inventory item -->
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Add New Inventory Item</h2>
+      <%= form_with(model: @inventory, local: true) do |form| %>
+        <% if @inventory.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@inventory.errors.count, "error") %> prohibited this inventory from being saved:</h2>
+            <ul>
+              <% @inventory.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="field">
+          <%= form.label :name %>
+          <%= form.text_field :name, placeholder: "Enter inventory name" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :quantity %>
+          <%= form.number_field :quantity, placeholder: "Enter quantity" %>
+        </div>
+
+        <div class="actions">
+          <%= form.submit 'Save Inventory', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
