@@ -1,2 +1,19 @@
 // Specific CSS for your home-page
+.logo-container {
+  width: 150px;
+  margin: 0 auto;
 
+  .logo {
+    width: 100%;
+    height: auto;
+  }
+}
+
+h1.title {
+  text-align: center;
+}
+
+.swiper {
+  width: 600px; /* Adjust based on your needs */
+  height: 300px; /* Adjust based on your needs */
+}

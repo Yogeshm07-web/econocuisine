@@ -1,0 +1,54 @@
+<%= form_with(model: @inventory_item, id: "new-inventory-item-form", url: inventory_items_path, local: true) do |form| %>
+  <!-- Your form fields go here -->
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :inventory_item_name, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :inventory_item_description, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category, id: :inventory_item_category, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, id: :inventory_item_price, step: 0.01, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :stock %>
+    <%= form.number_field :stock, id: :inventory_item_stock, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, id: :inventory_item_quantity, required: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Add Item", id: "add-item-submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<table class="table" id="inventory-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Quantity</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="inventory-table-body">
+    <!-- Existing inventory items -->
+    <%= render @inventory_items %>
+  </tbody>
+</table>
