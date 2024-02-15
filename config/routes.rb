@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :inventories
   resources :basket
   resources :product
-  root to: "pages#home"  # Keep this line for pages#home as the root route
+  resources :order_items
+  resources :order
+  root to: "pages#home"
+    # Keep this line for pages#home as the root route
   # root 'pages#index'    # Comment out or remove this line
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

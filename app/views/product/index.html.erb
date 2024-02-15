@@ -1,0 +1,28 @@
+<h1>Products</h1>
+<%=link_to "New product",new_products_path%>
+<div class:"col-md-6 col-md-offset-3">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name  </th>
+      <th>Description </th>
+      <th>Category  </th>
+      <th>Price </th>
+      <th>Stock  </th>
+    </tr>
+      </thead>
+    <tbody>
+    <%=@products.each do |product|%>
+    <tr>
+    <td><%=>product.name<%></td>
+    <td><%=>product.description<%></td>
+    <td><%=>product.category<%></td>
+    <td><%=>product.price<%></td>
+    <td><%=>product.stock<%></td>
+    <td>
+      <%=>link_to "edit",edit_products_path(product)<%>
+      <%=>link_to "delete",products_path, method: :delete<%>
+    </td>
+    </tr>
+    </tbody>
+</div>
