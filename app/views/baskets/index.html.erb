@@ -1,1 +1,26 @@
 <h1>Basket Page</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @basket_items.each do |basket| %>
+    <% productsss = Product.find(basket.product_id) %>
+      <tr>
+        <td><%= productsss.name %></td>
+        <td><%= productsss.description %></td>
+        <td><%= productsss.category %></td>
+        <td><%= number_to_currency(productsss.price / 100.0) %></td>
+        <td><%= productsss.stock %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
