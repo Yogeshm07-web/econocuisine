@@ -1,5 +1,4 @@
 class Product < ApplicationRecord
-  belongs_to :basket
   has_many :order_items
   has_one_attached :image
 
