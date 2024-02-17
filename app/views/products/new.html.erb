@@ -1,0 +1,12 @@
+<%= form_with(model: @product, local: true) do |form| %>
+  <%# Existing form fields for product name, description, etc. %>
+
+  <div class="field">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, min: 1 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

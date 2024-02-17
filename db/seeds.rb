@@ -26,7 +26,8 @@ Product.create!(
   description: 'Rich and creamy whole milk, perfect for drinking, cooking, and baking.',
   category: 'Dairy',
   price: 125, # Assuming price is in cents (integer)
-  stock: 50
+  stock: 50,
+  quantity_unit: 'per liter' # Define the quantity unit here
 )
 
 Product.create!(
@@ -34,7 +35,8 @@ Product.create!(
   description: 'Premium quality butter, ideal for spreading on toast or using in recipes for a rich, buttery flavor.',
   category: 'Dairy',
   price: 200,
-  stock: 100
+  stock: 100,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -42,7 +44,8 @@ Product.create!(
   description: 'Versatile all-purpose flour, essential for baking a wide variety of recipes, from bread to cakes.',
   category: 'Baking Supplies',
   price: 150,
-  stock: 75
+  stock: 75,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -50,7 +53,8 @@ Product.create!(
   description: 'Pure granulated sugar, perfect for sweetening beverages, desserts, and baked goods.',
   category: 'Baking Supplies',
   price: 100,
-  stock: 100
+  stock: 100,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -58,7 +62,8 @@ Product.create!(
   description: 'Fresh eggs from pasture-raised hens, ideal for breakfast, baking, and cooking.',
   category: 'Dairy',
   price: 175,
-  stock: 50
+  stock: 50,
+  quantity_unit: 'per dozen' # Define the quantity unit here
 )
 
 Product.create!(
@@ -66,7 +71,8 @@ Product.create!(
   description: 'Tender and juicy boneless chicken breast, great for grilling, baking, or sautéing.',
   category: 'Meat',
   price: 300,
-  stock: 75
+  stock: 75,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -74,7 +80,8 @@ Product.create!(
   description: 'Organic fresh spinach leaves, packed with nutrients and perfect for salads, smoothies, or sautéing.',
   category: 'Produce',
   price: 150,
-  stock: 50
+  stock: 50,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -82,7 +89,8 @@ Product.create!(
   description: 'High-quality basmati rice, known for its fragrant aroma and fluffy texture when cooked.',
   category: 'Grains & Pasta',
   price: 250,
-  stock: 100
+  stock: 100,
+  quantity_unit: 'per kg' # Define the quantity unit here
 )
 
 Product.create!(
@@ -90,7 +98,8 @@ Product.create!(
   description: 'Premium extra virgin olive oil, perfect for salad dressings, marinades, and cooking.',
   category: 'Condiments',
   price: 500,
-  stock: 50
+  stock: 50,
+  quantity_unit: 'per liter' # Define the quantity unit here
 )
 
 Product.create!(
@@ -98,7 +107,8 @@ Product.create!(
   description: 'Whole canned tomatoes, great for making sauces, soups, and stews.',
   category: 'Canned Goods',
   price: 75,
-  stock: 100
+  stock: 100,
+  quantity_unit: 'per can' # Define the quantity unit here
 )
 
 puts 'Products seeded successfully!'

@@ -7,4 +7,5 @@ class User < ApplicationRecord
 
   has_many :reviews
   has_one :inventory
+  has_one :basket
 end
