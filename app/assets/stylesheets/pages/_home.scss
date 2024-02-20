@@ -17,3 +17,16 @@ h1.title {
   width: 600px; /* Adjust based on your needs */
   height: 300px; /* Adjust based on your needs */
 }
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 150px;
+}
+
+.swiper-slide img {
+  width: 100%;
+}
