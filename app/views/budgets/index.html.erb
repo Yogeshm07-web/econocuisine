@@ -28,8 +28,20 @@
       <div class="card-body">
         <h4 class="card-title">Budget Overview</h4>
         <ul class="list-group">
-          <li class="list-group-item">Total Income: $XXXX</li>
-          <li class="list-group-item">Total Expenses: $XXXX</li>
+          <li class="list-group-item"><div id="totalIncomeDisplay" class="card">
+              <div class="card-body">
+                <h4 class="card-title">Total Income</h4>
+                <p id="totalIncomeAmount" class="card-text">Total Income: $0</p>
+              </div>
+            </div></li>
+          <li class="list-group-item">
+            <div id="totalExpensesDisplay" class="card">
+              <div class="card-body">
+                <h4 class="card-title">Total Expenses</h4>
+                <p id="totalExpensesAmount" class="card-text">Total Expenses: $0</p>
+              </div>
+            </div>
+          </li>
           <li class="list-group-item">Remaining Balance: $XXXX</li>
         </ul>
       </div>
@@ -39,7 +51,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Expense Tracking</h4>
-        <form action="/expenses" method="POST">
+        <form id="expenseForm" action="/expenses" method="POST">
           <div class="form-group">
             <label for="expenseDate">Date:</label>
             <input type="date" id="expenseDate" name="expenseDate" class="form-control" required>
@@ -56,32 +68,32 @@
             <label for="expenseNotes">Notes:</label>
             <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Add Expense</button>
+          <button type="submit" id="addExpenseButton" class="btn btn-primary">Add Expense</button>
         </form>
       </div>
     </div>
 
     <!-- Income Tracking Form -->
     <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Income Tracking</h4>
-        <form action="/income" method="POST">
-          <div class="form-group">
-            <label for="incomeSource">Source:</label>
-            <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
-          </div>
-          <div class="form-group">
-            <label for="incomeAmount">Amount:</label>
-            <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
-          </div>
-          <div class="form-group">
-            <label for="incomeDate">Date:</label>
-            <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Add Income</button>
-        </form>
+  <div class="card-body">
+    <h4 class="card-title">Income Tracking</h4>
+    <form id="incomeForm" action="/income" method="POST">
+      <div class="form-group">
+        <label for="incomeSource">Source:</label>
+        <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
       </div>
-    </div>
+      <div class="form-group">
+        <label for="incomeAmount">Amount:</label>
+        <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
+      </div>
+      <div class="form-group">
+        <label for="incomeDate">Date:</label>
+        <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Income</button>
+    </form>
+  </div>
+</div>
 
     <!-- Budget Goals -->
     <div class="card">
@@ -108,5 +120,38 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript for updating total expenses -->
+  <script>
+    let totalExpenses = 0;
+
+    function updateTotalExpensesDisplay() {
+      const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
+      totalExpensesDisplayElement.textContent = `Total Expenses: $${totalExpenses.toFixed(2)}`;
+    }
+
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const expenseAmount = parseFloat(document.getElementById('expenseAmount').value);
+      totalExpenses += expenseAmount;
+      updateTotalExpensesDisplay();
+    });
+  </script>
+   <script>
+  let totalIncome = 0;
+
+  function updateTotalIncomeDisplay() {
+    const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+    totalIncomeDisplayElement.textContent = `Total Income: $${totalIncome.toFixed(2)}`;
+  }
+
+  document.getElementById('incomeForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const incomeAmount = parseFloat(document.getElementById('incomeAmount').value);
+    totalIncome += incomeAmount;
+    updateTotalIncomeDisplay();
+  });
+</script>
+
 </body>
 </html>
