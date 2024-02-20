@@ -1,3 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            padding-top: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .total-price {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Basket Page</h1>
+
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @basket_items.each do |basket| %>
+            <% product = Product.find(basket.product_id) %>
+            <tr>
+                <td><%= product.name %></td>
+                <td><%= product.description %></td>
+                <td><%= product.category %></td>
+                <td><%= number_to_currency(product.price / 100.0) %></td>
+                <td><%= product.stock %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+
+    <% total_price = @basket_items.sum { |basket| Product.find(basket.product_id).price } %>
+    <p class="total-price">Total Price: <%= number_to_currency(total_price / 100.0) %></p>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+=======
 <h1>Basket Page</h1>
 
 <table>
