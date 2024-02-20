@@ -1,20 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Le Wagon SuperMarket</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            padding-top: 20px;
+        }
 
-<h1>Le Wagon Super Market</h1>
+        .container {
+            max-width: 800px;
+        }
 
-<div class="products-list">
-  <% @products.each do |product| %>
-    <div class="product">
-      <h2><%= product.name %></h2>
-      <p><%= product.description %></p>
-      <p>Price: <%= number_to_currency(product.price) %></p>
-      <%= form_with(model: product, url: add_to_basket_path(product_id: product.id), method: :post, local: true) do |form| %>
-        <%= form.hidden_field :product_id, value: product.id %>
-        <div class="field">
-          <%= form.label :quantity_bought %>
-          <%= form.text_field :quantity_bought, class: "form-control" %>
-        </div>
-        <%= form.submit "Add to Basket", class: "btn btn-primary" %>
-      <% end %>
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="mb-4">Welcome to Le Wagon SuperMarket</h1>
+
+    <!-- Display Featured Products -->
+    <h2>Featured Products</h2>
+    <div class="row">
+        <% @products.each do |product| %>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card mb-4">
+                    <img src="/images/product-<%= product.id %>.jpg" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= product.name %></h5>
+                        <p class="card-text"><%= product.description %></p>
+                        <p class="card-text">$<%= product.price %> <%= product.quantity_unit %></p>
+
+                        <!-- Quantity Selection and Add to Basket Form -->
+                        <form action="/add_to_basket" method="post" class="d-flex">
+                            <div class="form-group mr-2">
+                                <select name="quantity" class="form-control">
+                                    <% (1..10).each do |quantity| %>
+                                        <option value="<%= quantity %>"><%= quantity %> <%= product.quantity_unit %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                            <input type="hidden" name="product_id" value="<%= product.id %>">
+                            <input type="hidden" name="redirect_to" value="/basket"> <%# Replace with the correct path for your basket page %>
+                            <button type="submit" class="btn btn-primary">Add to Basket</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% end %>
     </div>
-  <% end %>
+
+    <!-- Display Categories -->
+    <h2>Categories</h2>
+    <ul class="list-group">
+        <% @categories.each do |category| %>
+            <li class="list-group-item"><%= category.name %></li>
+        <% end %>
+    </ul>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

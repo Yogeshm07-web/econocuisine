@@ -1,0 +1,10 @@
+<%= form_with model: @product, local: true do |form|
+  <!-- Other form fields -->
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </div>
+
+  <%= form.submit %>
+<% end %> %>
