@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom CSS */
+    body {
+      padding-top: 20px;
+    }
+    .container {
+      max-width: 800px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Budget Page</h1>
+
+    <!-- Budget Overview -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Budget Overview</h4>
+        <ul class="list-group">
+          <li class="list-group-item">Total Income: $XXXX</li>
+          <li class="list-group-item">Total Expenses: $XXXX</li>
+          <li class="list-group-item">Remaining Balance: $XXXX</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Expense Tracking Form -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Expense Tracking</h4>
+        <form action="/expenses" method="POST">
+          <div class="form-group">
+            <label for="expenseDate">Date:</label>
+            <input type="date" id="expenseDate" name="expenseDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="expenseCategory">Category:</label>
+            <input type="text" id="expenseCategory" name="expenseCategory" class="form-control" placeholder="Enter expense category" required>
+          </div>
+          <div class="form-group">
+            <label for="expenseAmount">Amount:</label>
+            <input type="number" id="expenseAmount" name="expenseAmount" class="form-control" placeholder="Enter expense amount" required>
+          </div>
+          <div class="form-group">
+            <label for="expenseNotes">Notes:</label>
+            <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Income Tracking Form -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Income Tracking</h4>
+        <form action="/income" method="POST">
+          <div class="form-group">
+            <label for="incomeSource">Source:</label>
+            <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+          </div>
+          <div class="form-group">
+            <label for="incomeAmount">Amount:</label>
+            <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
+          </div>
+          <div class="form-group">
+            <label for="incomeDate">Date:</label>
+            <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Income</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Budget Goals -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Budget Goals</h4>
+        <!-- Display and track user's financial goals -->
+      </div>
+    </div>
+
+    <!-- Expense Analysis -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Expense Analysis</h4>
+        <!-- Include visualizations or charts for expense analysis -->
+      </div>
+    </div>
+
+    <!-- Additional Sections -->
+    <!-- Add additional sections as needed -->
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

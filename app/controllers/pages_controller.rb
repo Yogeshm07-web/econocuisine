@@ -5,5 +5,6 @@ class PagesController < ApplicationController
   end
 
   def budget
+    @budgets = Budget.all
   end
 end
