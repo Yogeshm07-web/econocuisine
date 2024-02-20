@@ -3,10 +3,14 @@ class ProductsController < ApplicationController
 
   # Other controller actions...
 
+
   def index
-    @basket_items = current_user.basket_items.includes(:product) if user_signed_in?
-    @products = Product.all # Fetch all products
+    if user_signed_in?
+      @basket_items = current_user.baskets.map(&:basket_items).flatten
+    end
+    @products = Product.all
   end
+
 
   def add_to_inventory(product_name, quantity)
     # This method should interact with your inventory system,
@@ -25,7 +29,9 @@ class ProductsController < ApplicationController
   end
 
   def le_wagon_supermarket
-    @products = Product.all # Fetch all products for display on the supermarket page
+    @products = Product.all
+    @featured_products = Product.featured.limit(15)
+    @categories = Category.all # Assuming Category is the model for categories
   end
 
   def add_to_basket
