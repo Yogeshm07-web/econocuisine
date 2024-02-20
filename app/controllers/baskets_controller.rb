@@ -3,15 +3,13 @@ class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :edit, :update, :destroy]
 
   def index
-    
-    if current_user.basket.present?
-      @basket_items = Basket.where(user: current_user)
+    if user_signed_in?
+      @basket_items = current_user.basket_items.includes(:product)
     else
-      redirect_to root_path, alert: "You do not have a basket yet."
+      @basket_items = []  # Assign an empty array if the user is not signed in
     end
-    # @basket = current_user.basket
-    # @basket_items_count = @basket&.basket_items&.count || 0
   end
+
 
   def create
     current_basket = current_user.basket
@@ -20,7 +18,7 @@ class BasketsController < ApplicationController
   end
 
   def show
-    # The @basket instance variable is already set in the set_basket method
+    @basket_items = Basket.find(params[:id]).basket_items.includes(:product)
   end
 
   def edit
@@ -41,17 +39,9 @@ class BasketsController < ApplicationController
   end
 
   def add_to_basket
-    product = Product.find_by(id: params[:product_id])
-    if product
-      basket = Basket.new(basket_params_og)
-      basket.user= current_user
-      basket.save
-      # current_basket = current_user.basket || current_user.create_basket
-      # current_basket.add_product(product)
-      # redirect_to basket_path(current_basket), notice: "#{product.name} added to basket successfully."
-    else
-      redirect_to root_path, alert: "Product not found."
-    end
+    product = Product.find(params[:product_id])
+    current_user.basket_items.create(product: product)
+    redirect_to baskets_path, notice: "#{product.name} added to basket."
   end
 
   def le_wagon_supermarket
@@ -66,7 +56,7 @@ class BasketsController < ApplicationController
   end
 
   def basket_params
-    params.require(:basket).permit(:quantity_bought) # Fixing typo here
+    params.require(:basket).permit(:quantity_bought, :product_id)
   end
 
   def basket_params_og
