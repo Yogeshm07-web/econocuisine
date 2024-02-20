@@ -1,24 +1,14 @@
+<!-- app/views/products/index.html.erb -->
 <h1>Products</h1>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Price</th>
-      <th>Stock</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.name %></td>
-        <td><%= product.description %></td>
-        <td><%= product.category %></td>
-        <td><%= number_to_currency(product.price / 100.0) %></td> <!-- Assuming price is stored in cents -->
-        <td><%= product.stock %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="products-list">
+  <% @products.each do |product| %>
+    <div class="product">
+      <h2><%= product.name %></h2>
+      <p><%= product.description %></p>
+      <p>Category: <%= product.category %></p>
+      <p>Price: <%= product.price %></p>
+      <p>Stock: <%= product.stock %></p>
+      <p>Quantity Unit: <%= product.quantity_unit %></p>
+    </div>
+  <% end %>
+</div>

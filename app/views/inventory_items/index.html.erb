@@ -1,5 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Add your head content here -->
+</head>
+<body>
+
 <%= form_with(model: @inventory_item, id: "new-inventory-item-form", url: inventory_items_path, local: true) do |form| %>
-  <!-- Your form fields go here -->
+  <!-- Form fields for adding a new inventory item -->
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :inventory_item_name, required: true %>
@@ -52,3 +59,6 @@
     <%= render @inventory_items %>
   </tbody>
 </table>
+
+</body>
+</html>
