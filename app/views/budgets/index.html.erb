@@ -42,7 +42,13 @@
               </div>
             </div>
           </li>
-          <li class="list-group-item">Remaining Balance: $XXXX</li>
+          <li class="list-group-item">
+            <div id="RemainingBalanceDisplay" class="card">
+              <div class="card-body">
+                <h4 class="card-title">Remaining Balance</h4>
+                <p id="RemainingBalance" class="card-text">Remaining Balance: $0</p>
+              </div>
+            </div></li>
         </ul>
       </div>
     </div>
@@ -127,7 +133,8 @@
 
     function updateTotalExpensesDisplay() {
       const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
-      totalExpensesDisplayElement.textContent = `Total Expenses: $${totalExpenses.toFixed(2)}`;
+      totalExpensesDisplayElement.textContent =`Total Expenses: $${totalExpenses.toFixed(2)}`;
+      updateRemainingBalanceDisplay();
     }
 
     document.getElementById('expenseForm').addEventListener('submit', function(event) {
@@ -143,6 +150,7 @@
   function updateTotalIncomeDisplay() {
     const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
     totalIncomeDisplayElement.textContent = `Total Income: $${totalIncome.toFixed(2)}`;
+    updateRemainingBalanceDisplay();
   }
 
   document.getElementById('incomeForm').addEventListener('submit', function(event) {
@@ -151,6 +159,16 @@
     totalIncome += incomeAmount;
     updateTotalIncomeDisplay();
   });
+</script>
+
+<script>
+  let remainingBalance = 0;
+
+  function updateRemainingBalanceDisplay() {
+    const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
+    remainingBalance = totalIncome - totalExpenses;
+    remainingBalanceDisplayElement.textContent = `Remaining balance: $${remainingBalance.toFixed(2)}`;
+  }
 </script>
 
 </body>
