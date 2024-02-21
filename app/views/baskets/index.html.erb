@@ -10,51 +10,37 @@
         /* Custom CSS */
         body {
             padding-top: 20px;
-            background-color: #f7f7f7;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            font-family: Arial, sans-serif;
+            color: #fff;
         }
 
         .container {
             max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             margin-bottom: 20px;
             color: #333;
-        }
-
-        table {
-            width: 100%;
-            background-color: #fff;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 20px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            vertical-align: middle;
-        }
-
-        th {
-            background-color: #f2f2f2;
+            text-align: center;
             font-weight: bold;
-            color: #333;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .total-price {
-            margin-top: 20px;
-            font-weight: bold;
-        }
+        /* Rest of your existing styles */
     </style>
 </head>
 <body>
+
 <div class="container">
     <h1>Basket Page</h1>
-
+    
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -89,23 +75,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-3
-<table>
-  <thead>
-    <tr>
-
-    </tr>
-  </thead>
-  <tbody>
-    <% @basket_items.each do |basket| %>
-    <% productsss = Product.find(basket.product_id) %>
-      <tr>
-        <td><%= productsss.name %></td>
-        <td><%= productsss.description %></td>
-        <td><%= productsss.category %></td>
-        <td><%= number_to_currency(productsss.price / 100.0) %></td>
-        <td><%= productsss.stock %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>

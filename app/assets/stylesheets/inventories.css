@@ -1,50 +1,38 @@
-/* Form container */
-.inventory-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+/* Custom CSS */
+
+body {
+  font-family: Arial, sans-serif;
 }
 
-/* Form fields */
-.field {
-  margin-bottom: 20px;
-}
-
-/* Label styles */
-.field label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-/* Text input and select styles */
-.field input[type="text"],
-.field input[type="number"],
-.field select {
+.background-image {
+  position: relative;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-sizing: border-box;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-/* Button styles */
-.actions {
-  text-align: center;
+#new-inventory-item-form,
+.table {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.actions input[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+#new-inventory-item-form {
+  max-width: 400px;
+  margin-bottom: 0;
 }
 
-.actions input[type="submit"]:hover {
-  background-color: #0056b3;
+.table {
+  max-width: 800px;
 }
+
+/* Add more styles as needed */

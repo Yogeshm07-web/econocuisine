@@ -1,9 +1,8 @@
-// app/assets/javascripts/inventory_items.js
-
 document.addEventListener('DOMContentLoaded', function() {
   const newItemForm = document.getElementById('new-inventory-item-form');
   const inventoryTableBody = document.getElementById('inventory-table-body');
 
+  // Event listener for form submission
   newItemForm.addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission
 
@@ -40,5 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
       </td>
     `;
     inventoryTableBody.appendChild(newRow);
+  }
+
+  // Event listener for button click to dynamically add product to inventory
+  document.getElementById('add-to-inventory-btn').addEventListener('click', function() {
+    addToInventory();
+  });
+
+  // Function to add product to inventory
+  function addToInventory() {
+    // You can implement this function based on your requirements
+    // For example, you can open a modal to select products and quantities, and then add them to the inventory table
   }
 });
