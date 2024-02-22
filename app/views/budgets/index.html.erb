@@ -61,6 +61,9 @@
 <body>
   <div class="container">
     <h1 class="mb-4">Budget Page</h1>
+    <!-- Button to return to home page -->
+      <a href="/" class="btn btn-primary">Home</a>
+
 
     <!-- Budget Overview -->
     <div class="card mb-4">
@@ -279,36 +282,73 @@
     });
 
     // Function to render the graph
-    function renderGraph() {
-      const remainingBalance = totalIncome - totalExpenses;
-      new Chart(document.getElementById('budgetGraph'), {
-        type: 'pie', // Change chart type to 'pie'
-        data: {
-          labels: ['Total Income', 'Total Expenses', 'Remaining Balance'],
-          datasets: [{
-            label: 'Budget Overview',
-            data: [totalIncome, totalExpenses, remainingBalance],
-            backgroundColor: [
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-            ],
-            borderColor: [
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1,
-          }],
+function renderGraph() {
+  const remainingBalance = totalIncome - totalExpenses;
+  new Chart(document.getElementById('budgetGraph'), {
+    type: 'pie', // Change chart type to 'pie'
+    data: {
+      labels: ['Total Income', 'Total Expenses', 'Remaining Balance'],
+      datasets: [{
+        label: 'Budget Overview',
+        data: [totalIncome, totalExpenses, remainingBalance],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(75, 192, 192, 1)',
+        ],
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Budget Overview',
+          font: {
+            size: 16,
+            weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
+          }
         },
-        options: {
-          responsive: true,
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            boxWidth: 15,
+            font: {
+              size: 12
+            }
+          }
         },
-      });
-    }
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: function(context) {
+              let label = context.label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += new Intl.NumberFormat().format(context.parsed);
+              return label;
+            }
+          }
+        }
+      }
+    },
+  });
+}
 
-    // Initial render of the graph
-    renderGraph();
+// Initial render of the graph
+renderGraph();
 
     // Display existing budget goals when the page loads
     document.addEventListener('DOMContentLoaded', function() {
