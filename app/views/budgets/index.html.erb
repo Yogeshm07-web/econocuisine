@@ -10,12 +10,25 @@
     /* Custom CSS */
     body {
       padding-top: 20px;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      font-family: Arial, sans-serif;
+      color: #fff;
     }
     .container {
       max-width: 800px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    .card {
+    h1 {
       margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
   </style>
 </head>
@@ -28,12 +41,14 @@
       <div class="card-body">
         <h4 class="card-title">Budget Overview</h4>
         <ul class="list-group">
-          <li class="list-group-item"><div id="totalIncomeDisplay" class="card">
+          <li class="list-group-item">
+            <div id="totalIncomeDisplay" class="card">
               <div class="card-body">
                 <h4 class="card-title">Total Income</h4>
                 <p id="totalIncomeAmount" class="card-text">Total Income: $0</p>
               </div>
-            </div></li>
+            </div>
+          </li>
           <li class="list-group-item">
             <div id="totalExpensesDisplay" class="card">
               <div class="card-body">
@@ -48,7 +63,8 @@
                 <h4 class="card-title">Remaining Balance</h4>
                 <p id="RemainingBalance" class="card-text">Remaining Balance: $0</p>
               </div>
-            </div></li>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -81,25 +97,25 @@
 
     <!-- Income Tracking Form -->
     <div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Income Tracking</h4>
-    <form id="incomeForm" action="/income" method="POST">
-      <div class="form-group">
-        <label for="incomeSource">Source:</label>
-        <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+      <div class="card-body">
+        <h4 class="card-title">Income Tracking</h4>
+        <form id="incomeForm" action="/income" method="POST">
+          <div class="form-group">
+            <label for="incomeSource">Source:</label>
+            <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+          </div>
+          <div class="form-group">
+            <label for="incomeAmount">Amount:</label>
+            <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
+          </div>
+          <div class="form-group">
+            <label for="incomeDate">Date:</label>
+            <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Income</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="incomeAmount">Amount:</label>
-        <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
-      </div>
-      <div class="form-group">
-        <label for="incomeDate">Date:</label>
-        <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Add Income</button>
-    </form>
-  </div>
-</div>
+    </div>
 
     <!-- Budget Goals -->
     <div class="card">
@@ -133,7 +149,7 @@
 
     function updateTotalExpensesDisplay() {
       const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
-      totalExpensesDisplayElement.textContent =`Total Expenses: $${totalExpenses.toFixed(2)}`;
+      totalExpensesDisplayElement.textContent = `Total Expenses: $${totalExpenses.toFixed(2)}`;
       updateRemainingBalanceDisplay();
     }
 
@@ -144,32 +160,9 @@
       updateTotalExpensesDisplay();
     });
   </script>
-   <script>
-  let totalIncome = 0;
+  <script>
+    let totalIncome = 0;
 
-  function updateTotalIncomeDisplay() {
-    const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
-    totalIncomeDisplayElement.textContent = `Total Income: $${totalIncome.toFixed(2)}`;
-    updateRemainingBalanceDisplay();
-  }
-
-  document.getElementById('incomeForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const incomeAmount = parseFloat(document.getElementById('incomeAmount').value);
-    totalIncome += incomeAmount;
-    updateTotalIncomeDisplay();
-  });
-</script>
-
-<script>
-  let remainingBalance = 0;
-
-  function updateRemainingBalanceDisplay() {
-    const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
-    remainingBalance = totalIncome - totalExpenses;
-    remainingBalanceDisplayElement.textContent = `Remaining balance: $${remainingBalance.toFixed(2)}`;
-  }
-</script>
-
-</body>
-</html>
+    function updateTotalIncomeDisplay() {
+      const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+      totalIncomeDisplayElement.textContent = `Total Income: $${total

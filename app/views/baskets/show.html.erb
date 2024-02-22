@@ -1,5 +1,5 @@
 <h1>Your Basket</h1>
-<%= basket_path(current_user.basket) %>
+
 <table class="table">
   <thead>
     <tr>
@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @basket.basket_items.each do |basket_item| %>
+    <% @basket_items.each do |basket_item| %>
       <tr>
         <td><%= basket_item.product.name %></td>
         <td><%= basket_item.product.description %></td>
