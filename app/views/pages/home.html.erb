@@ -74,6 +74,14 @@
     .logo {
       max-width: 200px;
     }
+
+    .list_of_btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -112,16 +120,16 @@
 
     <% if user_signed_in? %>
   <div class="button-container">
-    <%= link_to inventories_path, class: 'btn btn-primary' do %>
-      <%= image_tag('inventory.png', alt: 'Inventory') %>
+    <%= link_to inventories_path do %>
+      <%= image_tag('inventory.png', alt: 'Inventory', class: "list_of_btn") %>
       <span>Inventory</span>
     <% end %>
-    <%= link_to budgets_path, class: 'btn btn-primary' do %>
-      <%= image_tag('budget.png', alt: 'Budget') %>
+    <%= link_to budgets_path do %>
+      <%= image_tag('budget.png', alt: 'Budget', class: "list_of_btn") %>
       <span>Budget</span>
     <% end %>
-    <%= link_to le_wagon_supermarket_path, class: 'btn btn-primary' do %>
-      <%= image_tag('econocuisine.png', alt: 'Le Wagon SuperMarket') %>
+    <%= link_to le_wagon_supermarket_path do %>
+      <%= image_tag('econocuisine.png', alt: 'Le Wagon SuperMarket', class: "list_of_btn") %>
       <span>Le Wagon SuperMarket</span>
     <% end %>
   </div>
