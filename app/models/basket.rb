@@ -1,6 +1,5 @@
 class Basket < ApplicationRecord
   belongs_to :user
-  belongs_to :product
   has_many :basket_items
 
   validates :name, presence: true

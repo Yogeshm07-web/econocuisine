@@ -6,9 +6,10 @@ class ProductsController < ApplicationController
 
   def index
     if user_signed_in?
-      @basket_items = current_user.baskets.map(&:basket_items).flatten
+      @basket_items = current_user.basket_items.includes(:product)
+    else
+      @basket_items = []  # Assign an empty array if the user is not signed in
     end
-    @products = Product.all
   end
 
 
@@ -38,11 +39,16 @@ class ProductsController < ApplicationController
     # Find the product based on the product_id passed in params
     product = Product.find(params[:product_id])
 
-    # Add the product to the user's basket (assuming current_user is available)
-    basket_item = current_user.basket_items.build(product: product)
+    # Check if the current user has a basket, create one if not
+    unless current_user.basket
+      current_user.create_basket
+    end
+
+    # Add the product to the user's basket
+    basket_item = current_user.basket.basket_items.build(product: product)
 
     if basket_item.save
-      redirect_to products_path, notice: "#{product.name} has been added to your basket."
+      redirect_to baskets_path, notice: "#{product.name} has been added to your basket."
     else
       redirect_to products_path, alert: "Failed to add #{product.name} to your basket."
     end

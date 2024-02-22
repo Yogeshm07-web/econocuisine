@@ -3,22 +3,18 @@ class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :edit, :update, :destroy]
 
   def index
-    if user_signed_in?
-      @basket_items = current_user.basket_items.includes(:product)
-    else
-      @basket_items = []  # Assign an empty array if the user is not signed in
-    end
+    @basket = current_user.basket
+    @basket_items = @basket.basket_items.includes(:product) if @basket
+    @total_price = @basket_items.sum { |item| item.product.price } if @basket_items
   end
 
-
   def create
-    current_basket = current_user.basket
-    current_user.create_basket unless current_basket
+    current_user.create_basket unless current_user.basket
     redirect_to baskets_path
   end
 
   def show
-    @basket_items = Basket.find(params[:id]).basket_items.includes(:product)
+    @basket_items = @basket.basket_items.includes(:product)
   end
 
   def edit
@@ -40,8 +36,14 @@ class BasketsController < ApplicationController
 
   def add_to_basket
     product = Product.find(params[:product_id])
-    current_user.basket_items.create(product: product)
-    redirect_to baskets_path, notice: "#{product.name} added to basket."
+    basket = current_user.basket || current_user.create_basket
+    basket_item = basket.basket_items.build(product: product)
+
+    if basket_item.save
+      redirect_to products_path, notice: "#{product.name} has been added to your basket."
+    else
+      redirect_to products_path, alert: "Failed to add #{product.name} to your basket."
+    end
   end
 
   def le_wagon_supermarket
@@ -52,14 +54,10 @@ class BasketsController < ApplicationController
   private
 
   def set_basket
-    @basket = Basket.find(params[:id])
+    @basket = current_user.basket
   end
 
   def basket_params
     params.require(:basket).permit(:quantity_bought, :product_id)
-  end
-
-  def basket_params_og
-    params.require(:product).permit(:quantity_bought, :product_id) #
   end
 end
