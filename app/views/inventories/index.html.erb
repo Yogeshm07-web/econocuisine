@@ -12,15 +12,37 @@
   <style>
     /* Custom CSS */
     body {
-      font-family: 'Roboto', sans-serif; /* Apply Roboto font to the entire document */
+      font-family: 'Roboto', sans-serif;
+      padding-top: 20px;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto 50px; /* Adjust margin as needed */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .background-image {
       position: relative;
       width: 100%;
-      height: 100vh;
-      background-image: url('<%= cl_image_path("vqtpdq8z9z6zjz49zbol", width: 1920, height: 1080, crop: :fill) %>'); /* Adjust width and height as needed */
-      background-size: contain; /* Fit the image within the container */
+      height: 500px;
+      background-image: url('<%= cl_image_path("vqtpdq8z9z6zjz49zbol", width: 1920, height: 500, crop: :fill) %>'); /* Adjust width and height as needed */
+      background-size: cover; /* Fit the image within the container */
       background-repeat: no-repeat; /* Prevent image from repeating */
       background-position: center; /* Center the image */
       display: flex;
@@ -32,50 +54,77 @@
       text-align: center;
     }
 
-    /* Add more styles as needed */
+    .nice-div {
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .nice-div h2 {
+      color: #333;
+      font-size: 24px;
+    }
+
+    .nice-div p {
+      color: #666;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
 
   <div class="background-image">
+    <div class="container">
 
-    <!-- Include the form for adding new inventory items -->
-    <%= render 'form', inventory: @inventory %>
+      <div class="nice-div">
+        <h2>Welcome to Inventory Management System</h2>
+        <!-- Add more content here if needed -->
+      </div>
 
-    <table class="table" id="inventory-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Quantity Unit</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="inventory-table-body">
-        <!-- Render existing inventory items -->
-        <%= render @inventory_items %>
-      </tbody>
-    </table>
+      <!-- Include the form for adding new inventory items -->
+      <%= render 'form', inventory: @inventory %>
 
-    <form id="new-inventory-item-form">
-      <!-- Form for adding new inventory items -->
-      <select id="product-list" name="product_id">
-        <% @products.each do |product| %>
-          <option value="<%= product.id %>"><%= product.name %></option>
-        <% end %>
-      </select>
-      <input type="number" id="quantity" name="quantity" required placeholder="Quantity">
-      <!-- Dropdown for selecting quantity unit -->
-      <select id="quantity-unit" name="quantity-unit" required>
-        <option value="">Select Quantity Unit</option>
-        <option value="kg">kg</option>
-        <option value="g">g</option>
-        <option value="pcs">pcs</option>
-        <!-- Add more options as needed -->
-      </select>
-      <!-- Button with dynamic color based on product name -->
-      <button type="button" id="add-to-inventory-btn" class="btn btn-secondary">Add to Inventory</button>
-    </form>
+      <table class="table" id="inventory-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Quantity Unit</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="inventory-table-body">
+          <!-- Render existing inventory items -->
+          <%= render @inventory_items %>
+        </tbody>
+      </table>
+
+      <form id="new-inventory-item-form">
+        <!-- Form for adding new inventory items -->
+        <select id="product-list" name="product_id">
+          <% @products.each do |product| %>
+            <option value="<%= product.id %>"><%= product.name %></option>
+          <% end %>
+        </select>
+        <input type="number" id="quantity" name="quantity" required placeholder="Quantity">
+        <!-- Dropdown for selecting quantity unit -->
+        <select id="quantity-unit" name="quantity-unit" required>
+          <option value="">Select Quantity Unit</option>
+          <option value="kg">kg</option>
+          <option value="g">g</option>
+          <option value="pcs">pcs</option>
+          <option value="pc">pc</option>
+          <option value="L">L</option>
+          <option value="CL">CL</option>
+          <!-- Add more options as needed -->
+        </select>
+        <!-- Button with dynamic color based on product name -->
+        <button type="button" id="add-to-inventory-btn" class="btn btn-secondary">Add to Inventory</button>
+      </form>
+    </div>
   </div>
 
   <!-- JavaScript code -->

@@ -6,29 +6,55 @@
   <title>Budget Page</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* Custom CSS */
     body {
       padding-top: 20px;
       background: linear-gradient(to right, #667eea, #764ba2);
-      font-family: Arial, sans-serif;
-      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
     }
     .container {
-      max-width: 800px;
-      background-color: rgba(255, 255, 255, 0.8);
+      max-width: 900px;
+      background-color: rgba(255, 255, 255, 0.9);
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
     h1 {
       margin-bottom: 20px;
       color: #333;
       text-align: center;
       font-weight: bold;
-      font-size: 28px;
+      font-size: 36px;
       text-transform: uppercase;
       letter-spacing: 2px;
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .btn {
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .list-group-item {
+      background-color: transparent;
+      border: none;
+    }
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -37,7 +63,7 @@
     <h1 class="mb-4">Budget Page</h1>
 
     <!-- Budget Overview -->
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-body">
         <h4 class="card-title">Budget Overview</h4>
         <ul class="list-group">
@@ -46,6 +72,9 @@
               <div class="card-body">
                 <h4 class="card-title">Total Income</h4>
                 <p id="totalIncomeAmount" class="card-text">Total Income: $0</p>
+                <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('income')">Edit</button>
+                <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('income')">Delete</button>
+                <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('income')">Save</button>
               </div>
             </div>
           </li>
@@ -54,14 +83,41 @@
               <div class="card-body">
                 <h4 class="card-title">Total Expenses</h4>
                 <p id="totalExpensesAmount" class="card-text">Total Expenses: $0</p>
+                <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('expense')">Edit</button>
+                <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('expense')">Delete</button>
+                <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('expense')">Save</button>
               </div>
             </div>
           </li>
           <li class="list-group-item">
-            <div id="RemainingBalanceDisplay" class="card">
-              <div class="card-body">
-                <h4 class="card-title">Remaining Balance</h4>
-                <p id="RemainingBalance" class="card-text">Remaining Balance: $0</p>
+            <div class="row">
+              <div class="col-md-6">
+                <div id="RemainingBalanceDisplay" class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Remaining Balance</h4>
+                    <p id="RemainingBalance" class="card-text">Remaining Balance: $0</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Budget Goals</h4>
+                    <!-- Include the form for budget goals here -->
+                    <form id="budgetGoalsForm">
+                      <div class="form-group">
+                        <label for="goalName">Goal Name:</label>
+                        <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="goalAmount">Goal Amount:</label>
+                        <input type="number" id="goalAmount" name="goalAmount" class="form-control" placeholder="Enter goal amount" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
+                    </form>
+                    <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
+                  </div>
+                </div>
               </div>
             </div>
           </li>
@@ -70,7 +126,7 @@
     </div>
 
     <!-- Expense Tracking Form -->
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-body">
         <h4 class="card-title">Expense Tracking</h4>
         <form id="expenseForm" action="/expenses" method="POST">
@@ -90,13 +146,13 @@
             <label for="expenseNotes">Notes:</label>
             <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
           </div>
-          <button type="submit" id="addExpenseButton" class="btn btn-primary">Add Expense</button>
+          <button type="submit" id="addExpenseButton" class="btn btn-primary btn-block">Add Expense</button>
         </form>
       </div>
     </div>
 
     <!-- Income Tracking Form -->
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-body">
         <h4 class="card-title">Income Tracking</h4>
         <form id="incomeForm" action="/income" method="POST">
@@ -112,24 +168,17 @@
             <label for="incomeDate">Date:</label>
             <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
           </div>
-          <button type="submit" class="btn btn-primary">Add Income</button>
+          <button type="submit" class="btn btn-primary btn-block">Add Income</button>
         </form>
       </div>
     </div>
 
-    <!-- Budget Goals -->
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Budget Goals</h4>
-        <!-- Display and track user's financial goals -->
-      </div>
-    </div>
-
     <!-- Expense Analysis -->
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-body">
         <h4 class="card-title">Expense Analysis</h4>
         <!-- Include visualizations or charts for expense analysis -->
+        <canvas id="budgetGraph"></canvas>
       </div>
     </div>
 
@@ -145,7 +194,11 @@
 
   <!-- JavaScript for updating total expenses -->
   <script>
-    let totalExpenses = 0;
+    let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
+    let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
+
+    updateTotalExpensesDisplay();
+    updateTotalIncomeDisplay();
 
     function updateTotalExpensesDisplay() {
       const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
@@ -153,16 +206,190 @@
       updateRemainingBalanceDisplay();
     }
 
+    function updateTotalIncomeDisplay() {
+      const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+      totalIncomeDisplayElement.textContent = `Total Income: $${totalIncome.toFixed(2)}`;
+      updateRemainingBalanceDisplay();
+    }
+
+    function updateRemainingBalanceDisplay() {
+      const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
+      const remainingBalance = totalIncome - totalExpenses;
+      remainingBalanceDisplayElement.textContent = `Remaining Balance: $${remainingBalance.toFixed(2)}`;
+    }
+
+    function editTotal(type) {
+      const newValue = prompt(`Enter new ${type === 'income' ? 'income' : 'expense'} amount:`);
+      if (newValue !== null) {
+        if (type === 'income') {
+          totalIncome = parseFloat(newValue);
+          localStorage.setItem('totalIncome', totalIncome);
+          updateTotalIncomeDisplay();
+        } else {
+          totalExpenses = parseFloat(newValue);
+          localStorage.setItem('totalExpenses', totalExpenses);
+          updateTotalExpensesDisplay();
+        }
+        renderGraph();
+      }
+    }
+
+    function deleteTotal(type) {
+      if (confirm(`Are you sure you want to delete the total ${type === 'income' ? 'income' : 'expenses'}?`)) {
+        if (type === 'income') {
+          totalIncome = 0;
+          localStorage.setItem('totalIncome', totalIncome);
+          updateTotalIncomeDisplay();
+        } else {
+          totalExpenses = 0;
+          localStorage.setItem('totalExpenses', totalExpenses);
+          updateTotalExpensesDisplay();
+        }
+        renderGraph();
+      }
+    }
+
+    function saveTotal(type) {
+      let newValue = 0;
+      if (type === 'income') {
+        newValue = totalIncome;
+      } else {
+        newValue = totalExpenses;
+      }
+      localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
+      alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
+    }
+
     document.getElementById('expenseForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const expenseAmount = parseFloat(document.getElementById('expenseAmount').value);
       totalExpenses += expenseAmount;
       updateTotalExpensesDisplay();
+      localStorage.setItem('totalExpenses', totalExpenses);
+      renderGraph(); // Call renderGraph after updating expenses
     });
-  </script>
-  <script>
-    let totalIncome = 0;
 
-    function updateTotalIncomeDisplay() {
-      const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
-      totalIncomeDisplayElement.textContent = `Total Income: $${total
+    document.getElementById('incomeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const incomeAmount = parseFloat(document.getElementById('incomeAmount').value);
+      totalIncome += incomeAmount;
+      updateTotalIncomeDisplay();
+      localStorage.setItem('totalIncome', totalIncome);
+      renderGraph(); // Call renderGraph after updating income
+    });
+
+    // Function to render the graph
+    function renderGraph() {
+      const remainingBalance = totalIncome - totalExpenses;
+      new Chart(document.getElementById('budgetGraph'), {
+        type: 'pie', // Change chart type to 'pie'
+        data: {
+          labels: ['Total Income', 'Total Expenses', 'Remaining Balance'],
+          datasets: [{
+            label: 'Budget Overview',
+            data: [totalIncome, totalExpenses, remainingBalance],
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+            ],
+            borderColor: [
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          responsive: true,
+        },
+      });
+    }
+
+    // Initial render of the graph
+    renderGraph();
+
+    // Display existing budget goals when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      displayBudgetGoals();
+    });
+
+    document.getElementById('budgetGoalsForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      console.log('Form submitted');
+      const goalName = document.getElementById('goalName').value;
+      const goalAmount = parseFloat(document.getElementById('goalAmount').value);
+
+      // Save the goal to local storage
+      const goals = JSON.parse(localStorage.getItem('budgetGoals')) || [];
+      goals.push({ name: goalName, amount: goalAmount });
+      localStorage.setItem('budgetGoals', JSON.stringify(goals));
+
+      // Display the saved goals (this is just for demonstration)
+      displayBudgetGoals();
+
+      // Clear the input fields after submission
+      document.getElementById('goalName').value = '';
+      document.getElementById('goalAmount').value = '';
+    });
+
+    function displayBudgetGoals() {
+      console.log('Displaying budget goals');
+      const goals = JSON.parse(localStorage.getItem('budgetGoals')) || [];
+      const goalsList = document.getElementById('budgetGoalsList');
+      goalsList.innerHTML = ''; // Clear previous content
+      goals.forEach(function(goal, index) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${goal.name}: $${goal.amount.toFixed(2)}`;
+        listItem.innerHTML += `<button class="btn btn-sm btn-primary mx-2" onclick="editGoal(${index})">Edit</button>
+                               <button class="btn btn-sm btn-danger mx-2" onclick="deleteGoal(${index})">Delete</button>`;
+        goalsList.appendChild(listItem);
+      });
+    }
+
+    function editGoal(goalIndex) {
+      console.log('Editing goal', goalIndex);
+      const goals = JSON.parse(localStorage.getItem('budgetGoals')) || [];
+      const editedGoal = goals[goalIndex];
+
+      // Pre-fill the form fields with existing data
+      document.getElementById('editedGoalName').value = editedGoal.name;
+      document.getElementById('editedGoalAmount').value = editedGoal.amount;
+
+      // Show the modal for editing
+      $('#editDeleteModal').modal('show');
+
+      // Handle form submission for editing
+      document.getElementById('editGoalForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        console.log('Form submitted for editing');
+        // Update the goal data
+        editedGoal.name = document.getElementById('editedGoalName').value;
+        editedGoal.amount = parseFloat(document.getElementById('editedGoalAmount').value);
+
+        // Update the goal in the local storage
+        goals[goalIndex] = editedGoal;
+        localStorage.setItem('budgetGoals', JSON.stringify(goals));
+
+        // Update the UI
+        displayBudgetGoals();
+
+        // Close the modal
+        $('#editDeleteModal').modal('hide');
+      });
+    }
+
+    function deleteGoal(goalIndex) {
+      console.log('Deleting goal', goalIndex);
+      const goals = JSON.parse(localStorage.getItem('budgetGoals')) || [];
+      // Remove the goal from the array
+      goals.splice(goalIndex, 1);
+      // Update local storage
+      localStorage.setItem('budgetGoals', JSON.stringify(goals));
+      // Update the UI
+      displayBudgetGoals();
+    }
+  </script>
+</body>
+</html>

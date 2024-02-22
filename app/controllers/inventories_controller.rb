@@ -22,18 +22,25 @@ class InventoriesController < ApplicationController
     end
   end
 
- 
+  def edit
+    # Render edit form
+  end
+
   def update
-    if @inventory.update(inventory_params)
-      redirect_to inventories_path, notice: 'Inventory item was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @inventory.update(inventory_params)
+        format.html { redirect_to inventories_path, notice: 'Inventory item was successfully updated.' }
+      else
+        format.html { render :edit }
+      end
     end
   end
 
   def destroy
     @inventory.destroy
-    redirect_to inventories_path, notice: 'Inventory item was successfully deleted.'
+    respond_to do |format|
+      format.html { redirect_to inventories_path, notice: 'Inventory item was successfully deleted.' }
+    end
   end
 
   private
@@ -46,7 +53,10 @@ class InventoriesController < ApplicationController
     @products = Product.all
   end
 
+  private
+
   def inventory_params
-    params.require(:inventory).permit(:name, :quantity, :user_id, :basket_id)
+  params.require(:inventory).permit(:name, :quantity, :quantity_unit) # Adjust permitted attributes as needed
   end
+
 end
