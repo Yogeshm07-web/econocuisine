@@ -1,39 +1,141 @@
-<div class="logo-container">
-<%= image_tag 'econocuisine.png', alt: 'Logo', class: "logo" %>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Econocuisine</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <!-- Custom CSS -->
+  <style>
+    /* Custom CSS */
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding-top: 20px;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: #fff;
+    }
 
-<h1 class="title">Econocuisine</h1>
+    .container {
+      max-width: 800px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto 50px; /* Adjust margin as needed */
+      text-align: center; /* Center text */
+    }
 
-<!-- Slider main container -->
-<div class="swiper">
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper">
-    <!-- Slides -->
-    <div class="swiper-slide">
-      <%= image_tag 'th.jpg'%>
+    .title {
+      margin-top: 20px;
+      font-size: 58px; /* Increase title font size */
+      color: #000; /* Set title color to black */
+    }
+
+    .swiper-container {
+      display: inline-block; /* Display inline */
+      width: 250px; /* Set width of the swiper container */
+      height: 400px; /* Set height of the swiper container */
+      margin-bottom: 20px;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex; /* Use Flexbox for centering images */
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* .swiper-slide img { */
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      margin: 5px;
+    }
+
+    .logo-container {
+      margin-bottom: 20px;
+      text-align: center; /* Center text */
+    }
+
+    .logo {
+      max-width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo-container">
+      <%= image_tag 'econocuisine.png', alt: 'Logo', class: "logo" %>
     </div>
-    <div class="swiper-slide">
-      <%= image_tag 'th (1).jpg'%>
+
+    <h1 class="title">Econocuisine</h1>
+
+    <!-- Slider main container -->
+    <div class="swiper-container">
+      <!-- Additional required wrapper -->
+      <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+          <%= image_tag 'th.jpg'%>
+        </div>
+        <div class="swiper-slide">
+          <%= image_tag 'th (1).jpg'%>
+        </div>
+        <div class="swiper-slide">
+          <%= image_tag 'th (2).jpg'%>
+        </div>
+        <!-- More slides -->
+      </div>
+      <!-- If we need pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- If we need navigation buttons -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <!-- If we need scrollbar -->
+      <div class="swiper-scrollbar"></div>
     </div>
-    <div class="swiper-slide">
-      <%= image_tag 'th (2).jpg'%>
+
+    <% if user_signed_in? %>
+    <div class="button-container">
+      <%= link_to 'Inventory', inventories_path, class: 'btn btn-primary' %>
+      <%= link_to 'Budget', budgets_path, class: 'btn btn-primary' %>
+      <%= link_to 'Le Wagon SuperMarket', le_wagon_supermarket_path, class: 'btn btn-primary' %>
     </div>
-    <!-- More slides -->
+    <% end %>
   </div>
-  <!-- If we need pagination -->
-  <div class="swiper-pagination"></div>
-  <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
-  <!-- If we need scrollbar -->
-  <div class="swiper-scrollbar"></div>
-</div>
 
-<% if user_signed_in? %>
-<div class="button-container">
-  <%= link_to 'Inventory', inventories_path, class: 'btn btn-primary' %>
-  <%= link_to 'Budget', budgets_path, class: 'btn btn-primary' %>
-  <%= link_to 'Le Wagon SuperMarket', le_wagon_supermarket_path, class: 'btn btn-primary' %>
-</div>
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+  </script>
 
-<% end %>
+</body>
+</html>
