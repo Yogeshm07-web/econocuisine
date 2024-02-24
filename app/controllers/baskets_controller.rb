@@ -38,7 +38,7 @@ class BasketsController < ApplicationController
     basket.product_id = pro.id
     if basket.save
       puts "Basket item successfully saved: #{basket.inspect}"
-      redirect_to baskets_path, notice: "#{pro.name} has been added to your basket."
+      redirect_to le_wagon_supermarket_path, notice: "#{pro.name} has been added to your basket."
     else
       puts "Failed to save basket item: #{basket_item.errors.full_messages}"
       redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket."
