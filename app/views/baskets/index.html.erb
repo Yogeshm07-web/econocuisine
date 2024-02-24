@@ -1,130 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basket Page</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom CSS */
-        body {
-            padding-top: 20px;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-            font-weight: bold;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Rest of your existing styles */
-    </style>
-</head>
-<body>
-
 <div class="container">
-    <h1>Basket Page</h1>
-    <!-- Button to return to home page -->
-    <a href="/" class="btn btn-primary">Home</a>
+  <h1>Basket Page</h1>
+  <!-- Button to return to home page -->
+  <a href="/" class="btn btn-primary">Home</a>
 
-    <table class="table">
-        <thead class="thead-light">
-
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Add to Basket</th> <!-- New column for Add to Basket buttons -->
-        </tr>
-        </thead>
-        <tbody>
-        <% @basket_items.each do |basket_item| %>
-            <tr>
-                <td><%= basket_item.product.name %></td>
-                <td><%= basket_item.product.description %></td>
-                <td><%= basket_item.product.category %></td>
-                <td><%= number_to_currency(basket_item.product.price / 100.0) %></td>
-                <td><%= basket_item.product.stock %></td>
-                <td>
-                    <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
-                        <%= form.hidden_field :product_id, value: product.id %>
-                        <div class="field">
-                            <%= form.label :quantity_bought %>
-                            <%= form.text_field :quantity_bought, class: "form-control" %>
-                        </div>
-                        <%= form.submit "Add to Basket", class: "btn btn-primary" %>
-                    <% end %>
-                </td>
-
-            </tr>
-        </thead>
-        <tbody>
-            <% if @basket.present? %>
-                <% @basket.each do |basket_item| %>
-                <% @prod = Product.find(basket_item.product_id)%>
-                    <tr>
-                        <td><%= @prod.name %></td>
-                        <td><%= @prod.description %></td>
-                        <td><%= @prod.category %></td>
-                        <td><%= number_to_currency(@prod.price / 100.0) %></td>
-                        <td><%= @prod.stock %></td>
-                    </tr>
-                <% end %>
-            <% else %>
-                <tr>
-                    <td colspan="5">No items in the basket</td>
-                </tr>
-            <% end %>
-        </tbody>
-    </table>
-
-
-    <%# <% total_price = @basket.sum { |basket_item| basket_item.product.price } %>
-    <%# <p class="total-price">Total Price: <%= number_to_currency(total_price / 100.0) %></p> %> %>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+    </thead>
+    <tbody>
+      <% if @basket.present? %>
+        <% @basket.each do |basket_item| %>
+          <% @prod = Product.find(basket_item.product_id)%>
+          <tr>
+              <td><%= @prod.name %></td>
+              <td><%= @prod.description %></td>
+              <td><%= @prod.category %></td>
+              <td><%= number_to_currency(@prod.price / 100.0) %></td>
+              <td><%= @prod.stock %></td>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr>
+              <td colspan="5">No items in the basket</td>
+          </tr>
+      <% end %>
+      </tbody>
+  </table>
 
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    document.querySelectorAll('.add-to-basket').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.closest('form').querySelector('[name="product_id"]').value;
-            const quantity = this.closest('form').querySelector('[name="quantity_bought"]').value;
-            const data = {
-                productId: productId,
-                quantity: quantity
-            };
-            sessionStorage.setItem('basket_item', JSON.stringify(data));
-        });
-    });
-</script>
-</body>
-</html>
