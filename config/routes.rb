@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Resource for the shopping cart
-  resource :cart, only: [:show, :update] do
-    delete 'remove_product/:id', to: 'carts#remove_product', as: 'remove_product'
-    post 'checkout', to: 'carts#checkout', as: 'checkout'
-  end
+  post 'add_to_basket', to: 'basket_items#add_to_basket'
+
 end

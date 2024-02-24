@@ -49,6 +49,7 @@
             <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
+            <th>Add to Basket</th> <!-- New column for Add to Basket buttons -->
         </tr>
         </thead>
         <tbody>
@@ -59,12 +60,22 @@
                 <td><%= basket_item.product.category %></td>
                 <td><%= number_to_currency(basket_item.product.price / 100.0) %></td>
                 <td><%= basket_item.product.stock %></td>
+                <td>
+                    <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
+                        <%= form.hidden_field :product_id, value: product.id %>
+                        <div class="field">
+                            <%= form.label :quantity_bought %>
+                            <%= form.text_field :quantity_bought, class: "form-control" %>
+                        </div>
+                        <%= form.submit "Add to Basket", class: "btn btn-primary" %>
+                    <% end %>
+                </td>
             </tr>
         <% end %>
         </tbody>
     </table>
 
-    <% total_price = @basket_items.sum { |basket_item| basket_item.product.price } %>
+    <% total_price = @basket_items.sum(&:price) %>
     <p class="total-price">Total Price: <%= number_to_currency(total_price / 100.0) %></p>
 </div>
 
@@ -72,5 +83,18 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.querySelectorAll('.add-to-basket').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.closest('form').querySelector('[name="product_id"]').value;
+            const quantity = this.closest('form').querySelector('[name="quantity_bought"]').value;
+            const data = {
+                productId: productId,
+                quantity: quantity
+            };
+            sessionStorage.setItem('basket_item', JSON.stringify(data));
+        });
+    });
+</script>
 </body>
 </html>
