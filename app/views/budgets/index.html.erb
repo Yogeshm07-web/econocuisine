@@ -198,6 +198,12 @@
     let currencySymbol = 'Rs';
     let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
     let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
+    let expenseCategory = parseFloat(localStorage.getItem('expenseCategory'));
+    let expenseNotes = parseFloat(localStorage.getItem('expenseNotes'));
+    let expenseDate = parseFloat(localStorage.getItem('expenseDate'));
+    let incomeSource = parseFloat(localStorage.getItem('incomeSource'));
+    let incomeDate = parseFloat(localStorage.getItem('incomeDate'));
+
 
     updateTotalExpensesDisplay();
     updateTotalIncomeDisplay();
