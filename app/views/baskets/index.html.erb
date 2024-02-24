@@ -5,12 +5,42 @@
 
     <table class="table">
         <thead class="thead-light">
+
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Stock</th>
+
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Add to Basket</th> <!-- New column for Add to Basket buttons -->
+        </tr>
+        </thead>
+        <tbody>
+        <% @basket_items.each do |basket_item| %>
+            <tr>
+                <td><%= basket_item.product.name %></td>
+                <td><%= basket_item.product.description %></td>
+                <td><%= basket_item.product.category %></td>
+                <td><%= number_to_currency(basket_item.product.price / 100.0) %></td>
+                <td><%= basket_item.product.stock %></td>
+                <td>
+                    <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
+                        <%= form.hidden_field :product_id, value: product.id %>
+                        <div class="field">
+                            <%= form.label :quantity_bought %>
+                            <%= form.text_field :quantity_bought, class: "form-control" %>
+                        </div>
+                        <%= form.submit "Add to Basket", class: "btn btn-primary" %>
+                    <% end %>
+                </td>
+
             </tr>
         </thead>
         <tbody>
@@ -34,4 +64,3 @@
     </table>
 
     </div>
-

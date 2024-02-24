@@ -1,10 +1,7 @@
   <div class="container">
     <h1 class="mb-4">Budget Page</h1>
-    <!-- Button to return to home page -->
-      <a href="/" class="btn btn-primary">Home</a>
 
 
-    <!-- Budget Overview -->
     <div class="card mb-4">
       <div class="card-body">
         <h4 class="card-title">Budget Overview</h4>
@@ -13,7 +10,7 @@
             <div id="totalIncomeDisplay" class="card">
               <div class="card-body">
                 <h4 class="card-title">Total Income</h4>
-                <p id="totalIncomeAmount" class="card-text">Total Income: $0</p>
+                <p id="totalIncomeAmount" class="card-text">Total Income: Rs0</p>
                 <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('income')">Edit</button>
                 <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('income')">Delete</button>
                 <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('income')">Save</button>
@@ -24,7 +21,7 @@
             <div id="totalExpensesDisplay" class="card">
               <div class="card-body">
                 <h4 class="card-title">Total Expenses</h4>
-                <p id="totalExpensesAmount" class="card-text">Total Expenses: $0</p>
+                <p id="totalExpensesAmount" class="card-text">Total Expenses: Rs0</p>
                 <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('expense')">Edit</button>
                 <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('expense')">Delete</button>
                 <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('expense')">Save</button>
@@ -37,7 +34,8 @@
                 <div id="RemainingBalanceDisplay" class="card">
                   <div class="card-body">
                     <h4 class="card-title">Remaining Balance</h4>
-                    <p id="RemainingBalance" class="card-text">Remaining Balance: $0</p>
+                    <p id="RemainingBalance" class="card-text">Remaining Balance: Rs0</p>
+                    <button class="btn btn-warning btn-success mx-2" onclick="convertTotal('income')">Convert </button>
                   </div>
                 </div>
               </div>
@@ -130,9 +128,10 @@
   </div>
 
   <!-- Bootstrap JS -->
- 
+
   <!-- JavaScript for updating total expenses -->
   <script>
+    let currencySymbol = 'Rs';
     let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
     let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
 
@@ -140,22 +139,22 @@
     updateTotalIncomeDisplay();
 
     function updateTotalExpensesDisplay() {
-      const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
-      totalExpensesDisplayElement.textContent = `Total Expenses: $${totalExpenses.toFixed(2)}`;
-      updateRemainingBalanceDisplay();
-    }
+  const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
+  totalExpensesDisplayElement.textContent = `Total Expenses: ${currencySymbol}${totalExpenses.toFixed(2)}`;
+  updateRemainingBalanceDisplay();
+  }
 
     function updateTotalIncomeDisplay() {
-      const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
-      totalIncomeDisplayElement.textContent = `Total Income: $${totalIncome.toFixed(2)}`;
-      updateRemainingBalanceDisplay();
-    }
+  const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+  totalIncomeDisplayElement.textContent = `Total Income: ${currencySymbol}${totalIncome.toFixed(2)}`;
+  updateRemainingBalanceDisplay();
+  }
 
     function updateRemainingBalanceDisplay() {
-      const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
-      const remainingBalance = totalIncome - totalExpenses;
-      remainingBalanceDisplayElement.textContent = `Remaining Balance: $${remainingBalance.toFixed(2)}`;
-    }
+  const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
+  const remainingBalance = totalIncome - totalExpenses;
+  remainingBalanceDisplayElement.textContent = `Remaining Balance: ${currencySymbol}${remainingBalance.toFixed(2)}`;
+  }
 
     function editTotal(type) {
       const newValue = prompt(`Enter new ${type === 'income' ? 'income' : 'expense'} amount:`);
@@ -188,16 +187,31 @@
       }
     }
 
-    function saveTotal(type) {
-      let newValue = 0;
-      if (type === 'income') {
-        newValue = totalIncome;
-      } else {
-        newValue = totalExpenses;
-      }
-      localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
-      alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
-    }
+   function saveTotal(type) {
+  let newValue = 0;
+  if (type === 'income') {
+    newValue = totalIncome;
+  } else {
+    newValue = totalExpenses;
+  }
+  localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
+  localStorage.setItem('currencySymbol', currencySymbol); // Store the currency symbol
+  alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
+}
+    function convertTotal(type) {
+  const usdToInrRate = 45.62;
+  if (type === 'income') {
+    totalIncome = totalIncome / usdToInrRate;
+    totalExpenses = totalExpenses / usdToInrRate;
+  } else {
+    totalExpenses = totalExpenses / usdToInrRate;
+  }
+  currencySymbol = '$'; // Change currency symbol to Rs
+  updateTotalExpensesDisplay();
+  updateTotalIncomeDisplay();
+  renderGraph();
+  }
+
 
     document.getElementById('expenseForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -218,73 +232,36 @@
     });
 
     // Function to render the graph
-function renderGraph() {
-  const remainingBalance = totalIncome - totalExpenses;
-  new Chart(document.getElementById('budgetGraph'), {
-    type: 'pie', // Change chart type to 'pie'
-    data: {
-      labels: ['Total Income', 'Total Expenses', 'Remaining Balance'],
-      datasets: [{
-        label: 'Budget Overview',
-        data: [totalIncome, totalExpenses, remainingBalance],
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(75, 192, 192, 1)',
-        ],
-        borderWidth: 1,
-      }],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Budget Overview',
-          font: {
-            size: 16,
-            weight: 'bold'
-          },
-          padding: {
-            top: 10,
-            bottom: 20
-          }
+    function renderGraph() {
+      const remainingBalance = totalIncome - totalExpenses;
+      new Chart(document.getElementById('budgetGraph'), {
+        type: 'pie', // Change chart type to 'pie'
+        data: {
+          labels: ['Total Expenses', 'Remaining Balance'],
+          datasets: [{
+            label: 'Budget Overview',
+            data: [totalExpenses, remainingBalance],
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+            ],
+            borderColor: [
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1,
+          }],
         },
-        legend: {
-          display: true,
-          position: 'bottom',
-          labels: {
-            boxWidth: 15,
-            font: {
-              size: 12
-            }
-          }
+        options: {
+          responsive: true,
         },
-        tooltip: {
-          enabled: true,
-          callbacks: {
-            label: function(context) {
-              let label = context.label || '';
-              if (label) {
-                label += ': ';
-              }
-              label += new Intl.NumberFormat().format(context.parsed);
-              return label;
-            }
-          }
-        }
-      }
-    },
-  });
-}
+      });
+    }
 
-// Initial render of the graph
-renderGraph();
+    // Initial render of the graph
+    renderGraph();
 
     // Display existing budget goals when the page loads
     document.addEventListener('DOMContentLoaded', function() {
