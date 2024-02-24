@@ -1,0 +1,27 @@
+<head>
+  </head>
+  <body>
+<div id="display">
+ <p id="expenseCategory" placeholder="Category">Category of expenses:</p>
+  <p id="expenseDate" placeholder="Date">Date of expense:</p>
+  <p id="totalExpenses" placeholder="Expenses value"></p>
+  <p id="expenseNotes" placehoder="Expense notes">Notes on expenses:</p>
+  <p id="incomeSource" placehoder="Source">Source of income:</p>
+  <p id="incomeDate" placeholder="Date">Date of income:</p>
+  <p id="totalIncome" placehoder="Income value">Income value:</p>
+</div>
+<div class="form-group">
+    <label for="reviewNotes">Notes:</label>
+    <textarea id="reviewNotes" name="reviewNotes"class="form-control" rows="3" placeholder="Enter any comments on the analysis"></textarea>
+  </div>
+  </body>
+
+<script>
+  document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
+  document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
+  document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
+  document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
+  document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
+  document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
+  document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
+</script>

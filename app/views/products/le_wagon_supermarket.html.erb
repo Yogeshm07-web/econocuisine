@@ -8,7 +8,7 @@
             <%= image_tag product.image if product.image.attached? %>
             <h2><%= product.name %></h2>
             <p><%= product.description %></p>
-            <p>Price: <%= number_to_currency(product.price) %></p>
+            <p>Price: Rs <%=(product.price) %></p>
             <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
             <%= form.hidden_field :product_id, value: product.id %>
             <div class="field">
