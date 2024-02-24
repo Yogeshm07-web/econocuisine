@@ -1,87 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Le Wagon SuperMarket</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-
-        /* Custom CSS */
-        body {
-            padding-top: 20px;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            font-family: Arial, sans-serif;
-            color: #000; /* Adjusted text color to black */
-        }
-
-        .container {
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            color: #000; /* Heading text color */
-            text-align: center;
-            font-weight: bold;
-            font-size: 32px; /* Increased font size */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Added shadow effect */
-        }
-
-        .products-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
-        .product {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            background-color: #fff;
-        }
-
-        .product h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .product p {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .product img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .product form {
-            margin-top: 10px;
-        }
-
-        .product input[type="text"] {
-            width: 100px;
-        }
-
-        .product .btn-primary {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
 <div class="container">
     <h1 class="mb-4">Welcome to Le Wagon SuperMarket</h1>
     <!-- Button to return to home page -->
@@ -92,7 +8,7 @@
             <%= image_tag product.image if product.image.attached? %>
             <h2><%= product.name %></h2>
             <p><%= product.description %></p>
-            <p>Price: <%= number_to_currency(product.price) %></p>
+            <p>Price: Rs <%=(product.price) %></p>
             <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
             <%= form.hidden_field :product_id, value: product.id %>
             <div class="field">
@@ -105,10 +21,3 @@
         <% end %>
     </ul>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>

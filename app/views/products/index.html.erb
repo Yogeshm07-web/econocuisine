@@ -9,6 +9,8 @@
       <p>Price: <%= product.price %></p>
       <p>Stock: <%= product.stock %></p>
       <p>Quantity Unit: <%= product.quantity_unit %></p>
+      <!-- Move the "Add to Basket" link inside the loop -->
+      <%= link_to "Add to Basket", add_to_basket_product_path(product), method: :post %>
     </div>
   <% end %>
 </div>
