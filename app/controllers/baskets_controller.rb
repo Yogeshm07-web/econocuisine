@@ -43,6 +43,14 @@ class BasketsController < ApplicationController
       puts "Failed to save basket item: #{basket_item.errors.full_messages}"
       redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket."
     end
+    
+    product = Product.find(params[:product_id])
+    quantity = params[:quantity_bought].to_i
+    basket_item = { product_id: product.id, quantity: quantity }
+    session[:basket] ||= []
+    session[:basket] << basket_item
+    redirect_to basket_display_path
+
   end
 
 
