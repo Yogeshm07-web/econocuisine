@@ -52,19 +52,19 @@
         </tr>
         </thead>
         <tbody>
-        <% @basket_items.each do |basket_item| %>
+        <% @products.each do |product| %>
             <tr>
-                <td><%= basket_item.product.name %></td>
-                <td><%= basket_item.product.description %></td>
-                <td><%= basket_item.product.category %></td>
-                <td><%= number_to_currency(basket_item.product.price / 100.0) %></td>
-                <td><%= basket_item.product.stock %></td>
+                <td><%= product.name %></td>
+                <td><%= product.description %></td>
+                <td><%= product.category %></td>
+                <td><%= number_to_currency(product.price / 100.0) %></td>
+                <td><%= product.stock %></td>
             </tr>
         <% end %>
         </tbody>
     </table>
 
-    <% total_price = @basket_items.sum { |basket_item| basket_item.product.price } %>
+    <% total_price = @product.sum { |product| product.price } %>
     <p class="total-price">Total Price: <%= number_to_currency(total_price / 100.0) %></p>
 </div>
 

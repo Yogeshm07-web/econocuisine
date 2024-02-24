@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
 
 
   def index
+    @products = Product.all
     if user_signed_in?
       @basket_items = current_user.basket_items.includes(:product)
     else
@@ -36,22 +37,15 @@ class ProductsController < ApplicationController
   end
 
   def add_to_basket
-    # Find the product based on the product_id passed in params
     product = Product.find(params[:product_id])
-
-    # Check if the current user has a basket, create one if not
-    unless current_user.basket
-      current_user.create_basket
-    end
-
-    # Add the product to the user's basket
-    basket_item = current_user.basket.basket_items.build(product: product)
-
-    if basket_item.save
-      redirect_to baskets_path, notice: "#{product.name} has been added to your basket."
-    else
-      redirect_to products_path, alert: "Failed to add #{product.name} to your basket."
-    end
+    quantity = params[:quantity_bought].to_i
+    basket_item = { product_id: product.id, quantity: quantity }
+    session[:basket] ||= []
+    session[:basket] << basket_item
+    redirect_to basket_display_path
+  end
+  def basket_display
+    @basket_items = session[:basket] || []
   end
 
   # Other actions...
