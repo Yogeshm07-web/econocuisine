@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get '/signin', to: 'sessions#new'
   get '/signup', to: 'users#new'
+  resources :products do
+    post 'add_to_basket', on: :member
+  end
 
   post '/baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
 

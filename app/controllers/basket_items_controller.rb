@@ -4,7 +4,8 @@ class BasketItemsController < ApplicationController
     if @basket_item.save
       redirect_to baskets_path, notice: 'Item added to basket.'
     else
-      # Handle error
+      flash[:alert] = 'Failed to add item to basket.'
+      render :new  # Rendering the new action/view for creating basket items again
     end
   end
 

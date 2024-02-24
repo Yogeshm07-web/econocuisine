@@ -1,22 +1,13 @@
 class ProductsController < ApplicationController
   before_action :set_product, except: [:index, :new, :create, :le_wagon_supermarket, :add_to_basket]
 
-  # Other controller actions...
-
-
   def index
+    # Check if the user is signed in before fetching basket items
     if user_signed_in?
       @basket_items = current_user.basket_items.includes(:product)
     else
       @basket_items = []  # Assign an empty array if the user is not signed in
     end
-  end
-
-
-  def add_to_inventory(product_name, quantity)
-    # This method should interact with your inventory system,
-    # such as updating the quantity of a product in the database.
-    # Ensure your inventory system is properly implemented and integrated here.
   end
 
   def create
@@ -25,14 +16,17 @@ class ProductsController < ApplicationController
     if new_product.save
       redirect_to product_path(new_product), notice: 'Product was successfully created.'
     else
-      render :new, alert: new_product.errors.full_messages.join(', ')
+      # Use flash instead of render for errors
+      flash.now[:alert] = new_product.errors.full_messages.join(', ')
+      render :new
     end
   end
 
   def le_wagon_supermarket
+    # Fetch all products, featured products, and categories for display
     @products = Product.all
     @featured_products = Product.featured.limit(15)
-    @categories = Category.all # Assuming Category is the model for categories
+    @categories = Category.all
   end
 
   def add_to_basket
@@ -54,11 +48,10 @@ class ProductsController < ApplicationController
     end
   end
 
-  # Other actions...
-
   private
 
   def set_product
+    # Find the product by ID, handle the case where it's not found
     @product = Product.find_by(id: params[:id])
 
     if @product.nil?
@@ -68,6 +61,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
+    # Permit the necessary parameters for product creation
     params.require(:product).permit(:name, :description, :category, :price, :stock, :quantity)
   end
 end

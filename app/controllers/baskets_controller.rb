@@ -3,9 +3,7 @@ class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :edit, :update, :destroy]
 
   def index
-    @basket = current_user.basket
-    @basket_items = @basket.basket_items.includes(:product) if @basket
-    @total_price = @basket_items.sum { |item| item.product.price } if @basket_items
+    @basket = Basket.where(user: current_user)
   end
 
   def create
@@ -35,20 +33,23 @@ class BasketsController < ApplicationController
   end
 
   def add_to_basket
-    product = Product.find(params[:product_id])
-    basket = current_user.basket || current_user.create_basket
-    basket_item = basket.basket_items.build(product: product)
-
-    if basket_item.save
-      redirect_to products_path, notice: "#{product.name} has been added to your basket."
+    pro = Product.find(params[:id])
+    basket = Basket.new(user: current_user)
+    basket.product_id = pro.id
+    if basket.save
+      puts "Basket item successfully saved: #{basket.inspect}"
+      redirect_to baskets_path, notice: "#{pro.name} has been added to your basket."
     else
-      redirect_to products_path, alert: "Failed to add #{product.name} to your basket."
+      puts "Failed to save basket item: #{basket_item.errors.full_messages}"
+      redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket."
     end
   end
 
+
+  # Action for a specific functionality, adjust as needed
   def le_wagon_supermarket
     @basket = current_user.basket || current_user.create_basket
-    # Other code
+    # Other code related to Le Wagon Supermarket
   end
 
   private
