@@ -2,63 +2,148 @@
 <html lang="en">
 <head>
   <!-- Add your head content here -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add your custom styles here */
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-container {
+      padding: 20px;
+      background-color: #f7f7f7;
+      margin-bottom: 20px;
+    }
+
+    .table-container {
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 0 10px;
+      }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <h1>Inventory Page</h1>
 
-<%= form_with(model: @inventory_item, id: "new-inventory-item-form", url: inventory_items_path, local: true) do |form| %>
-  <!-- Form fields for adding a new inventory item -->
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :inventory_item_name, required: true %>
+  <div class="form-container">
+    <%= form_with(model: @inventory_item, id: "new-inventory-item-form", url: inventory_items_path, local: true) do |form| %>
+    <!-- Form fields for adding a new inventory item -->
+      <div class="form-group">
+        <%= form.label :name %>
+        <%= form.text_field :name, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :description %>
+        <%= form.text_area :description, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :category %>
+        <%= form.text_field :category, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :price %>
+        <%= form.number_field :price, class: "form-control", step: 0.01, required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock %>
+        <%= form.number_field :stock, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :quantity %>
+        <%= form.number_field :quantity, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.submit "Add Item", id: "add-item-submit", class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, id: :inventory_item_description, required: true %>
+  <div class="table-container">
+    <table class="table" id="inventory-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Render the inventory items from the @inventory_items collection -->
+      <% @inventory_items.each do |item| %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.description %></td>
+          <td><%= item.category %></td>
+          <td><%= number_to_currency(item.price, unit: '$') %></td>
+          <td><%= item.stock %></td>
+          <td><%= item.quantity %></td>
+          <td>Actions</td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   </div>
+</div>
 
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.text_field :category, id: :inventory_item_category, required: true %>
-  </div>
+<!-- ... previous HTML code ... -->
 
-  <div class="field">
-    <%= form.label :price %>
-    <%= form.number_field :price, id: :inventory_item_price, step: 0.01, required: true %>
-  </div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#inventory-form').submit(function(event) {
+      event.preventDefault();
 
-  <div class="field">
-    <%= form.label :stock %>
-    <%= form.number_field :stock, id: :inventory_item_stock, required: true %>
-  </div>
+      var newItem = {
+        name: $('#inventory_item_name').val(),
+        description: $('#inventory_item_description').val(),
+        category: $('#inventory_item_category').val(),
+        price: $('#inventory_item_price').val(),
+        stock: $('#inventory_item_stock').val(),
+        quantity: $('#inventory_item_quantity').val()
+      };
 
-  <div class="field">
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity, id: :inventory_item_quantity, required: true %>
-  </div>
+      $.ajax({
+        type: 'POST',
+        url: '/inventory', // Replace with the correct URL for your server-side endpoint
+        dataType: 'json',
+        data: newItem,
+        success: function(data) {
+          // Assuming the server-side code successfully saved the item, you can refresh the page to display the updated inventory list
+          location.reload();
+        },
+        error: function (error) {
+          console.log('Error:', error);
+        }
+      });
+    });
+  });
+</script>
 
-  <div class="actions">
-    <%= form.submit "Add Item", id: "add-item-submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<table class="table" id="inventory-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Price</th>
-      <th>Stock</th>
-      <th>Quantity</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="inventory-table-body">
-    <!-- Existing inventory items -->
-    <%= render @inventory_items %>
-  </tbody>
-</table>
-
-</body>
-</html>
+<!-- ... remaining HTML code ... -->
