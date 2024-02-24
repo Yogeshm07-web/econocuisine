@@ -192,17 +192,10 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <!-- JavaScript for updating total expenses -->
   <script>
     let currencySymbol = 'Rs';
     let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
     let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
-    let expenseCategory = parseFloat(localStorage.getItem('expenseCategory'));
-    let expenseNotes = parseFloat(localStorage.getItem('expenseNotes'));
-    let expenseDate = parseFloat(localStorage.getItem('expenseDate'));
-    let incomeSource = parseFloat(localStorage.getItem('incomeSource'));
-    let incomeDate = parseFloat(localStorage.getItem('incomeDate'));
 
 
     updateTotalExpensesDisplay();

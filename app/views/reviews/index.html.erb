@@ -1,27 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  </head>
-  <body>
-<div id="display">
- <p id="expenseCategory" placeholder="Category">Category of expenses:</p>
-  <p id="expenseDate" placeholder="Date">Date of expense:</p>
-  <p id="totalExpenses" placeholder="Expenses value"></p>
-  <p id="expenseNotes" placehoder="Expense notes">Notes on expenses:</p>
-  <p id="incomeSource" placehoder="Source">Source of income:</p>
-  <p id="incomeDate" placeholder="Date">Date of income:</p>
-  <p id="totalIncome" placehoder="Income value">Income value:</p>
-</div>
-<div class="form-group">
-    <label for="reviewNotes">Notes:</label>
-    <textarea id="reviewNotes" name="reviewNotes"class="form-control" rows="3" placeholder="Enter any comments on the analysis"></textarea>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    #display {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    #display p {
+      margin: 10px 0;
+    }
+    .form-group {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div id="display">
+    <h2>Expense Tracker</h2>
+    <div id="expenseDetails">
+      <h3>Expense Details</h3>
+      <p><strong>Category:</strong> <span id="expenseCategory"></span></p>
+      <p><strong>Date:</strong> <span id="expenseDate"></span></p>
+      <p><strong>Expenses Value:</strong> <span id="totalExpenses"></span></p>
+      <p><strong>Notes:</strong> <span id="expenseNotes"></span></p>
+    </div>
+    <div id="incomeDetails">
+      <h3>Income Details</h3>
+      <p><strong>Source:</strong> <span id="incomeSource"></span></p>
+      <p><strong>Date:</strong> <span id="incomeDate"></span></p>
+      <p><strong>Income Value:</strong> <span id="totalIncome"></span></p>
+    </div>
   </div>
-  </body>
-
-<script>
-  document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
-  document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
-  document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
-  document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
-  document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
-  document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
-  document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
-</script>
+  <div class="form-group">
+    <h2>Add Review Notes</h2>
+    <label for="reviewNotes">Notes:</label>
+    <textarea id="reviewNotes" name="reviewNotes" rows="3" placeholder="Enter any comments on the analysis"></textarea>
+  </div>
+  <script>
+    document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
+    document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
+    document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
+    document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
+    document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
+    document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
+    document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
+  </script>
+</body>
+</html>
