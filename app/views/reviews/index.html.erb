@@ -1,27 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  </head>
-  <body>
-<div id="display">
- <p id="expenseCategory" placeholder="Category">Category of expenses:</p>
-  <p id="expenseDate" placeholder="Date">Date of expense:</p>
-  <p id="totalExpenses" placeholder="Expenses value"></p>
-  <p id="expenseNotes" placehoder="Expense notes">Notes on expenses:</p>
-  <p id="incomeSource" placehoder="Source">Source of income:</p>
-  <p id="incomeDate" placeholder="Date">Date of income:</p>
-  <p id="totalIncome" placehoder="Income value">Income value:</p>
-</div>
-<div class="form-group">
-    <label for="reviewNotes">Notes:</label>
-    <textarea id="reviewNotes" name="reviewNotes"class="form-control" rows="3" placeholder="Enter any comments on the analysis"></textarea>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  
+  <style>
+    /* Your CSS styles here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin-top: 0;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .section-title {
+      margin-top: 0;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .section-content {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Expense Tracker</h1>
+    <a href="/" class="home-link">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">Back to Home</span>
+  </a>
+    <div class="section">
+      <h2 class="section-title">Expense Details</h2>
+      <div class="section-content">
+        <!-- Your expense details here -->
+      </div>
+    </div>
+    <div class="section">
+      <h2 class="section-title">Income Details</h2>
+      <div class="section-content">
+        <!-- Your income details here -->
+      </div>
+    </div>
+    <div class="section">
+      <h2 class="section-title">Add Review Notes</h2>
+      <div class="section-content">
+        <div class="form-group">
+          <label for="reviewNotes">Notes:</label>
+          <textarea id="reviewNotes" name="reviewNotes" rows="3" placeholder="Enter any comments on the analysis"></textarea>
+        </div>
+        <button onclick="saveReview()">Save Review</button>
+      </div>
+    </div>
   </div>
-  </body>
+  <script>
+    // Function to save review notes
+    function saveReview() {
+      const reviewNotes = document.getElementById('reviewNotes').value;
+      // Perform any necessary actions with the review notes (e.g., save to database)
+      alert('Review notes saved successfully!');
+    }
 
-<script>
-  document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
-  document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
-  document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
-  document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
-  document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
-  document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
-  document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
-</script>
+    // Add the script provided
+    window.onload = function() {
+      document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
+      document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
+      document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
+      document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
+      document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
+      document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
+      document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
+    };
+  </script>
+</body>
+</html>

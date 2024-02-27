@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Management</title>
+  
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
+    
     /* Custom CSS */
     body {
       font-family: 'Roboto', sans-serif;
@@ -74,21 +76,22 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="background-image">
     <div class="container">
+      <a href="/" class="home-link">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">Back to Home</span>
+  </a>
 
       <div class="nice-div">
         <h2>Welcome to Inventory Management System</h2>
         <!-- Add more content here if needed -->
       </div>
 
-      <!-- Button to return to home page -->
-      <a href="/" class="btn btn-primary">Home</a>
-
-
-      <!-- Include the form for adding new inventory items -->
+            <!-- Include the form for adding new inventory items -->
       <%= render 'form', inventory: @inventory %>
 
       <table class="table" id="inventory-table">
@@ -105,7 +108,7 @@
           <%= render @inventory_items %>
         </tbody>
       </table>
-
+      
       <form id="new-inventory-item-form">
         <!-- Form for adding new inventory items -->
         <select id="product-list" name="product_id">
