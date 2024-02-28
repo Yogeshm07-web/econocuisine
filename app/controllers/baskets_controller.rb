@@ -52,6 +52,24 @@ class BasketsController < ApplicationController
     redirect_to basket_display_path
 
   end
+   # DELETE /delete_product?id=:id
+   def delete_product
+    @product = Product.find(params[:id])
+    if @product.destroy
+      render json: { status: 'success', message: 'Product deleted successfully' }, status: :ok
+    else
+      render json: { status: 'error', message: 'Failed to delete product' }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /delete_all_products
+  def delete_all_products
+    if Product.destroy_all
+      render json: { status: 'success', message: 'All products deleted successfully' }, status: :ok
+    else
+      render json: { status: 'error', message: 'Failed to delete all products' }, status: :unprocessable_entity
+    end
+  end
 
 
   # Action for a specific functionality, adjust as needed

@@ -1,30 +1,17 @@
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Budget Page</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* Custom CSS */
     body {
-      padding-top: 20px;
+      padding-top: 30px;
       background: linear-gradient(to right, #667eea, #764ba2);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #333;
     }
     .container {
-      max-width: 900px;
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
+      max-width: 100%;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #333;
       text-align: center;
       font-weight: bold;
@@ -56,45 +43,61 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
+    card-body {
+     background-color: rgba(255, 255, 255, 0.9); /* Adjust the alpha value to control transparency */
+     opacity: 0.9; /* Adjust the opacity of the background color */
+     border-radius: 20px; /* Add some border-radius for rounded corners */
+     padding: 20px; /* Add padding for better spacing */
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.2); /* Adjust the alpha value to control transparency */
+      border-radius: 8px; /* Add some border-radius for rounded corners */
+      padding: 20px; /* Add padding for better spacing */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+    }
+
+
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="mb-4">Budget Page</h1>
-      <a href="/" class="home-link">
-    <span class="home-icon">🏠</span>
-    <span class="home-text">Back to Home</span>
-  </a>
+    <a href="/" class="home-link">
+      <span class="home-icon">🏠</span>
+      <span class="home-text">Back to Home</span>
+    </a>
 
-    <div class="card mb-4">
-      <div class="card-body">
-        <h4 class="card-title">Budget Overview</h4>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <div id="totalIncomeDisplay" class="card">
-              <div class="card-body">
-                <h4 class="card-title">Total Income</h4>
-                <p id="totalIncomeAmount" class="card-text">Total Income: Rs0</p>
-                <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('income')">Edit</button>
-                <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('income')">Delete</button>
-                <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('income')">Save</button>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div id="totalExpensesDisplay" class="card">
-              <div class="card-body">
-                <h4 class="card-title">Total Expenses</h4>
-                <p id="totalExpensesAmount" class="card-text">Total Expenses: Rs0</p>
-                <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('expense')">Edit</button>
-                <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('expense')">Delete</button>
-                <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('expense')">Save</button>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Budget Overview</h4>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div id="totalIncomeDisplay" class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Total Income</h4>
+                    <p id="totalIncomeAmount" class="card-text">Total Income: Rs0</p>
+                    <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('income')">Edit</button>
+                    <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('income')">Delete</button>
+                    <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('income')">Save</button>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div id="totalExpensesDisplay" class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Total Expenses</h4>
+                    <p id="totalExpensesAmount" class="card-text">Total Expenses: Rs0</p>
+                    <button class="btn btn-sm btn-primary mx-2" onclick="editTotal('expense')">Edit</button>
+                    <button class="btn btn-sm btn-danger mx-2" onclick="deleteTotal('expense')">Delete</button>
+                    <button class="btn btn-sm btn-success mx-2" onclick="saveTotal('expense')">Save</button>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
                 <div id="RemainingBalanceDisplay" class="card">
                   <div class="card-body">
                     <h4 class="card-title">Remaining Balance</h4>
@@ -102,87 +105,93 @@
                     <button class="btn btn-warning btn-success mx-2" onclick="convertTotal('income')">Convert </button>
                   </div>
                 </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Budget Goals</h4>
+            <!-- Include the form for budget goals here -->
+            <form id="budgetGoalsForm">
+              <div class="form-group">
+                <label for="goalName">Goal Name:</label>
+                <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
               </div>
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Budget Goals</h4>
-                    <!-- Include the form for budget goals here -->
-                    <form id="budgetGoalsForm">
-                      <div class="form-group">
-                        <label for="goalName">Goal Name:</label>
-                        <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="goalAmount">Goal Amount:</label>
-                        <input type="number" id="goalAmount" name="goalAmount" class="form-control" placeholder="Enter goal amount" required>
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
-                    </form>
-                    <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
-                  </div>
-                </div>
+              <div class="form-group">
+                <label for="goalAmount">Goal Amount:</label>
+                <input type="number" id="goalAmount" name="goalAmount" class="form-control" placeholder="Enter goal amount" required>
               </div>
-            </div>
-          </li>
-        </ul>
+              <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
+            </form>
+            <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Expense Tracking Form -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h4 class="card-title">Expense Tracking</h4>
-        <form id="expenseForm" action="/expenses" method="POST">
-          <div class="form-group">
-            <label for="expenseDate">Date:</label>
-            <input type="date" id="expenseDate" name="expenseDate" class="form-control" required>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Expense Tracking</h4>
+            <form id="expenseForm" action="/expenses" method="POST">
+              <div class="form-group">
+                <label for="expenseDate">Date:</label>
+                <input type="date" id="expenseDate" name="expenseDate" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="expenseCategory">Category:</label>
+                <input type="text" id="expenseCategory" name="expenseCategory" class="form-control" placeholder="Enter expense category" required>
+              </div>
+              <div class="form-group">
+                <label for="expenseAmount">Amount:</label>
+                <input type="number" id="expenseAmount" name="expenseAmount" class="form-control" placeholder="Enter expense amount" required>
+              </div>
+              <div class="form-group">
+                <label for="expenseNotes">Notes:</label>
+                <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
+              </div>
+              <button type="submit" id="addExpenseButton" class="btn btn-primary btn-block">Add Expense</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="expenseCategory">Category:</label>
-            <input type="text" id="expenseCategory" name="expenseCategory" class="form-control" placeholder="Enter expense category" required>
-          </div>
-          <div class="form-group">
-            <label for="expenseAmount">Amount:</label>
-            <input type="number" id="expenseAmount" name="expenseAmount" class="form-control" placeholder="Enter expense amount" required>
-          </div>
-          <div class="form-group">
-            <label for="expenseNotes">Notes:</label>
-            <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
-          </div>
-          <button type="submit" id="addExpenseButton" class="btn btn-primary btn-block">Add Expense</button>
-        </form>
+        </div>
       </div>
-    </div>
 
-    <!-- Income Tracking Form -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h4 class="card-title">Income Tracking</h4>
-        <form id="incomeForm" action="/income" method="POST">
-          <div class="form-group">
-            <label for="incomeSource">Source:</label>
-            <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Income Tracking</h4>
+            <form id="incomeForm" action="/income" method="POST">
+              <div class="form-group">
+                <label for="incomeSource">Source:</label>
+                <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+              </div>
+              <div class="form-group">
+                <label for="incomeAmount">Amount:</label>
+                <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
+              </div>
+              <div class="form-group">
+                <label for="incomeDate">Date:</label>
+                <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Add Income</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="incomeAmount">Amount:</label>
-            <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
-          </div>
-          <div class="form-group">
-            <label for="incomeDate">Date:</label>
-            <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Add Income</button>
-        </form>
+        </div>
       </div>
-    </div>
 
-    <!-- Expense Analysis -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h4 class="card-title">Expense Analysis</h4>
-        <!-- Include visualizations or charts for expense analysis -->
-        <canvas id="budgetGraph"></canvas>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Expense Analysis</h4>
+            <!-- Include visualizations or charts for expense analysis -->
+            <canvas id="budgetGraph"></canvas>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -190,7 +199,7 @@
     <!-- Add additional sections as needed -->
 
   </div>
-
+  
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -205,22 +214,22 @@
     updateTotalIncomeDisplay();
 
     function updateTotalExpensesDisplay() {
-  const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
-  totalExpensesDisplayElement.textContent = `Total Expenses: ${currencySymbol}${totalExpenses.toFixed(2)}`;
-  updateRemainingBalanceDisplay();
-  }
+      const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
+      totalExpensesDisplayElement.textContent = `Total Expenses: ${currencySymbol}${totalExpenses.toFixed(2)}`;
+      updateRemainingBalanceDisplay();
+    }
 
     function updateTotalIncomeDisplay() {
-  const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
-  totalIncomeDisplayElement.textContent = `Total Income: ${currencySymbol}${totalIncome.toFixed(2)}`;
-  updateRemainingBalanceDisplay();
-  }
+      const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+      totalIncomeDisplayElement.textContent = `Total Income: ${currencySymbol}${totalIncome.toFixed(2)}`;
+      updateRemainingBalanceDisplay();
+    }
 
     function updateRemainingBalanceDisplay() {
-  const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
-  const remainingBalance = totalIncome - totalExpenses;
-  remainingBalanceDisplayElement.textContent = `Remaining Balance: ${currencySymbol}${remainingBalance.toFixed(2)}`;
-  }
+      const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
+      const remainingBalance = totalIncome - totalExpenses;
+      remainingBalanceDisplayElement.textContent = `Remaining Balance: ${currencySymbol}${remainingBalance.toFixed(2)}`;
+    }
 
     function editTotal(type) {
       const newValue = prompt(`Enter new ${type === 'income' ? 'income' : 'expense'} amount:`);
@@ -253,31 +262,31 @@
       }
     }
 
-   function saveTotal(type) {
-  let newValue = 0;
-  if (type === 'income') {
-    newValue = totalIncome;
-  } else {
-    newValue = totalExpenses;
-  }
-  localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
-  localStorage.setItem('currencySymbol', currencySymbol); // Store the currency symbol
-  alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
-}
-    function convertTotal(type) {
-  const usdToInrRate = 45.62;
-  if (type === 'income') {
-    totalIncome = totalIncome / usdToInrRate;
-    totalExpenses = totalExpenses / usdToInrRate;
-  } else {
-    totalExpenses = totalExpenses / usdToInrRate;
-  }
-  currencySymbol = '$'; // Change currency symbol to Rs
-  updateTotalExpensesDisplay();
-  updateTotalIncomeDisplay();
-  renderGraph();
-  }
+    function saveTotal(type) {
+      let newValue = 0;
+      if (type === 'income') {
+        newValue = totalIncome;
+      } else {
+        newValue = totalExpenses;
+      }
+      localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
+      localStorage.setItem('currencySymbol', currencySymbol); // Store the currency symbol
+      alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
+    }
 
+    function convertTotal(type) {
+      const usdToInrRate = 45.62;
+      if (type === 'income') {
+        totalIncome = totalIncome / usdToInrRate;
+        totalExpenses = totalExpenses / usdToInrRate;
+      } else {
+        totalExpenses = totalExpenses / usdToInrRate;
+      }
+      currencySymbol = '$'; // Change currency symbol to Rs
+      updateTotalExpensesDisplay();
+      updateTotalIncomeDisplay();
+      renderGraph();
+    }
 
     document.getElementById('expenseForm').addEventListener('submit', function(event) {
       event.preventDefault();
