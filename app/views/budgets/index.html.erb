@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Page</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* Custom CSS */
     body {
@@ -43,22 +53,19 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
-    card-body {
-     background-color: rgba(255, 255, 255, 0.9); /* Adjust the alpha value to control transparency */
-     opacity: 0.9; /* Adjust the opacity of the background color */
-     border-radius: 20px; /* Add some border-radius for rounded corners */
-     padding: 20px; /* Add padding for better spacing */
-     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+    .card-body {
+      background-color: rgba(255, 255, 255, 0.9);
+      opacity: 0.9;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
     .container {
-      background-color: rgba(255, 255, 255, 0.2); /* Adjust the alpha value to control transparency */
-      border-radius: 8px; /* Add some border-radius for rounded corners */
-      padding: 20px; /* Add padding for better spacing */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
-
   </style>
 </head>
 <body>
@@ -110,7 +117,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-md-6">
         <div class="card mb-4">
           <div class="card-body">
@@ -128,6 +134,12 @@
               <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
             </form>
             <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Basket Total</h4>
+            <p id="basketTotalPrice" class="card-text">Total Price: Rs0</p>
           </div>
         </div>
       </div>
@@ -209,7 +221,6 @@
     let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
     let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
 
-
     updateTotalExpensesDisplay();
     updateTotalIncomeDisplay();
 
@@ -288,22 +299,57 @@
       renderGraph();
     }
 
-    document.getElementById('expenseForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const expenseAmount = parseFloat(document.getElementById('expenseAmount').value);
-      totalExpenses += expenseAmount;
-      updateTotalExpensesDisplay();
-      localStorage.setItem('totalExpenses', totalExpenses);
-      renderGraph(); // Call renderGraph after updating expenses
-    });
+    // Function to calculate basket total and update the #basketTotalPrice element
+    function updateBasketTotal() {
+      // Placeholder logic to fetch the total price from the server
+      // Replace this with your actual logic to calculate the total price based on the items in the basket
+      const basketItems = document.querySelectorAll('.basket-item');
+      let totalPrice = 0;
+      basketItems.forEach(item => {
+        const price = parseFloat(item.querySelector('.item-price').textContent.replace('Rs', ''));
+        const quantity = parseInt(item.querySelector('.item-quantity').value);
+        totalPrice += price * quantity;
+      });
 
-    document.getElementById('incomeForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const incomeAmount = parseFloat(document.getElementById('incomeAmount').value);
-      totalIncome += incomeAmount;
-      updateTotalIncomeDisplay();
-      localStorage.setItem('totalIncome', totalIncome);
-      renderGraph(); // Call renderGraph after updating income
+      const basketTotalPriceElement = document.getElementById('totalPrice');
+      basketTotalPriceElement.textContent = `Total Price: Rs${totalPrice.toFixed(2)}`;
+    }
+
+    function updateTotalPrice() {
+      var totalPrice = 0;
+      var items = document.querySelectorAll('.item');
+
+      items.forEach(function(item) {
+        var price = parseFloat(item.dataset.price);
+        totalPrice += price;
+      });
+
+      document.getElementById('totalPrice').textContent = 'Rs' + totalPrice.toFixed(2);
+    }
+
+    // Example: Add an item to the basket
+    function addItem(name, price) {
+      var basket = document.getElementById('basket');
+      var item = document.createElement('div');
+      item.classList.add('item');
+      item.dataset.price = price;
+      item.textContent = name + ': Rs' + price.toFixed(2);
+      basket.appendChild(item);
+      updateTotalPrice();
+    }
+
+    // Example: Remove an item from the basket
+    function removeItem(item) {
+      item.parentNode.removeChild(item);
+      updateTotalPrice();
+    }
+
+    
+    var items = document.querySelectorAll('.item');
+    items.forEach(function(item) {
+      item.addEventListener('click', function() {
+        removeItem(item);
+      });
     });
 
     // Function to render the graph
@@ -406,6 +452,24 @@
         // Close the modal
         $('#editDeleteModal').modal('hide');
       });
+    }
+
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+      
+      // Extract expense details from the form
+      const expenseAmount = parseFloat(document.getElementById('expenseAmount').value);
+      
+      // Update total expenses
+      totalExpenses += expenseAmount;
+      
+      // Update total expenses display
+      updateTotalExpensesDisplay();
+    });
+
+    function updateTotalExpensesDisplay() {
+      const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
+      totalExpensesDisplayElement.textContent = `Total Expenses: ${currencySymbol}${totalExpenses.toFixed(2)}`;
     }
 
     function deleteGoal(goalIndex) {

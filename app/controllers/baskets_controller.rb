@@ -4,6 +4,7 @@ class BasketsController < ApplicationController
 
   def index
     @basket = current_user.basket
+    @basket_total = BasketItem.sum(:price)
     @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
   end
 
