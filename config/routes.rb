@@ -23,4 +23,6 @@ Rails.application.routes.draw do
 
   post 'add_to_basket', to: 'basket_items#add_to_basket'
 
+  delete '/basket_items/:id', to: 'basket_items#destroy', as: 'delete_basket_item'
+
 end

@@ -17,13 +17,13 @@
                     <p class="card-text">Price: Rs <%= product.price %></p>
                 </div>
                 <div class="card-footer">
-                    <%= form_with(model: product, url: add_to_basket_path(product), method: :post, local: true) do |form| %>
-                    <%= form.hidden_field :product_id, value: product.id %>
-                    <div class="form-group">
-                        <%= form.label :quantity_bought %>
-                        <%= form.number_field :quantity_bought, class: "form-control" %>
-                    </div>
-                    <%= form.submit "Add to Basket", class: "btn btn-primary btn-block" %>
+                    <%= form_with(url: add_to_basket_path(product), method: :post, local: true) do |form| %>
+                      <%= hidden_field_tag :product_id, product.id %>
+                      <div class="form-group">
+                        <%= label_tag :quantity, 'Quantity' %>
+                        <%= number_field_tag :quantity, 1, class: "form-control", min: 1 %>
+                      </div>
+                      <%= submit_tag "Add to Basket", class: "btn btn-primary btn-block" %>
                     <% end %>
                 </div>
             </div>

@@ -81,59 +81,46 @@
       <span class="home-text">Back to Home</span>
     </a>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="product_table_body">
-        <% if @basket.present? %>
-          <% @basket.each do |basket_item| %>
-            <% @prod = Product.find(basket_item.product_id)%>
-            <tr id="product_row_<%= @prod.id %>">
-              <td><%= @prod.name %></td>
-              <td><%= @prod.description %></td>
-              <td>Rs <%= @prod.price %></td>
-              <td>
-                <button class="delete-btn" data-product-id="<%= @prod.id %>">Delete</button>
-              </td>
+    <div class="container">
+      <% if @basket&.basket_items&.present? %>
+        <div class="total-price">
+          <p>Total Price: Rs <%= @total_price %></p>
+        </div>
+      <% end %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="product_table_body">
+          <% if @basket&.basket_items&.present? %>
+            <% @basket.basket_items.each do |basket_item| %>
+              <% product = basket_item.product %>
+              <tr id="product_row_<%= product.id %>">
+                <td><%= product.name %></td>
+                <td><%= product.description %></td>
+                <td>Rs <%= product.price %></td>
+                <td><%= basket_item.quantity %></td>
+                <td>Rs <%= basket_item.quantity * product.price %></td> <!-- Calculated total price -->
+                <td>
+                  <%= link_to 'Delete', delete_basket_item_path(basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="no-items-msg">No items in the basket</td>
             </tr>
           <% end %>
-        <% else %>
-          <tr>
-            <td colspan="4" class="no-items-msg">No items in the basket</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </tbody>
+      </table>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Function to delete a product from the basket
-      function deleteProduct(productId) {
-        const row = document.getElementById(`product_row_${productId}`);
-        if (row) {
-          row.remove();
-          console.log(`Product with ID ${productId} deleted successfully.`);
-        } else {
-          console.error(`Row not found for product with ID ${productId}.`);
-        }
-      }
-
-      // Add click event listeners to all delete buttons
-      const deleteButtons = document.querySelectorAll('.delete-btn');
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const productId = button.dataset.productId;
-          deleteProduct(productId);
-        });
-      });
-    });
-  </script>
+    </div>
 </body>
 </html>
