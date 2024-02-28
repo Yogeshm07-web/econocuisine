@@ -9,6 +9,13 @@ class BasketItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @basket_item = BasketItem.find(params[:id])
+    @basket_item.destroy
+    redirect_to baskets_path, notice: 'Item removed from basket.'
+  end
+
+
   private
 
   def basket_item_params

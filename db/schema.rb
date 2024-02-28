@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_22_052138) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_28_102925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,17 +47,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_052138) do
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 1, null: false
     t.index ["basket_id"], name: "index_basket_items_on_basket_id"
     t.index ["product_id"], name: "index_basket_items_on_product_id"
   end
 
   create_table "baskets", force: :cascade do |t|
-    t.integer "quantity_bought"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "product_id", null: false
     t.bigint "user_id", null: false
-    t.index ["product_id"], name: "index_baskets_on_product_id"
     t.index ["user_id"], name: "index_baskets_on_user_id"
   end
 
@@ -127,7 +125,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_052138) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "basket_items", "baskets"
   add_foreign_key "basket_items", "products"
-  add_foreign_key "baskets", "products"
   add_foreign_key "baskets", "users"
   add_foreign_key "inventories", "baskets"
   add_foreign_key "inventories", "users"

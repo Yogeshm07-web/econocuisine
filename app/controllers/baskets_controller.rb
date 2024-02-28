@@ -3,7 +3,8 @@ class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :edit, :update, :destroy]
 
   def index
-    @basket = Basket.where(user: current_user)
+    @basket = current_user.basket
+    @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
   end
 
   def create
@@ -33,25 +34,23 @@ class BasketsController < ApplicationController
   end
 
   def add_to_basket
-    pro = Product.find(params[:product][:product_id])
-    basket = Basket.new(user: current_user)
-    basket.product_id = pro.id
-    if basket.save
-      puts "Basket item successfully saved: #{basket.inspect}"
-      redirect_to le_wagon_supermarket_path, notice: "#{pro.name} has been added to your basket."
-    else
-      puts "Failed to save basket item: #{basket_item.errors.full_messages}"
-      redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket."
-    end
-
     product = Product.find(params[:product_id])
-    quantity = params[:quantity_bought].to_i
-    basket_item = { product_id: product.id, quantity: quantity }
-    session[:basket] ||= []
-    session[:basket] << basket_item
-    redirect_to basket_display_path
+    quantity = params[:quantity].to_i
 
+    # Ensure the current user has a basket
+    user_basket = current_user.basket || current_user.create_basket
+
+    # Directly create a new BasketItem for the user's basket
+    basket_item = user_basket.basket_items.create(product: product, quantity: quantity)
+
+    if basket_item.persisted?
+      redirect_to le_wagon_supermarket_path, notice: "#{product.name} has been added to your basket."
+    else
+      redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket: #{basket_item.errors.full_messages.to_sentence}."
+    end
   end
+
+
    # DELETE /delete_product?id=:id
    def delete_product
     @product = Product.find(params[:id])
