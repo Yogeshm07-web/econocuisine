@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :products do
     post 'add_to_basket', on: :member
   end
+  delete '/delete_product', to: 'products#delete_product'
+  delete '/delete_all_products', to: 'products#delete_all_products'
+
 
   post '/baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
 

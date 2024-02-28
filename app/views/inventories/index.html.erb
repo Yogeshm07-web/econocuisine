@@ -3,97 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Management</title>
-  
-  <!-- Bootstrap CSS -->
+  <title>E-Commerce Inventory Management</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Custom CSS -->
   <style>
-    
-    /* Custom CSS */
     body {
-      font-family: 'Roboto', sans-serif;
-      padding-top: 20px;
-      background: linear-gradient(to right, #667eea, #764ba2);
-      color: #fff;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
     }
-
+    .background-image {
+      background-color: #343a40;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
     .container {
       max-width: 800px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin: 0 auto 50px; /* Adjust margin as needed */
+      margin: 0 auto;
     }
-
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-      text-align: center;
-      font-weight: bold;
-      font-size: 28px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .background-image {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      background-image: url('<%= cl_image_path("vqtpdq8z9z6zjz49zbol", width: 1920, height: 500, crop: :fill) %>'); /* Adjust width and height as needed */
-      background-size: cover; /* Fit the image within the container */
-      background-repeat: no-repeat; /* Prevent image from repeating */
-      background-position: center; /* Center the image */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      color: white; /* Set text color to white for better visibility */
-      text-align: center;
-    }
-
     .nice-div {
-      max-width: 600px;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: #fff;
       border-radius: 10px;
+      padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
-
     .nice-div h2 {
       color: #333;
       font-size: 24px;
+      margin-bottom: 20px;
     }
-
-    .nice-div p {
-      color: #666;
-      font-size: 18px;
+    #inventory-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    #inventory-table th, #inventory-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    #inventory-table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #333;
+    }
+    .edit-btn, .save-btn, .delete-btn {
+      padding: 6px 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    .edit-btn {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .edit-btn:hover {
+      background-color: #0056b3;
+    }
+    .save-btn {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .save-btn:hover {
+      background-color: #218838;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .delete-btn:hover {
+      background-color: #c82333;
     }
   </style>
 </head>
-
 <body>
-
   <div class="background-image">
     <div class="container">
       <a href="/" class="home-link">
-    <span class="home-icon">🏠</span>
-    <span class="home-text">Back to Home</span>
-  </a>
-
+        <span class="home-icon">🏠</span>
+        <span class="home-text">Back to Home</span>
+      </a>
       <div class="nice-div">
-        <h2>Welcome to Inventory Management System</h2>
+        <h2>Welcome to our Inventory Management System</h2>
         <!-- Add more content here if needed -->
       </div>
-
-            <!-- Include the form for adding new inventory items -->
+      <!-- Include the form for adding new inventory items -->
       <%= render 'form', inventory: @inventory %>
-
       <table class="table" id="inventory-table">
         <thead>
           <tr>
@@ -108,7 +106,6 @@
           <%= render @inventory_items %>
         </tbody>
       </table>
-      
       <form id="new-inventory-item-form">
         <!-- Form for adding new inventory items -->
         <select id="product-list" name="product_id">
@@ -129,12 +126,11 @@
           <!-- Add more options as needed -->
         </select>
         <!-- Button with dynamic color based on product name -->
-        <button type="button" id="add-to-inventory-btn" class="btn btn-secondary">Add to Inventory</button>
+        <button type="button" id="add-to-inventory-btn" class="btn btn-primary">Add to Inventory</button>
       </form>
     </div>
   </div>
 
-  <!-- JavaScript code -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const quantityInput = document.getElementById('quantity');
@@ -143,27 +139,9 @@
       const addToInventoryBtn = document.getElementById('add-to-inventory-btn');
       const inventoryTableBody = document.getElementById('inventory-table-body');
 
-      productSelect.addEventListener('change', function() {
-        const productName = this.options[this.selectedIndex].text;
-        updateButtonColor(productName);
+      addToInventoryBtn.addEventListener('click', function() {
+        addToInventory();
       });
-
-      addToInventoryBtn.addEventListener('click', addToInventory);
-
-      function updateButtonColor(productName) {
-        const btn = addToInventoryBtn;
-        const color = productName.charAt(0).toLowerCase();
-        btn.style.backgroundColor = getColorCode(color);
-      }
-
-      function getColorCode(character) {
-        switch (character) {
-          case 'a': return 'red';
-          case 'b': return 'blue';
-          case 'c': return 'green';
-          default: return 'blue';
-        }
-      }
 
       function addToInventory() {
         const quantity = parseInt(quantityInput.value);
@@ -179,7 +157,10 @@
           quantityUnit: quantityUnit
         };
         addNewInventoryItem(newItemData);
-        document.getElementById('new-inventory-item-form').reset();
+        // Clear input fields after adding
+        quantityInput.value = '';
+        quantityUnitInput.value = '';
+        saveToLocalStorage(); // Call saveToLocalStorage after adding
       }
 
       function addNewInventoryItem(item) {
@@ -207,44 +188,71 @@
       }
 
       function editInventoryItem(row) {
-        const nameCell = row.cells[0];
-        const quantityCell = row.cells[1];
-        const quantityUnitCell = row.cells[2];
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.value = nameCell.textContent.trim();
-        const quantityInput = document.createElement('input');
-        quantityInput.type = 'number';
-        quantityInput.value = quantityCell.textContent;
-        const quantityUnitInput = document.createElement('input');
-        quantityUnitInput.type = 'text';
-        quantityUnitInput.value = quantityUnitCell.textContent;
-        nameCell.textContent = '';
-        quantityCell.textContent = '';
-        quantityUnitCell.textContent = '';
-        nameCell.appendChild(nameInput);
-        quantityCell.appendChild(quantityInput);
-        quantityUnitCell.appendChild(quantityUnitInput);
+        const cells = row.cells;
+        const productName = cells[0].textContent;
+        const quantity = cells[1].textContent;
+        const quantityUnit = cells[2].textContent;
+
+        cells[0].innerHTML = `<input type="text" value="${productName}">`;
+        cells[1].innerHTML = `<input type="number" value="${quantity}">`;
+        cells[2].innerHTML = `<input type="text" value="${quantityUnit}">`;
+
         row.querySelector('.edit-btn').style.display = 'none';
         row.querySelector('.save-btn').style.display = 'inline-block';
       }
 
       function saveInventoryItem(row) {
-        const nameCell = row.cells[0];
-        const quantityCell = row.cells[1];
-        const quantityUnitCell = row.cells[2];
-        const nameInput = nameCell.querySelector('input');
-        const quantityInput = quantityCell.querySelector('input');
-        const quantityUnitInput = quantityUnitCell.querySelector('input');
-        nameCell.textContent = nameInput.value;
-        quantityCell.textContent = quantityInput.value;
-        quantityUnitCell.textContent = quantityUnitInput.value;
+        const cells = row.cells;
+        const productName = cells[0].querySelector('input').value;
+        const quantity = cells[1].querySelector('input').value;
+        const quantityUnit = cells[2].querySelector('input').value;
+
+        cells[0].textContent = productName;
+        cells[1].textContent = quantity;
+        cells[2].textContent = quantityUnit;
+
         row.querySelector('.edit-btn').style.display = 'inline-block';
         row.querySelector('.save-btn').style.display = 'none';
+
+        saveToLocalStorage(); // Call saveToLocalStorage after editing
       }
 
       function deleteInventoryItem(row) {
         row.remove();
+        saveToLocalStorage(); // Call saveToLocalStorage after deleting
       }
+
+      // Save to local storage
+      function saveToLocalStorage() {
+        const inventoryData = [];
+        const rows = document.querySelectorAll('#inventory-table-body tr');
+        rows.forEach(row => {
+          const cells = row.cells;
+          const item = {
+            productName: cells[0].textContent,
+            quantity: cells[1].textContent,
+            quantityUnit: cells[2].textContent
+          };
+          inventoryData.push(item);
+        });
+
+        localStorage.setItem('inventoryData', JSON.stringify(inventoryData));
+      }
+
+      // Load from local storage
+      function loadFromLocalStorage() {
+        const storedData = localStorage.getItem('inventoryData');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          parsedData.forEach(item => {
+            addNewInventoryItem(item);
+          });
+        }
+      }
+
+      // Call loadFromLocalStorage when the page loads
+      loadFromLocalStorage();
     });
   </script>
+</body>
+</html>
