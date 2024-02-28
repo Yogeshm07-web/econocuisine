@@ -33,7 +33,7 @@ class BasketsController < ApplicationController
   end
 
   def add_to_basket
-    pro = Product.find(params[:id])
+    pro = Product.find(params[:product][:product_id])
     basket = Basket.new(user: current_user)
     basket.product_id = pro.id
     if basket.save
@@ -43,7 +43,7 @@ class BasketsController < ApplicationController
       puts "Failed to save basket item: #{basket_item.errors.full_messages}"
       redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket."
     end
-    
+
     product = Product.find(params[:product_id])
     quantity = params[:quantity_bought].to_i
     basket_item = { product_id: product.id, quantity: quantity }
