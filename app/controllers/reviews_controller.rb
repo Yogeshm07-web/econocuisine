@@ -12,6 +12,7 @@ class ReviewsController < ApplicationController
 
   def index
     @review=Review.all
+    @expenses=Expense.all
   end
 
   def show

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :baskets, only: [:index, :show, :create, :update, :destroy]
   resources :products
   resources :reviews
+  resources :incomes
+  resources :expenses
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
   root to: "pages#home"
   get '/signin', to: 'sessions#new'
