@@ -30,6 +30,9 @@ h1.title {
 
 .swiper-slide img {
   width: 100%;
+  object-fit: contain;
+  width: auto;
+  height: 90%;
 }
 
 .container-image {
