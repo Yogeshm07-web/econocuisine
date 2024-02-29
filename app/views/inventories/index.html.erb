@@ -3,248 +3,304 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Management</title>
-  
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Custom CSS -->
-  <style>
-    
-    /* Custom CSS */
-    body {
-      font-family: 'Roboto', sans-serif;
-      padding-top: 20px;
-      background: linear-gradient(to right, #667eea, #764ba2);
-      color: #fff;
-    }
-
-    .container {
-      max-width: 800px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin: 0 auto 50px; /* Adjust margin as needed */
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-      text-align: center;
-      font-weight: bold;
-      font-size: 28px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .background-image {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      background-image: url('<%= cl_image_path("vqtpdq8z9z6zjz49zbol", width: 1920, height: 500, crop: :fill) %>'); /* Adjust width and height as needed */
-      background-size: cover; /* Fit the image within the container */
-      background-repeat: no-repeat; /* Prevent image from repeating */
-      background-position: center; /* Center the image */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      color: white; /* Set text color to white for better visibility */
-      text-align: center;
-    }
-
-    .nice-div {
-      max-width: 600px;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .nice-div h2 {
-      color: #333;
-      font-size: 24px;
-    }
-
-    .nice-div p {
-      color: #666;
-      font-size: 18px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="background-image">
-    <div class="container">
-      <a href="/" class="home-link">
-    <span class="home-icon">🏠</span>
-    <span class="home-text">Back to Home</span>
-  </a>
-
-      <div class="nice-div">
-        <h2>Welcome to Inventory Management System</h2>
-        <!-- Add more content here if needed -->
-      </div>
-
-            <!-- Include the form for adding new inventory items -->
-      <%= render 'form', inventory: @inventory %>
-
-      <table class="table" id="inventory-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Quantity Unit</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="inventory-table-body">
-          <!-- Render existing inventory items -->
-          <%= render @inventory_items %>
-        </tbody>
-      </table>
-      
-      <form id="new-inventory-item-form">
-        <!-- Form for adding new inventory items -->
-        <select id="product-list" name="product_id">
-          <% @products.each do |product| %>
-            <option value="<%= product.id %>"><%= product.name %></option>
-          <% end %>
-        </select>
-        <input type="number" id="quantity" name="quantity" required placeholder="Quantity">
-        <!-- Dropdown for selecting quantity unit -->
-        <select id="quantity-unit" name="quantity-unit" required>
-          <option value="">Select Quantity Unit</option>
-          <option value="kg">kg</option>
-          <option value="g">g</option>
-          <option value="pcs">pcs</option>
-          <option value="pc">pc</option>
-          <option value="L">L</option>
-          <option value="CL">CL</option>
-          <!-- Add more options as needed -->
-        </select>
-        <!-- Button with dynamic color based on product name -->
-        <button type="button" id="add-to-inventory-btn" class="btn btn-secondary">Add to Inventory</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- JavaScript code -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const quantityInput = document.getElementById('quantity');
-      const productSelect = document.getElementById('product-list');
-      const quantityUnitInput = document.getElementById('quantity-unit');
-      const addToInventoryBtn = document.getElementById('add-to-inventory-btn');
-      const inventoryTableBody = document.getElementById('inventory-table-body');
-
-      productSelect.addEventListener('change', function() {
-        const productName = this.options[this.selectedIndex].text;
-        updateButtonColor(productName);
-      });
-
-      addToInventoryBtn.addEventListener('click', addToInventory);
-
-      function updateButtonColor(productName) {
-        const btn = addToInventoryBtn;
-        const color = productName.charAt(0).toLowerCase();
-        btn.style.backgroundColor = getColorCode(color);
+  <title>E-Commerce Inventory Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      /* Custom CSS */
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
       }
 
-      function getColorCode(character) {
-        switch (character) {
-          case 'a': return 'red';
-          case 'b': return 'blue';
-          case 'c': return 'green';
-          default: return 'blue';
-        }
-      }
+      .background-image {
+        background-image: url('<%= cl_image_path("vqtpdq8z9z6zjz49zbol", width: 1920, height: 500, crop: :fill) %>'); /* Adjust width and height as needed */
+        background-size: cover; /* Fit the image within the container */
+        background-repeat: no-repeat; /* Prevent image from repeating */
+        background-position: center; /* Center the image */
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              }
 
-      function addToInventory() {
-        const quantity = parseInt(quantityInput.value);
-        const productName = productSelect.options[productSelect.selectedIndex].text;
-        const quantityUnit = quantityUnitInput.value.trim();
-        if (isNaN(quantity) || quantity <= 0 || !quantityUnit) {
-          alert('Please enter a valid quantity and quantity unit.');
-          return;
-        }
-        const newItemData = {
-          productName: productName,
-          quantity: quantity,
-          quantityUnit: quantityUnit
-        };
-        addNewInventoryItem(newItemData);
-        document.getElementById('new-inventory-item-form').reset();
-      }
+              .container {
+                max-width: 800px;
+              }
 
-      function addNewInventoryItem(item) {
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-          <td>${item.productName}</td>
-          <td>${item.quantity}</td>
-          <td>${item.quantityUnit}</td>
-          <td>
-            <button type="button" class="edit-btn">Edit</button>
-            <button type="button" class="save-btn" style="display: none;">Save</button>
-            <button type="button" class="delete-btn">Delete</button>
-          </td>
-        `;
-        inventoryTableBody.appendChild(newRow);
-        newRow.querySelector('.edit-btn').addEventListener('click', function() {
-          editInventoryItem(newRow);
-        });
-        newRow.querySelector('.save-btn').addEventListener('click', function() {
-          saveInventoryItem(newRow);
-        });
-        newRow.querySelector('.delete-btn').addEventListener('click', function() {
-          deleteInventoryItem(newRow);
-        });
-      }
+              .nice-div {
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-top: 20px;
+              }
 
-      function editInventoryItem(row) {
-        const nameCell = row.cells[0];
-        const quantityCell = row.cells[1];
-        const quantityUnitCell = row.cells[2];
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.value = nameCell.textContent.trim();
-        const quantityInput = document.createElement('input');
-        quantityInput.type = 'number';
-        quantityInput.value = quantityCell.textContent;
-        const quantityUnitInput = document.createElement('input');
-        quantityUnitInput.type = 'text';
-        quantityUnitInput.value = quantityUnitCell.textContent;
-        nameCell.textContent = '';
-        quantityCell.textContent = '';
-        quantityUnitCell.textContent = '';
-        nameCell.appendChild(nameInput);
-        quantityCell.appendChild(quantityInput);
-        quantityUnitCell.appendChild(quantityUnitInput);
-        row.querySelector('.edit-btn').style.display = 'none';
-        row.querySelector('.save-btn').style.display = 'inline-block';
-      }
+              .nice-div h2 {
+                color: #333;
+                font-size: 24px;
+                margin-bottom: 20px;
+                text-align: center; /* Center the heading */
+              }
 
-      function saveInventoryItem(row) {
-        const nameCell = row.cells[0];
-        const quantityCell = row.cells[1];
-        const quantityUnitCell = row.cells[2];
-        const nameInput = nameCell.querySelector('input');
-        const quantityInput = quantityCell.querySelector('input');
-        const quantityUnitInput = quantityUnitCell.querySelector('input');
-        nameCell.textContent = nameInput.value;
-        quantityCell.textContent = quantityInput.value;
-        quantityUnitCell.textContent = quantityUnitInput.value;
-        row.querySelector('.edit-btn').style.display = 'inline-block';
-        row.querySelector('.save-btn').style.display = 'none';
-      }
+              #home-btn {
+                margin-top: 20px;
+                text-align: center; /* Center the button */
+              }
 
-      function deleteInventoryItem(row) {
-        row.remove();
-      }
-    });
-  </script>
+              #inventory-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+              }
+
+              #inventory-table th,
+              #inventory-table td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+              }
+
+              #inventory-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+                color: #333;
+              }
+
+              .edit-btn,
+              .save-btn,
+              .delete-btn {
+                padding: 6px 10px;
+                cursor: pointer;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: background-color 0.3s ease;
+              }
+
+              .edit-btn {
+                background-color: #007bff;
+                color: #fff;
+              }
+
+              .edit-btn:hover {
+                background-color: #0056b3;
+              }
+
+              .save-btn {
+                background-color: #28a745;
+                color: #fff;
+              }
+
+              .save-btn:hover {
+                background-color: #218838;
+              }
+
+              .delete-btn {
+                background-color: #dc3545;
+                color: #fff;
+              }
+
+              .delete-btn:hover {
+                background-color: #c82333;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="background-image">
+              <div class="container">
+                <div class="nice-div">
+                  <h2>Welcome to our Inventory Management System</h2>
+                  <!-- Add more content here if needed -->
+                    <div id="home-btn">
+                      <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Go Back Home
+                      </a>
+                    </div>
+                    </div> <!-- Close the 'nice-div' div -->
+                </div>
+                <!-- Include the form for adding new inventory items -->
+                <%= render 'form', inventory: @inventory %>
+                <table class="table" id="inventory-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>Quantity Unit</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-table-body">
+                    <!-- Render existing inventory items -->
+                    <%= render @inventory_items %>
+                  </tbody>
+                </table>
+                <form id="new-inventory-item-form">
+                  <!-- Form for adding new inventory items -->
+                  <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                      <select id="product-list" name="product_id" class="form-control">
+                        <% @products.each do |product| %>
+                          <option value="<%= product.id %>"><%= product.name %></option>
+                        <% end %>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <input type="number" id="quantity" name="quantity" required placeholder="Quantity" class="form-control">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <select id="quantity-unit" name="quantity-unit" required class="form-control">
+                        <option value="">Select Quantity Unit</option>
+                        <option value="kg">kg</option>
+                        <option value="g">g</option>
+                        <option value="pcs">pcs</option>
+                        <option value="pc">pc</option>
+                        <option value="L">L</option>
+                        <option value="CL">CL</option>
+                        <!-- Add more options as needed -->
+                      </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                      <button type="button" id="add-to-inventory-btn" class="btn btn-primary">Add to Inventory</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const quantityInput = document.getElementById('quantity');
+                const productSelect = document.getElementById('product-list');
+                const quantityUnitInput = document.getElementById('quantity-unit');
+                const addToInventoryBtn = document.getElementById('add-to-inventory-btn');
+                const inventoryTableBody = document.getElementById('inventory-table-body');
+
+                addToInventoryBtn.addEventListener('click', function() {
+                  addToInventory();
+                });
+
+                function addToInventory() {
+                  const quantity = parseInt(quantityInput.value);
+                  const productName = productSelect.options[productSelect.selectedIndex].text;
+                  const quantityUnit = quantityUnitInput.value.trim();
+                  if (isNaN(quantity) || quantity <= 0 || !quantityUnit) {
+                    alert('Please enter a valid quantity and quantity unit.');
+                    return;
+                  }
+                  const newItemData = {
+                    productName: productName,
+                    quantity: quantity,
+                    quantityUnit: quantityUnit
+                  };
+                  addNewInventoryItem(newItemData);
+                  // Clear input fields after adding
+                  quantityInput.value = '';
+                  quantityUnitInput.value = '';
+                  saveToCookie(); // Call saveToCookie after adding
+                }
+
+                function addNewInventoryItem(item) {
+                  const newRow = document.createElement('tr');
+                  newRow.innerHTML = `
+                    <td>${item.productName}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.quantityUnit}</td>
+                    <td>
+                      <button type="button" class="edit-btn btn btn-sm btn-primary">Edit</button>
+                      <button type="button" class="save-btn btn btn-sm btn-success" style="display: none;">Save</button>
+                      <button type="button" class="delete-btn btn btn-sm btn-danger">Delete</button>
+                    </td>
+                  `;
+                  inventoryTableBody.appendChild(newRow);
+                  newRow.querySelector('.edit-btn').addEventListener('click', function() {
+                    const productName = newRow.cells[0].textContent;
+                    const quantity = newRow.cells[1].textContent;
+                    const quantityUnit = newRow.cells[2].textContent;
+                    editInventoryItem(newRow, productName, quantity, quantityUnit);
+                  });
+                  newRow.querySelector('.save-btn').addEventListener('click', function() {
+                    saveInventoryItem(newRow);
+                  });
+                  newRow.querySelector('.delete-btn').addEventListener('click', function() {
+                    deleteInventoryItem(newRow);
+                  });
+                }
+
+                function editInventoryItem(row, productName, quantity, quantityUnit) {
+                  const cells = row.cells;
+                  cells[0].innerHTML = `<input type="text" value="${productName}" class="form-control">`;
+                  cells[1].innerHTML = `<input type="number" value="${quantity}" class="form-control">`;
+                  cells[2].innerHTML = `<input type="text" value="${quantityUnit}" class="form-control">`;
+                  row.querySelector('.edit-btn').style.display = 'none';
+                  row.querySelector('.save-btn').style.display = 'inline-block';
+                }
+
+                function saveInventoryItem(row) {
+                  const cells = row.cells;
+                  const productName = cells[0].querySelector('input').value;
+                  const quantity = cells[1].querySelector('input').value;
+                  const quantityUnit = cells[2].querySelector('input').value;
+
+                  cells[0].textContent = productName;
+                  cells[1].textContent = quantity;
+                  cells[2].textContent = quantityUnit;
+
+                  row.querySelector('.edit-btn').style.display = 'inline-block';
+                  row.querySelector('.save-btn').style.display = 'none';
+
+                  saveToCookie(); // Call saveToCookie after editing
+                }
+
+                function deleteInventoryItem(row) {
+                  row.remove();
+                  saveToCookie(); // Call saveToCookie after deleting
+                }
+                  
+                // Save to cookie
+                function saveToCookie() {
+                  const inventoryData = [];
+                  const rows = document.querySelectorAll('#inventory-table-body tr');
+                  rows.forEach(row => {
+                    const cells = row.cells;
+                    const item = {
+                      productName: cells[0].textContent,
+                      quantity: cells[1].textContent,
+                      quantityUnit: cells[2].textContent
+                    };
+                    inventoryData.push(item);
+                  });
+
+                  // Convert data to a JSON string
+                  const jsonData = JSON.stringify(inventoryData);
+                  
+                  // Set the cookie with the data
+                  document.cookie = `inventoryData=${encodeURIComponent(jsonData)}; expires=${new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString()}; path=/`;
+                }
+
+                // Load from cookie
+                function loadFromCookie() {
+                  const cookies = document.cookie.split(';');
+                  let storedData;
+                  cookies.forEach(cookie => {
+                    const [name, value] = cookie.split('=');
+                    if (name.trim() === 'inventoryData') {
+                      storedData = decodeURIComponent(value);
+                    }
+                  });
+
+                  if (storedData) {
+                    const parsedData = JSON.parse(storedData);
+                    parsedData.forEach(item => {
+                      addNewInventoryItem(item);
+                    });
+                  }
+                }
+                
+                // Call loadFromCookie when the page loads
+                loadFromCookie();
+              });
+            </script>
+          </body>
+          </html>

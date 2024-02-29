@@ -1,4 +1,4 @@
-# class BasketItemsController < ApplicationController
+class BasketItemsController < ApplicationController
   def create
     @basket_item = current_user.basket_items.build(basket_item_params)
     if @basket_item.save
@@ -8,6 +8,13 @@
       render :new  # Rendering the new action/view for creating basket items again
     end
   end
+
+  def destroy
+    @basket_item = BasketItem.find(params[:id])
+    @basket_item.destroy
+    redirect_to baskets_path, notice: 'Item removed from basket.'
+  end
+
 
   private
 

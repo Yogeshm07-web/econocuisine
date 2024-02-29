@@ -1,36 +1,125 @@
-<div class="container">
-  <h1>Basket Page</h1>
-  <a href="/" class="home-link">
-    <span class="home-icon">🏠</span>
-    <span class="home-text">Back to Home</span>
-  </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basket Page</title>
+  <style>
+    /* Styles for enhanced appearance */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
 
-  <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Stock</th>
-    </thead>
-    <tbody>
-      <% if @basket.present? %>
-        <% @basket.each do |basket_item| %>
-          <% @prod = Product.find(basket_item.product_id)%>
-          <tr>
-              <td><%= @prod.name %></td>
-              <td><%= @prod.description %></td>
-              <td><%= @prod.category %></td>
-              <td><%= number_to_currency(@prod.price / 100.0) %></td>
-              <td><%= @prod.stock %></td>
-          </tr>
-        <% end %>
-      <% else %>
-          <tr>
-              <td colspan="5">No items in the basket</td>
-          </tr>
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .home-link {
+      display: block;
+      margin-bottom: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .delete-btn {
+      padding: 8px 12px;
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #e60000;
+    }
+
+    .no-items-msg {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-image">
+    <a href="/" class="home-link">
+      <span class="home-icon">🏠</span>
+      <span class="home-text">Back to Home</span>
+    </a>
+
+    <div class="container">
+      <% if @basket&.basket_items&.present? %>
+        <div class="total-price">
+          <p>Total Price: Rs <%= @total_price %></p>
+        </div>
       <% end %>
-      </tbody>
-  </table>
-</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="product_table_body">
+          <% if @basket&.basket_items&.present? %>
+            <% @basket.basket_items.each do |basket_item| %>
+              <% product = basket_item.product %>
+              <tr id="product_row_<%= product.id %>">
+                <td><%= product.name %></td>
+                <td><%= product.description %></td>
+                <td>Rs <%= product.price %></td>
+                <td><%= basket_item.quantity %></td>
+                <td>Rs <%= basket_item.quantity * product.price %></td> <!-- Calculated total price -->
+                <td>
+                  <%= link_to 'Delete', delete_basket_item_path(basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="no-items-msg">No items in the basket</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+</body>
+</html>

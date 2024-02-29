@@ -7,31 +7,27 @@
         </a>
     </div>
     <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <ul class="list-unstyled products-list">
-                <% @products.each do |product| %>
-                <li class="product mb-4">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h2><%= product.name %></h2>
-                            <p><%= product.description %></p>
-                            <p>Price: Rs <%=(product.price) %></p>
-                            <%= form_with(model: product, url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
-                            <%= form.hidden_field :product_id, value: product.id %>
-                            <div class="form-group">
-                                <%= form.label :quantity_bought %>
-                                <%= form.text_field :quantity_bought, class: "form-control" %>
-                            </div>
-                            <%= form.submit "Add to Basket", class: "btn btn-primary" %>
-                            <% end %>
-                        </div>
-                        <div class="col-md-4">
-                            <%= image_tag product.image if product.image.attached? %>
-                        </div>
-                    </div>
-                </li>
-                <% end %>
-            </ul>
+        <% @products.each do |product| %>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <%= image_tag product.image, class: "card-img-top" if product.image.attached? %>
+                <div class="card-body">
+                    <h5 class="card-title"><%= product.name %></h5>
+                    <p class="card-text"><%= product.description %></p>
+                    <p class="card-text">Price: Rs <%= product.price %></p>
+                </div>
+                <div class="card-footer">
+                    <%= form_with(url: add_to_basket_path(product), method: :post, local: true) do |form| %>
+                      <%= hidden_field_tag :product_id, product.id %>
+                      <div class="form-group">
+                        <%= label_tag :quantity, 'Quantity' %>
+                        <%= number_field_tag :quantity, 1, class: "form-control", min: 1 %>
+                      </div>
+                      <%= submit_tag "Add to Basket", class: "btn btn-primary btn-block" %>
+                    <% end %>
+                </div>
+            </div>
         </div>
+        <% end %>
     </div>
 </div>

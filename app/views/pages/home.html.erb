@@ -23,7 +23,7 @@
     .container {
       max-width: 800px;
       background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
+      border-radius: 0;
       padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin: 0 auto 50px; /* Adjust margin as needed */
@@ -72,57 +72,72 @@
       transform: scale(1.05);
     }
 
+    .container-fluid {
+      display: flex;
+      width: 100%;
+      padding: 0 !important;
+    }
+
   </style>
 </head>
 <body>
+  <div class="container-fluid">
 
-  <div class="container">
-    <div class="logo-container">
-      <%= image_tag 'econocuisine.png', alt: 'Logo', class: "logo" %>
+  <div class="container-image">
+    <%= image_tag 'model.jpg'%>
+  </div>
+
+    <div class="container" style="margin: 0;max-width: 60%;">
+      <div class="logo-container">
+        <%= image_tag 'econocuisine.png', alt: 'Logo', class: "logo" %>
+      </div>
+
+      <h1 class="title">Econocuisine</h1>
+
+      <!-- Slider main container -->
+      <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide">Slide 1</div>
+          <div class="swiper-slide">Slide 2</div>
+          <div class="swiper-slide">Slide 3</div>
+          <!-- More slides -->
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <!-- If we need scrollbar -->
+        <div class="swiper-scrollbar"></div>
+      </div>
+
+      <% if user_signed_in? %>
+        <div class="button-container">
+          <%= link_to inventories_path do %>
+            <%= image_tag('inventory.png', alt: 'Inventory', class: "list_of_btn") %>
+            <span>Inventory</span>
+          <% end %>
+          <%= link_to budgets_path do %>
+            <%= image_tag('budget.png', alt: 'Budget', class: "list_of_btn") %>
+            <span>Budget</span>
+          <% end %>
+          <%= link_to le_wagon_supermarket_path do %>
+            <%= image_tag('econocuisine.png', alt: 'Le Wagon SuperMarket', class: "list_of_btn") %>
+            <span>Le Wagon SuperMarket</span>
+          <% end %>
+          <%= link_to reviews_path  do %>
+            <%= image_tag('expense_tracker.png', alt: 'Review', class: "list_of_btn") %>
+            <span>Expense Tracker</span>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
-    <h1 class="title">Econocuisine</h1>
-
-    <!-- Slider main container -->
-<div class="swiper">
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper">
-    <!-- Slides -->
-    <div class="swiper-slide">Slide 1</div>
-    <div class="swiper-slide">Slide 2</div>
-    <div class="swiper-slide">Slide 3</div>
-    <!-- More slides -->
+  <div class="container-image">
+    <%= image_tag 'model(2).jpg'%>
   </div>
-  <!-- If we need pagination -->
-  <div class="swiper-pagination"></div>
-  <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
-  <!-- If we need scrollbar -->
-  <div class="swiper-scrollbar"></div>
-</div>
-
-    <% if user_signed_in? %>
-  <div class="button-container">
-    <%= link_to inventories_path do %>
-      <%= image_tag('inventory.png', alt: 'Inventory', class: "list_of_btn") %>
-      <span>Inventory</span>
-    <% end %>
-    <%= link_to budgets_path do %>
-      <%= image_tag('budget.png', alt: 'Budget', class: "list_of_btn") %>
-      <span>Budget</span>
-    <% end %>
-    <%= link_to le_wagon_supermarket_path do %>
-      <%= image_tag('econocuisine.png', alt: 'Le Wagon SuperMarket', class: "list_of_btn") %>
-      <span>Le Wagon SuperMarket</span>
-    <% end %>
-    <div class="button-container">
-    <%= link_to reviews_path  do %>
-      <%= image_tag('https://images.lawpath.com.au/2019/12/performance-review-phrases-1200x550.jpg', alt: 'Review', class: "list_of_btn") %>
-      <span>Review</span>
-    <% end %>
-  </div>
-<% end %>
 
   </div>
 
@@ -130,7 +145,7 @@
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <!-- Initialize Swiper -->
   <script>
-    var swiper = new Swiper('.swiper-container', {
+    var swiper = new Swiper('.swiper', {
       pagination: {
         el: '.swiper-pagination',
       },
