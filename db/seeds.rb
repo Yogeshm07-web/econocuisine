@@ -1,3 +1,9 @@
+# Delete all records in the basket_items table
+BasketItem.destroy_all
+
+# Delete all records in the baskets table
+Basket.destroy_all
+
 # Seed Users
 puts 'Seeding Users...'
 admin_attributes = {
