@@ -12,16 +12,20 @@ Rails.application.routes.draw do
   resources :products do
     post 'add_to_basket', on: :member
   end
- 
-
-
   post '/baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
-
-  # Health check routeq
   get "up" => "rails/health#show", as: :rails_health_check
-
   post 'add_to_basket', to: 'basket_items#add_to_basket'
-
   delete '/basket_items/:id', to: 'basket_items#destroy', as: 'delete_basket_item'
-
 end
+
+
+
+
+
+
+
+
+
+
+
+
