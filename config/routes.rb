@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   post '/baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
 
-  # Health check route
+  # Health check routeq
   get "up" => "rails/health#show", as: :rails_health_check
 
   post 'add_to_basket', to: 'basket_items#add_to_basket'
