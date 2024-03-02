@@ -5,7 +5,9 @@ class BasketsController < ApplicationController
   def index
     @basket = current_user.basket
     @basket_total = BasketItem.sum(:price)
-    @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
+    if @basket != nil 
+      @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
+    end
   end
 
   def create
@@ -14,7 +16,12 @@ class BasketsController < ApplicationController
   end
 
   def show
-    @basket_items = @basket.basket_items.includes(:product)
+    @basket = current_user.basket
+    if @basket
+      @basket_items = @basket.basket_items.includes(:product)
+    else
+      @basket_items = []
+    end
   end
 
   def edit
@@ -30,8 +37,8 @@ class BasketsController < ApplicationController
   end
 
   def destroy
-    @basket.destroy
-    redirect_to baskets_url, notice: 'Basket was successfully destroyed.'
+    @basket.destroy!
+    redirect_to baskets_path, notice: 'Basket was successfully destroyed.'
   end
 
   def add_to_basket
@@ -51,27 +58,7 @@ class BasketsController < ApplicationController
     end
   end
 
-
-   # DELETE /delete_product?id=:id
-   def delete_product
-    @product = Product.find(params[:id])
-    if @product.destroy
-      render json: { status: 'success', message: 'Product deleted successfully' }, status: :ok
-    else
-      render json: { status: 'error', message: 'Failed to delete product' }, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /delete_all_products
-  def delete_all_products
-    if Product.destroy_all
-      render json: { status: 'success', message: 'All products deleted successfully' }, status: :ok
-    else
-      render json: { status: 'error', message: 'Failed to delete all products' }, status: :unprocessable_entity
-    end
-  end
-
-
+   
   # Action for a specific functionality, adjust as needed
   def le_wagon_supermarket
     @basket = current_user.basket || current_user.create_basket

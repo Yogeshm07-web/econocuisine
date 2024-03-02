@@ -68,8 +68,7 @@
     }
   </style>
 </head>
-<body>
-  <div class="container">
+<div class="container">
     <h1 class="mb-4">Budget Page</h1>
     <a href="/" class="home-link">
       <span class="home-icon">🏠</span>
@@ -390,43 +389,244 @@
         var price = parseFloat(item.dataset.price);
         totalPrice += price;
       });
+                      <div class="form-group">
+                            <label for="goalName">Goal Name:</label>
+                            <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="goalAmount">Goal Amount:</label>
+                            <input type="number" id="goalAmount" name="goalAmount" class="form-control" placeholder="Enter goal amount" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
+                        </form>
+                        <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
+                      </div>
+                    </div>
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Basket Total</h4>
+                        <p id="basketTotalPrice" class="card-text">Total Price: Rs0</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-      document.getElementById('totalPrice').textContent = 'Rs' + totalPrice.toFixed(2);
-    }
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Expense Tracking</h4>
+                        <form id="expenseForm" action="/expenses" method="POST">
+                          <div class="form-group">
+                            <label for="expenseDate">Date:</label>
+                            <input type="date" id="expenseDate" name="expenseDate" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="expenseCategory">Category:</label>
+                            <input type="text" id="expenseCategory" name="expenseCategory" class="form-control" placeholder="Enter expense category" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="expenseAmount">Amount:</label>
+                            <input type="number" id="expenseAmount" name="expenseAmount" class="form-control" placeholder="Enter expense amount" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="expenseNotes">Notes:</label>
+                            <textarea id="expenseNotes" name="expenseNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
+                          </div>
+                          <button type="submit" id="addExpenseButton" class="btn btn-primary btn-block">Add Expense</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
 
-    // Example: Add an item to the basket
-    function addItem(name, price) {
-      var basket = document.getElementById('basket');
-      var item = document.createElement('div');
-      item.classList.add('item');
-      item.dataset.price = price;
-      item.textContent = name + ': Rs' + price.toFixed(2);
-      basket.appendChild(item);
-      updateTotalPrice();
-    }
+                  <div class="col-md-4">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Income Tracking</h4>
+                        <form id="incomeForm" action="/income" method="POST">
+                          <div class="form-group">
+                            <label for="incomeSource">Source:</label>
+                            <input type="text" id="incomeSource" name="incomeSource" class="form-control" placeholder="Enter income source" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="incomeAmount">Amount:</label>
+                            <input type="number" id="incomeAmount" name="incomeAmount" class="form-control" placeholder="Enter income amount" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="incomeDate">Date:</label>
+                            <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-block">Add Income</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
 
-    // Example: Remove an item from the basket
-    function removeItem(item) {
-      item.parentNode.removeChild(item);
-      updateTotalPrice();
-    }
+                  <div class="col-md-4">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Expense Analysis</h4>
+                        <!-- Include visualizations or charts for expense analysis -->
+                        <canvas id="budgetGraph"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-    
-    var items = document.querySelectorAll('.item');
-    items.forEach(function(item) {
-      item.addEventListener('click', function() {
-        removeItem(item);
-      });
-    });
+                <!-- Additional Sections -->
+                <!-- Add additional sections as needed -->
 
-    // Function to render the graph
-    function renderGraph() {
-      const remainingBalance = totalIncome - totalExpenses;
-      new Chart(document.getElementById('budgetGraph'), {
-        type: 'pie', // Change chart type to 'pie'
-        data: {
-          labels: ['Total Expenses', 'Remaining Balance'],
-          datasets: [{
+              </div>
+              
+                <!-- Bootstrap JS -->
+              <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> // Add the import statement for Chart.js library
+              <script>
+                let currencySymbol = 'Rs';
+                let totalExpenses = parseFloat(localStorage.getItem('totalExpenses')) || 0;
+                let totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
+
+                updateTotalExpensesDisplay();
+                updateTotalIncomeDisplay();
+
+                function updateTotalExpensesDisplay() {
+                  const totalExpensesDisplayElement = document.getElementById('totalExpensesAmount');
+                  totalExpensesDisplayElement.textContent = `Total Expenses: ${currencySymbol}${totalExpenses.toFixed(2)}`;
+                  updateRemainingBalanceDisplay();
+                }
+
+                function updateTotalIncomeDisplay() {
+                  const totalIncomeDisplayElement = document.getElementById('totalIncomeAmount');
+                  totalIncomeDisplayElement.textContent = `Total Income: ${currencySymbol}${totalIncome.toFixed(2)}`;
+                  updateRemainingBalanceDisplay();
+                }
+
+                function updateRemainingBalanceDisplay() {
+                  const remainingBalanceDisplayElement = document.getElementById('RemainingBalance');
+                  const remainingBalance = totalIncome - totalExpenses;
+                  remainingBalanceDisplayElement.textContent = `Remaining Balance: ${currencySymbol}${remainingBalance.toFixed(2)}`;
+                }
+
+                function editTotal(type) {
+                  const newValue = prompt(`Enter new ${type === 'income' ? 'income' : 'expense'} amount:`);
+                  if (newValue !== null) {
+                    if (type === 'income') {
+                      totalIncome = parseFloat(newValue);
+                      localStorage.setItem('totalIncome', totalIncome);
+                      updateTotalIncomeDisplay();
+                    } else {
+                      totalExpenses = parseFloat(newValue);
+                      localStorage.setItem('totalExpenses', totalExpenses);
+                      updateTotalExpensesDisplay();
+                    }
+                    renderGraph();
+                  }
+                }
+
+                function deleteTotal(type) {
+                  if (confirm(`Are you sure you want to delete the total ${type === 'income' ? 'income' : 'expenses'}?`)) {
+                    if (type === 'income') {
+                      totalIncome = 0;
+                      localStorage.setItem('totalIncome', totalIncome);
+                      updateTotalIncomeDisplay();
+                    } else {
+                      totalExpenses = 0;
+                      localStorage.setItem('totalExpenses', totalExpenses);
+                      updateTotalExpensesDisplay();
+                    }
+                    renderGraph();
+                  }
+                }
+
+                function saveTotal(type) {
+                  let newValue = 0;
+                  if (type === 'income') {
+                    newValue = totalIncome;
+                  } else {
+                    newValue = totalExpenses;
+                  }
+                  localStorage.setItem(`total${type === 'income' ? 'Income' : 'Expenses'}`, newValue);
+                  localStorage.setItem('currencySymbol', currencySymbol); // Store the currency symbol
+                  alert(`Total ${type === 'income' ? 'income' : 'expenses'} saved successfully!`);
+                }
+
+                function convertTotal(type) {
+                  const usdToInrRate = 45.62;
+                  if (type === 'income') {
+                    totalIncome = totalIncome / usdToInrRate;
+                    totalExpenses = totalExpenses / usdToInrRate;
+                  } else {
+                    totalExpenses = totalExpenses / usdToInrRate;
+                  }
+                  currencySymbol = '$'; // Change currency symbol to Rs
+                  updateTotalExpensesDisplay();
+                  updateTotalIncomeDisplay();
+                  renderGraph();
+                }
+
+                // Function to calculate basket total and update the #basketTotalPrice element
+                function updateBasketTotal() {
+                  // Placeholder logic to fetch the total price from the server
+                  // Replace this with your actual logic to calculate the total price based on the items in the basket
+                  const basketItems = document.querySelectorAll('.basket-item');
+                  let totalPrice = 0;
+                  basketItems.forEach(item => {
+                    const price = parseFloat(item.querySelector('.item-price').textContent.replace('Rs', ''));
+                    const quantity = parseInt(item.querySelector('.item-quantity').value);
+                    totalPrice += price * quantity;
+                  });
+
+                  const basketTotalPriceElement = document.getElementById('totalPrice');
+                  basketTotalPriceElement.textContent = `Total Price: Rs${totalPrice.toFixed(2)}`;
+                }
+
+                function updateTotalPrice() {
+                  var totalPrice = 0;
+                  var items = document.querySelectorAll('.item');
+
+                  items.forEach(function(item) {
+                    var price = parseFloat(item.dataset.price);
+                    totalPrice += price;
+                  });
+
+                  document.getElementById('totalPrice').textContent = 'Rs' + totalPrice.toFixed(2);
+                }
+
+                // Example: Add an item to the basket
+                function addItem(name, price) {
+                  var basket = document.getElementById('basket');
+                  var item = document.createElement('div');
+                  item.classList.add('item');
+                  item.dataset.price = price;
+                  item.textContent = name + ': Rs' + price.toFixed(2);
+                  basket.appendChild(item);
+                  updateTotalPrice();
+                }
+
+                // Example: Remove an item from the basket
+                function removeItem(item) {
+                  item.parentNode.removeChild(item);
+                  updateTotalPrice();
+                }
+
+                
+                var items = document.querySelectorAll('.item');
+                items.forEach(function(item) {
+                  item.addEventListener('click', function() {
+                    removeItem(item);
+                  });
+                });
+
+                // Function to render the graph
+                function renderGraph() {
+                  const remainingBalance = totalIncome - totalExpenses;
+                  new Chart(document.getElementById('budgetGraph'), {
+                    type: 'pie', // Change chart type to 'pie'
+                    data: {
+                      labels: ['Total Expenses', 'Remaining Balance'],
+                      datasets: [{
             label: 'Budget Overview',
             data: [totalExpenses, remainingBalance],
             backgroundColor: [
