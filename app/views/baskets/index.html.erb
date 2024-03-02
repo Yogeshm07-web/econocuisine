@@ -32,7 +32,7 @@
                 <td><%= basket_item.quantity %></td>
                 <td>Rs <%= basket_item.quantity * product.price %></td> <!-- Calculated total price -->
                 <td>
-                  <%= link_to 'Delete', basket_item_path(basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>                   
+                  <%= link_to 'Delete', basket_item_delete_path(basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>                   
                 </td>
               </tr>
             <% end %>

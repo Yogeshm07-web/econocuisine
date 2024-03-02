@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   resources :reviews
   resources :incomes
   resources :expenses
-  resources :basket_items, only: [:create, :destroy]
+  resources :basket_items, only: [:create]
+  delete "basket_items/:id", to: "basket_items#destroy", as: :basket_item_delete
+
+
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
   root to: "pages#home"
   get '/signin', to: 'sessions#new'
