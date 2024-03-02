@@ -37,7 +37,7 @@ class BasketsController < ApplicationController
   end
 
   def destroy
-    @basket.destroy
+    @basket.destroy!
     redirect_to baskets_path, notice: 'Basket was successfully destroyed.'
   end
 
