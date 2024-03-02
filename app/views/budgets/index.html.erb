@@ -123,6 +123,29 @@
             <h4 class="card-title">Budget Goals</h4>
             <!-- Include the form for budget goals here -->
             <form id="budgetGoalsForm">
+
+                          <div class="form-group">
+                            <label for="goalName">Goal Name:</label>
+                            <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="goalAmount">Goal Amount:</label>
+                            <input type="number" id="goalAmount" name="goalAmount" class="form-control" placeholder="Enter goal amount" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-block">Add Goal</button>
+                        </form>
+                        <ul id="budgetGoalsList" class="list-group mt-3"></ul> <!-- Display saved goals here -->
+                      </div>
+                    </div>
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Basket Total</h4>
+                        <p id="basketTotalPrice" class="card-text">Total Price: Rs0</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               <div class="form-group">
                 <label for="goalName">Goal Name:</label>
                 <input type="text" id="goalName" name="goalName" class="form-control" placeholder="Enter goal name" required>
