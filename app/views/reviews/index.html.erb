@@ -66,15 +66,38 @@
   </a>
   <div class="section">
     <h2 class="section-title">Expense Details</h2>
-    <div class="section-content">
-      <!-- Your expense details here -->
-    </div>
+      <div class="expense-details">
+        <% if @expenses.present? %>
+        <%@expenses.each do |expense| %>
+        <p><strong>Date:</strong> <%= expense.date %></p>
+        <p><strong>Category:</strong> <%= expense.category %></p>
+        <p><strong>Amount:</strong> <%= expense.amount %></p>
+        <p><strong>Notes:</strong> <%= expense.notes %></p>
+        <%end%>
+       <% else %>
+       <p><strong>Date:</strong></p>
+       <p><strong>Category:</strong></p>
+       <p><strong>Amount:</strong> </p>
+       <p><strong>Notes:</strong> </p>
+       <% end %>
+
+      </div>
   </div>
   <div class="section">
     <h2 class="section-title">Income Details</h2>
-    <div class="section-content">
-      <!-- Your income details here -->
-    </div>
+    <div class="income-details">
+      <% if @incomes.present? %>
+      <%@incomes.each do |income| %>
+        <p><strong>Date:</strong> <%= income.source %></p>
+        <p><strong>Category:</strong> <%= income.date %></p>
+        <p><strong>Amount:</strong> <%= income.amount %></p>
+      <%end%>
+      <% else %>
+      <p><strong>Date:</strong></p>
+        <p><strong>Category:</strong></p>
+        <p><strong>Amount:</strong>
+      <%end%>
+      </div>
   </div>
   <div class="section">
     <h2 class="section-title">Add Review Notes</h2>

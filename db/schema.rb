@@ -73,6 +73,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "expenses", force: :cascade do |t|
+    t.string "category"
+    t.decimal "amount"
+    t.date "date"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.string "source"
+    t.decimal "amount"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "inventories", force: :cascade do |t|
     t.integer "quantity"
     t.datetime "created_at", null: false

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     post 'add_to_basket', on: :member
   end
   resources :reviews
+  resources :incomes
+  resources :expenses
   resources :basket_items, only: [:create, :destroy]
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
   root to: "pages#home"
