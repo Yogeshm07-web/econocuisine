@@ -14,7 +14,12 @@ class BasketsController < ApplicationController
   end
 
   def show
-    @basket_items = @basket.basket_items.includes(:product)
+    @basket = current_user.basket
+    if @basket
+      @basket_items = @basket.basket_items.includes(:product)
+    else
+      @basket_items = []
+    end
   end
 
   def edit
