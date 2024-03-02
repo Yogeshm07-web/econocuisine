@@ -110,6 +110,9 @@
                 <td>
                   <%= link_to 'Delete', delete_basket_item_path(basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>                   </td>
               </tr>
+            <% end %>
+          <% else %>
+            <tr>
               <td colspan="6" class="no-items-msg">No items in the basket</td>
             </tr>
           <% end %>
