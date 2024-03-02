@@ -9,16 +9,13 @@ class InventoriesController < ApplicationController
 
   def create
     @inventory = Inventory.new(inventory_params)
-
-    respond_to do |format|
-      if @inventory.save
-        format.html { redirect_to inventories_path, notice: 'Inventory item was successfully added.' }
-        format.js # Render create.js.erb
-      else
-        @inventory_items = Inventory.all
-        format.html { render :index }
-        format.js # Render create.js.erb
-      end
+    @inventory.user = current_user
+    @inventory.basket_id = 1
+    
+    if @inventory.save
+      redirect_to root_path
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -56,7 +53,7 @@ class InventoriesController < ApplicationController
   private
 
   def inventory_params
-  params.require(:inventory).permit(:name, :quantity, :quantity_unit) # Adjust permitted attributes as needed
+  params.require(:inventory).permit(:name, :quantity) # Adjust permitted attributes as needed
   end
 
 end
