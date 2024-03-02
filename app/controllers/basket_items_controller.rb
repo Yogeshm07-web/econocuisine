@@ -1,4 +1,6 @@
 class BasketItemsController < ApplicationController
+  before_action :set_basket_item, only: [:destroy]
+
   def create
     @basket_item = current_user.basket_items.build(basket_item_params)
     if @basket_item.save
@@ -10,13 +12,18 @@ class BasketItemsController < ApplicationController
   end
 
   def destroy
-    @basket_item = BasketItem.find(params[:id])
     @basket_item.destroy
     redirect_to baskets_path, notice: 'Item removed from basket.'
   end
 
-
   private
+
+  def set_basket_item
+    @basket_item = BasketItem.find_by(id: params[:id])
+    if @basket_item.nil?
+      redirect_to baskets_path, alert: 'Basket item not found.'
+    end
+  end
 
   def basket_item_params
     params.require(:basket_item).permit(:product_id, :quantity)
