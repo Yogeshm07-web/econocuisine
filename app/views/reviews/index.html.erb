@@ -1,63 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      #display {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-      }
-    }
-    h1 {
-      margin-top: 0;
-    }
-    .section {
-      margin-bottom: 20px;
-    }
-    .section-title {
-      margin-top: 0;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    .section-content {
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .form-group {
-      margin-bottom: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      resize: vertical;
-    }
-  </style>
-</head>
-<body>
-
 <div class="container">
   <h1>Expense Tracker</h1>
   <a href="/" class="home-link">
@@ -66,38 +6,30 @@
   </a>
   <div class="section">
     <h2 class="section-title">Expense Details</h2>
-      <div class="expense-details">
-        <% if @expenses.present? %>
-        <%@expenses.each do |expense| %>
-        <p><strong>Date:</strong> <%= expense.date %></p>
-        <p><strong>Category:</strong> <%= expense.category %></p>
-        <p><strong>Amount:</strong> <%= expense.amount %></p>
-        <p><strong>Notes:</strong> <%= expense.notes %></p>
-        <%end%>
-       <% else %>
-       <p><strong>Date:</strong></p>
-       <p><strong>Category:</strong></p>
-       <p><strong>Amount:</strong> </p>
-       <p><strong>Notes:</strong> </p>
-       <% end %>
-
-      </div>
+    <div class="expense-details">
+      <% if @expenses.present? %>
+        <% last_expense = @expenses.last %>
+        <p><strong>Date:</strong> <%= last_expense.date %></p>
+        <p><strong>Category:</strong> <%= last_expense.category %></p>
+        <p><strong>Amount:</strong> <%= last_expense.amount %></p>
+        <p><strong>Notes:</strong> <%= last_expense.notes %></p>
+      <% else %>
+        <p>No expenses found.</p>
+      <% end %>
+    </div>
   </div>
   <div class="section">
     <h2 class="section-title">Income Details</h2>
     <div class="income-details">
       <% if @incomes.present? %>
-      <%@incomes.each do |income| %>
-        <p><strong>Date:</strong> <%= income.source %></p>
-        <p><strong>Category:</strong> <%= income.date %></p>
-        <p><strong>Amount:</strong> <%= income.amount %></p>
-      <%end%>
+        <% last_income = @incomes.last %>
+        <p><strong>Date:</strong> <%= last_income.Idate %></p>
+        <p><strong>Source:</strong> <%= last_income.source %></p>
+        <p><strong>Amount:</strong> <%= last_income.Iamount %></p>
       <% else %>
-      <p><strong>Date:</strong></p>
-        <p><strong>Category:</strong></p>
-        <p><strong>Amount:</strong>
-      <%end%>
-      </div>
+        <p>No incomes found.</p>
+      <% end %>
+    </div>
   </div>
   <div class="section">
     <h2 class="section-title">Add Review Notes</h2>
@@ -111,23 +43,13 @@
   </div>
 </div>
 
+
 <script>
   // Function to save review notes
   function saveReview() {
     const reviewNotes = document.getElementById('reviewNotes').value;
-    // Perform any necessary actions with the review notes (e.g., save to database)
     alert('Review notes saved successfully!');
   }
-  // Add the script provided
-  window.onload = function() {
-    document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
-    document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
-    document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
-    document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
-    document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
-    document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
-    document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
-  };
 </script>
 
 </body>

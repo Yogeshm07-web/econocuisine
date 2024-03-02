@@ -18,7 +18,7 @@ class IncomesController < ApplicationController
   private
 
   def income_params
-    params.require(:income).permit(:source, :Iamount, :Idate)
+    params.permit(:source, :Iamount, :Idate)
   end
 end
 end

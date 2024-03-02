@@ -16,12 +16,5 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get '/signin', to: 'sessions#new'
   get '/signup', to: 'users#new'
-  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 end
-
-
-
-
-
-
