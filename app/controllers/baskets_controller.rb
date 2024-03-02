@@ -5,7 +5,9 @@ class BasketsController < ApplicationController
   def index
     @basket = current_user.basket
     @basket_total = BasketItem.sum(:price)
-    @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
+    if @basket != nil 
+      @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
+    end
   end
 
   def create
@@ -36,7 +38,7 @@ class BasketsController < ApplicationController
 
   def destroy
     @basket.destroy
-    redirect_to baskets_url, notice: 'Basket was successfully destroyed.'
+    redirect_to baskets_path, notice: 'Basket was successfully destroyed.'
   end
 
   def add_to_basket

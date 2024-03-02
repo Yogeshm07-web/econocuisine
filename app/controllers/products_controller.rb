@@ -41,6 +41,7 @@ class ProductsController < ApplicationController
     session[:basket] << basket_item
     redirect_to basket_display_path
   end
+  
   def basket_display
     @basket_items = session[:basket] || []
   end
