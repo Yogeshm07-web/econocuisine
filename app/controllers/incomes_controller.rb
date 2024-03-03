@@ -14,6 +14,11 @@ class IncomesController < ApplicationController
     @income = Income.find(params[:id])
   end
 
+  def analysis
+    @total_income_amount = Income.sum(:Iamount)
+    @total_expenses_amount = Expense.sum(:amount)
+  end
+end
 
   private
 

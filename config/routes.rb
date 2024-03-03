@@ -11,9 +11,13 @@ Rails.application.routes.draw do
     post 'add_to_basket', on: :member
   end
   resources :reviews
-  resources :incomes
-  resources :expenses
   resources :basket_items, only: [:create]
+  resources :incomes do
+    collection do
+      get 'analysis'
+    end
+  end
+  resources :expenses
 
 
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
@@ -23,9 +27,3 @@ Rails.application.routes.draw do
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 end
-
-
-
-
-
-
