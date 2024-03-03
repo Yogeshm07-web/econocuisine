@@ -1,7 +1,7 @@
 class IncomesController < ApplicationController
   def create
     @income = Income.new(income_params)
-    @income.save
+    @income.save notice: 'Income was successfully updated.'
 
     end
   def index

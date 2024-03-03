@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
   def create
     @expense=Expense.new(expense_params)
 
-     @expense.save
+     @expense.save notice: 'Income was successfully updated.'
 
   end
   def index
