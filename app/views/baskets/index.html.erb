@@ -1,48 +1,49 @@
-  <div class="background-image">
-    <a href="/" class="home-link">
-      <span class="home-icon">🏠</span>
-      <span class="home-text">Back to Home</span>
-    </a>
+<div class="background-image">
+  <div class="container">
+    <% if @basket&.basket_items&.present? %>
+      <div class="total-price">
+        <!-- Place the home button here -->
+        <a href="/" class="home-link">
+          <span class="home-icon">🏠</span>
+          <span class="home-text">Back to Home</span>
+        </a>
+        
+        <p>Total Price: Rs <%= @total_price %></p>
+      </div>
+    <% end %>
 
-    <div class="container">
-      <% if @basket&.basket_items&.present? %>
-        <div class="total-price">
-          <p>Total Price: Rs <%= @total_price %></p>
-        </div>
-      <% end %>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="product_table_body">
-          <% if @basket&.basket_items&.present? %>
-            <% @basket.basket_items.each do |basket_item| %>
-              <% product = basket_item.product %>
-              <tr id="product_row_<%= product.id %>">
-                <td><%= product.name %></td>
-                <td><%= product.description %></td>
-                <td>Rs <%= product.price %></td>
-                <td><%= basket_item.quantity %></td>
-                <td>Rs <%= basket_item.quantity * product.price %></td> <!-- Calculated total price -->
-                <td>
-                  <%= basket_item.id %>
-                  <%= link_to 'Delete', basket_item_delete_path(basket_item.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>                   
-                </td>
-              </tr>
-            <% end %>
-          <% else %>
-            <tr>
-              <td colspan="6" class="no-items-msg">No items in the basket</td>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Unit Price</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="product_table_body">
+        <% if @basket&.basket_items&.present? %>
+          <% @basket.basket_items.each do |basket_item| %>
+            <% product = basket_item.product %>
+            <tr id="product_row_<%= product.id %>">
+              <td><%= product.name %></td>
+              <td><%= product.description %></td>
+              <td>Rs <%= product.price %></td>
+              <td><%= basket_item.quantity %></td>
+              <td>Rs <%= basket_item.quantity * product.price %></td> <!-- Calculated total price -->
+              <td>
+                <%= link_to 'Delete', basket_basket_item_path(@basket, basket_item), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'delete-btn' %>                   
+              </td>
             </tr>
           <% end %>
-        </tbody>
-      </table>
-
-    </div>
+        <% else %>
+          <tr>
+            <td colspan="6" class="no-items-msg">No items in the basket</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
