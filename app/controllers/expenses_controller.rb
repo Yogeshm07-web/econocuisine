@@ -1,21 +1,27 @@
 class ExpensesController < ApplicationController
   def create
-    @expense=Expense.new(expense_params)
+    @expense = Expense.new(expense_params)
 
-     @expense.save notice: 'Income was successfully updated.'
-
+    if @expense.save
+      redirect_to @expense, notice: 'Expense was successfully created.'
+    else
+      flash.now[:alert] = 'Failed to create expense.'
+      render :new
+    end
   end
+
   def index
-    @expense=Expense.all
+    @expenses = Expense.all
   end
+
   def show
     @expense = Expense.find(params[:id])
   end
 
-
   private
 
   def expense_params
-    params.permit(:category, :amount, :date, :notes)
+    params.require(:expense).permit(:category, :amount, :date, :notes)
   end
 end
+
