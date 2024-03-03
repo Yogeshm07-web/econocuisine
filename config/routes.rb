@@ -13,7 +13,13 @@ Rails.application.routes.draw do
   end
   
   resources :reviews
-  resources :incomes
+
+  resources :basket_items, only: [:create]
+  resources :incomes do
+    collection do
+      get 'analysis'
+    end
+  end
   resources :expenses
   resources :baskets do
     resources :basket_items, only: [:destroy]
