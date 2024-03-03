@@ -1,4 +1,5 @@
 class ExpensesController < ApplicationController
+
   def create
     @expense = Expense.new(expense_params)
 
@@ -23,5 +24,6 @@ class ExpensesController < ApplicationController
   def expense_params
     params.require(:expense).permit(:category, :amount, :date, :notes)
   end
+end
 end
 
