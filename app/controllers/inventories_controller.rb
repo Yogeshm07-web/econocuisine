@@ -10,17 +10,17 @@ class InventoriesController < ApplicationController
   def create
     @inventory = Inventory.new(inventory_params)
     @inventory.user = current_user
-    @inventory.basket_id = 1
-    
+       
     if @inventory.save
-      redirect_to root_path
+      redirect_to inventories_path, notice: 'Inventory item was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      @inventory_items = Inventory.all  # Fetch all inventory items for rendering the index page
+      render :index, status: :unprocessable_entity
     end
   end
 
   def edit
-    # Render edit form
+    @inventory = Inventory.find(params[:id])
   end
 
   def update
@@ -34,10 +34,13 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
+    @inventory = Inventory.find(params[:id])
     @inventory.destroy
-    respond_to do |format|
-      format.html { redirect_to inventories_path, notice: 'Inventory item was successfully deleted.' }
-    end
+    redirect_to inventories_path, notice: 'Inventory item was successfully deleted.'
+  end
+
+  def show
+    redirect_to inventories_path
   end
 
   private
@@ -53,7 +56,6 @@ class InventoriesController < ApplicationController
   private
 
   def inventory_params
-  params.require(:inventory).permit(:name, :quantity) # Adjust permitted attributes as needed
+    params.require(:inventory).permit(:name, :quantity) # Adjust permitted attributes as needed
   end
-
 end

@@ -21,4 +21,4 @@ class IncomesController < ApplicationController
     params.require(:income).permit(:source, :Iamount, :Idate)
   end
 end
-end
+

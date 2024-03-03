@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   delete "basket_items/:id", to: "basket_items#destroy", as: :basket_item_delete
   resources :inventories
+  delete '/inventories/:id', to: 'inventories#destroy', as: 'delete_inventory'
   resources :baskets, only: [:index, :show, :create, :update, :destroy] do
     post 'add_to_basket', on: :member
   end

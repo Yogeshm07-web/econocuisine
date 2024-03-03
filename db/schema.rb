@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_02_102028) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_03_054424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,8 +96,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_102028) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.bigint "user_id", null: false
-    t.bigint "basket_id", null: false
-    t.index ["basket_id"], name: "index_inventories_on_basket_id"
+    t.string "unit"
     t.index ["user_id"], name: "index_inventories_on_user_id"
   end
 
@@ -150,7 +149,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_102028) do
   add_foreign_key "basket_items", "baskets"
   add_foreign_key "basket_items", "products"
   add_foreign_key "baskets", "users"
-  add_foreign_key "inventories", "baskets"
   add_foreign_key "inventories", "users"
   add_foreign_key "products", "categories"
   add_foreign_key "reviews", "users"
