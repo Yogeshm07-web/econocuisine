@@ -1,13 +1,9 @@
 class ExpensesController < ApplicationController
   def create
     @expense=Expense.new(expense_params)
-    
-    if @expense.save
-      redirect_to root_path, notice: 'Expense was successfully created.'
-    else
-      redirect_to root_path
 
-    end
+     @expense.save
+
   end
   def index
     @expense=Expense.all

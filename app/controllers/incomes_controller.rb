@@ -1,10 +1,7 @@
 class IncomesController < ApplicationController
   def create
     @income = Income.new(income_params)
-    if @income.save
-      redirect_to root_path, notice: 'Expense was successfully created.'
-    else
-      redirect_to root_path
+    @income.save
 
     end
   def index
@@ -18,7 +15,7 @@ class IncomesController < ApplicationController
     @total_income_amount = Income.sum(:Iamount)
     @total_expenses_amount = Expense.sum(:amount)
   end
-end
+
 
   private
 
