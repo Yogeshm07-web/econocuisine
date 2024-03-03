@@ -1,10 +1,17 @@
-<%= form_for @inventory do |f| %>
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <!-- Other form fields -->
-  <div class="actions">
-    <%= f.submit 'Update Inventory Item' %>
-  </div>
-<% end %>
+<div class="inventory-section">
+  <%= simple_form_for @inventory, url: inventory_path(@inventory), method: :patch do |f| %>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :quantity %>
+      <%= f.number_field :quantity %>
+    </div>
+    <div class="field">
+      <%= f.label :unit %>
+      <%= f.text_field :unit %>
+    </div>
+    <%= f.button :submit, 'Update Inventory Item', class: 'btn btn-primary' %>
+  <% end %>
+</div>
