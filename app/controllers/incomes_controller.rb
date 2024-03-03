@@ -23,7 +23,6 @@ end
   private
 
   def income_params
-    params.require(:income).permit(:source, :Iamount, :Idate)
+    params.require(:income).permit(:source, :amount, :date)
   end
 end
-
