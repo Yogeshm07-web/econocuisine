@@ -38,7 +38,7 @@ class BasketsController < ApplicationController
 
   def destroy
     # @basket_item = BasketItem.find(params[:id])
-    @basket_item.destroy
+    @basket.destroy!
     redirect_to basket_path(@basket_item.basket), notice: 'Basket item was successfully deleted.'
   end
 
