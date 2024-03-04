@@ -25,5 +25,5 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:category, :amount, :date, :notes)
   end
 end
-end
+
 
