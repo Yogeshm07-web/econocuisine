@@ -13,8 +13,13 @@ class BasketItemsController < ApplicationController
 
   def show
     @basket_item = BasketItem.find(params[:id])
+  
+    respond_to do |format|
+      format.html # Responds to HTML requests
+      format.json { render json: @basket_item } # Responds to JSON requests
+    end
   end
-
+  
   def destroy
     @basket_item.destroy
     redirect_to baskets_path, notice: 'Item removed from basket.'
