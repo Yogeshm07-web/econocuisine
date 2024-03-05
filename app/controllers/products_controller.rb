@@ -6,6 +6,7 @@ class ProductsController < ApplicationController
     @product ||= Product.new
     @products = Product.all
   end
+  
 
   # GET /products/1
   def show
