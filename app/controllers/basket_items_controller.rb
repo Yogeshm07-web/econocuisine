@@ -11,6 +11,10 @@ class BasketItemsController < ApplicationController
     end
   end
 
+  def show
+    @basket_item = BasketItem.find(params[:id])
+  end
+
   def destroy
     @basket_item.destroy
     redirect_to baskets_path, notice: 'Item removed from basket.'
@@ -19,10 +23,9 @@ class BasketItemsController < ApplicationController
   private
 
   def set_basket_item
-    @basket_item = BasketItem.find_by(id: params[:id])
-    if @basket_item.nil?
-      redirect_to baskets_path, alert: 'Basket item not found.'
-    end
+    @basket_item = BasketItem.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to baskets_path, alert: 'Basket item not found.'
   end
 
   def basket_item_params
