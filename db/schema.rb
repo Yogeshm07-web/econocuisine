@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_03_192637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,12 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
   end
 
   create_table "basket_items", force: :cascade do |t|
-    t.bigint "basket_id", null: false
-    t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "price"
+    t.bigint "basket_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.integer "price"
     t.index ["basket_id"], name: "index_basket_items_on_basket_id"
     t.index ["product_id"], name: "index_basket_items_on_product_id"
   end
@@ -57,6 +57,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "product_name"
+    t.string "product_description"
+    t.string "product_category"
+    t.integer "product_price"
+    t.integer "product_stock"
+    t.string "product_quantity_unit"
+    t.boolean "product_featured"
     t.index ["user_id"], name: "index_baskets_on_user_id"
   end
 
@@ -96,9 +103,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.bigint "user_id", null: false
-    t.bigint "basket_id", null: false
-    t.index ["basket_id"], name: "index_inventories_on_basket_id"
+    t.string "unit"
     t.index ["user_id"], name: "index_inventories_on_user_id"
+  end
+
+  create_table "prices", force: :cascade do |t|
+    t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -144,7 +156,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_150419) do
   add_foreign_key "basket_items", "baskets"
   add_foreign_key "basket_items", "products"
   add_foreign_key "baskets", "users"
-  add_foreign_key "inventories", "baskets"
   add_foreign_key "inventories", "users"
   add_foreign_key "products", "categories"
   add_foreign_key "reviews", "users"

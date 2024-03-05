@@ -17,7 +17,7 @@
                     <p class="card-text">Price: Rs <%= product.price %></p>
                 </div>
                 <div class="card-footer">
-                    <%= form_with(url: add_to_basket_basket_path(product), method: :post, local: true) do |form| %>
+                    <%= form_with(url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>
                       <%= hidden_field_tag :product_id, product.id %>
                       <div class="form-group">
                         <%= label_tag :quantity, 'Quantity' %>
