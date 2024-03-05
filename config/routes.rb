@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
- 
+  resources :expenses 
   get '/assets/swiper', to: redirect('/path/to/swiper/assets')
 
   
