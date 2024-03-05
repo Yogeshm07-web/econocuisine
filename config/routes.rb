@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   devise_for :users  
   resources :inventories
   delete '/inventories/:id', to: 'inventories#destroy', as: 'delete_inventory'
-  
+  resources :baskets do
+    resources :basket_items, only: [:create, :destroy]
+  end
   # Define the add_to_basket route for baskets controller
   post 'baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
 
@@ -20,18 +22,12 @@ Rails.application.routes.draw do
     end
   end
 
-
-  resources :expenses 
-  
-
   resources :expenses
 
   get '/assets/swiper', to: redirect('/path/to/swiper/assets')
 
   
-  resources :baskets do
-    resources :basket_items, only: [:create, :destroy]
-  end
+  
   
   
   # Define the add_to_basket route with a unique name

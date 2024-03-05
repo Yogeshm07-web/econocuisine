@@ -1,88 +1,68 @@
-<head></head>
+<head>
+  <link rel="stylesheet" href="stylesheet/budget.css">
+</head>
 <body>
-<div>
-<h1>Incomes Tracking</h1>
-<%= form_with(model: Income.new, url: incomes_path, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :source %>
-    <%= form.text_field :source %>
+  <div class="container">
+    <h1 class="title">Incomes Tracking</h1>
+    <div class="form-container">
+      <%= form_with(model: Income.new, url: incomes_path, local: true) do |form| %>
+        <div class="form-group">
+          <%= form.label :source, class: "label" %>
+          <%= form.text_field :source, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :amount, class: "label" %>
+          <%= form.text_field :amount, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :date, class: "label" %>
+          <%= form.date_field :date, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.submit 'Add Income', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount %>
+  <div class="container">
+    <h1 class="title">Expenses Tracking</h1>
+    <div class="form-container">
+      <%= form_with(model: Expense.new, url: expenses_path, local: true) do |form| %>
+        <div class="form-group">
+          <%= form.label :category, class: "label" %>
+          <%= form.text_field :category, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :amount, class: "label" %>
+          <%= form.number_field :amount, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :date, class: "label" %>
+          <%= form.date_field :date, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :notes, class: "label" %>
+          <%= form.text_area :notes, class: "input" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.submit 'Add Expense', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :date %>
-    <%= form.date_field :date %>
-  </div>
+  <h1 class="title">Income vs Expenses Analysis</h1>
 
-  <div class="actions">
-    <%= form.submit 'Add Income' %>
-  </div>
-<% end %>
-</div>
-<div>
-<h1>Expenses Tracking</h1>
+  <canvas id="analysisChart" width="400" height="400"></canvas>
 
-<%= form_with(model: Expense.new, url: expenses_path, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.text_field :category %>
-  </div>
-
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.number_field :amount %>
-  </div>
-
-  <div class="field">
-    <%= form.label :date %>
-    <%= form.date_field :date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit 'Add Expense' %>
-  </div>
-<% end %>
-
-</div>
-<h1>Income vs Expenses Analysis</h1>
-
-<canvas id="analysisChart" width="400" height="400"></canvas>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const incomeAmount = <%= @total_income_amount %>;
-    const expensesAmount = <%= @total_expenses_amount %>;
-
-    const total = incomeAmount + expensesAmount;
-    const incomePercentage = (incomeAmount / total) * 100;
-    const expensesPercentage = (expensesAmount / total) * 100;
-
-    const ctx = document.getElementById('analysisChart').getContext('2d');
-    const analysisChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Income', 'Expenses'],
-        datasets: [{
-          data: [incomePercentage, expensesPercentage],
-          backgroundColor: ['#36a2eb', '#ff6384']
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Income vs Expenses Analysis'
-        }
-      }
-    });
-  });
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
 </body>
