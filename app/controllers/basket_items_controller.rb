@@ -1,22 +1,37 @@
 class BasketItemsController < ApplicationController
-  before_action :set_basket_item, only: [:destroy]
+  before_action :authenticate_user!
+  before_action :set_basket_item, only: [:update, :destroy]
+
+  def create
+    @basket_item = current_user.basket.basket_items.new(basket_item_params)
+
+    if @basket_item.save
+      redirect_to baskets_path, notice: 'Item was successfully added to basket.'
+    else
+      redirect_to products_path, alert: 'There was an error adding the item to your basket.'
+    end
+  end
+
+  def update
+    if @basket_item.update(basket_item_params)
+      redirect_to baskets_path, notice: 'Basket item was successfully updated.'
+    else
+      render :edit
+    end
+  end
 
   def destroy
-    @basket = Basket.find(params[:basket_id])
-    # @basket_item = @basket.basket_items.find(params[:id])
     @basket_item.destroy
-    redirect_to @basket, notice: 'Item was successfully removed from the basket.'
+    redirect_to baskets_path, notice: 'Basket item was successfully deleted.'
   end
 
   private
 
   def set_basket_item
     @basket_item = BasketItem.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to baskets_path, alert: 'Basket item not found.'
   end
 
   def basket_item_params
-    params.require(:basket_item).permit(:product_id, :quantity, :price)
+    params.require(:basket_item).permit(:product_id, :quantity)
   end
 end
