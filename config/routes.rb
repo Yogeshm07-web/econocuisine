@@ -14,12 +14,16 @@ Rails.application.routes.draw do
   
   resources :reviews
 
-  resources :basket_items, only: [:create]
+  resources :basket_items, only: [:index, :show, :create]
   resources :incomes do
     collection do
       get 'analysis'
     end
   end
+
+ 
+  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
+
   
   resources :baskets do
     resources :basket_items

@@ -42,6 +42,11 @@ class BasketsController < ApplicationController
     redirect_to basket_path(@basket_item.basket), notice: 'Item was successfully removed from the basket.'
   end
 
+  # def show
+  #   @basket_item = BasketItem.find(params[:id])
+  #   # Add any additional logic here if needed
+  # end
+
   def add_to_basket
     product = Product.find(params[:product_id])
     quantity = params[:quantity].to_i
