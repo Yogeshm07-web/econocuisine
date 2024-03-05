@@ -10,19 +10,21 @@ class BasketItemsController < ApplicationController
       render :new  # Rendering the new action/view for creating basket items again
     end
   end
-
+  
   def show
     @basket_item = BasketItem.find(params[:id])
-  
-    respond_to do |format|
-      format.html # Responds to HTML requests
-      format.json { render json: @basket_item } # Responds to JSON requests
+      respond_to do |format|
+      format.html # show.html.erb
+      
+      format.json { render json: @basket_item }
     end
   end
-  
+
   def destroy
+    @basket = Basket.find(params[:basket_id])
+    @basket_item = @basket.basket_items.find(params[:id])
     @basket_item.destroy
-    redirect_to baskets_path, notice: 'Item removed from basket.'
+    redirect_to @basket, notice: 'Item was successfully removed from the basket.'
   end
 
   private

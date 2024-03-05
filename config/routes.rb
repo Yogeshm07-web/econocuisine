@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   
   resources :baskets do
-    resources :basket_items
+    resources :basket_items, only: [:destroy]
   end
   
   # Define the delete_from_basket route for deleting basket items
