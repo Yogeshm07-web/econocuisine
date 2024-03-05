@@ -61,11 +61,11 @@
     <div class="section">
       <h2 class="section-title">Expense Details</h2>
       <div class="expense-details">
-        <% if @expense.present? %>
-          <p><strong>Category:</strong> <%= @expense.last.category %></p>
-          <p><strong>Amount:</strong> <%= @expense.last.amount %></p>
-          <p><strong>Date:</strong> <%= @expense.last.date %></p>
-          <p><strong>Notes:</strong> <%= @expense.last.notes %></p>
+        <% if @expenses.present? %>
+          <p><strong>Category:</strong> <%= @expenses.last.category %></p>
+          <p><strong>Amount:</strong> <%= @expenses.last.amount %></p>
+          <p><strong>Date:</strong> <%= @expenses.last.date %></p>
+          <p><strong>Notes:</strong> <%= @expenses.last.notes %></p>
         <% else %>
           <p>No expenses available</p>
         <% end %>
@@ -76,9 +76,9 @@
       <h2 class="section-title">Income Details</h2>
       <div class="income-details">
         <% if @income.present? %>
-          <p><strong>Source:</strong> <%= @income.last.source %></p>
-          <p><strong>Amount:</strong> <%= @income.last.amount %></p>
-          <p><strong>Date:</strong> <%= @income.last.date %></p>
+          <p><strong>Source:</strong> <%= @incomes.last.source %></p>
+          <p><strong>Amount:</strong> <%= @incomes.last.amount %></p>
+          <p><strong>Date:</strong> <%= @incomes.last.date %></p>
         <% else %>
           <p>No income present</p>
         <% end %>
