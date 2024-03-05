@@ -12,13 +12,11 @@
       padding: 20px;
     }
     .container {
-      #display {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-      }
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
     }
     h1 {
       margin-top: 0;
@@ -57,78 +55,36 @@
   </style>
 </head>
 <body>
+  <h1>Tracker Page</h1>
 
-<div class="container">
-  <h1>Expense Tracker</h1>
-  <a href="/" class="home-link">
-    <span class="home-icon">🏠</span>
-    <span class="home-text">Back to Home</span>
-  </a>
-  <div class="section">
-    <h2 class="section-title">Expense Details</h2>
+  <div class="container">
+    <div class="section">
+      <h2 class="section-title">Expense Details</h2>
       <div class="expense-details">
-        <% if @expenses.present? %>
-        <%@expenses.each do |expense| %>
-        <p><strong>Date:</strong> <%= expense.date %></p>
-        <p><strong>Category:</strong> <%= expense.category %></p>
-        <p><strong>Amount:</strong> <%= expense.amount %></p>
-        <p><strong>Notes:</strong> <%= expense.notes %></p>
-        <%end%>
-       <% else %>
-       <p><strong>Date:</strong></p>
-       <p><strong>Category:</strong></p>
-       <p><strong>Amount:</strong> </p>
-       <p><strong>Notes:</strong> </p>
-       <% end %>
+        <% if @expense.present? %>
+          <p><strong>Category:</strong> <%= @expense.last.category %></p>
+          <p><strong>Amount:</strong> <%= @expense.last.amount %></p>
+          <p><strong>Date:</strong> <%= @expense.last.date %></p>
+          <p><strong>Notes:</strong> <%= @expense.last.notes %></p>
+        <% else %>
+          <p>No expenses available</p>
+        <% end %>
+      </div>
+    </div>
 
+    <div class="section">
+      <h2 class="section-title">Income Details</h2>
+      <div class="income-details">
+        <% if @income.present? %>
+          <p><strong>Source:</strong> <%= @income.last.source %></p>
+          <p><strong>Amount:</strong> <%= @income.last.amount %></p>
+          <p><strong>Date:</strong> <%= @income.last.date %></p>
+        <% else %>
+          <p>No income present</p>
+        <% end %>
       </div>
-  </div>
-  <div class="section">
-    <h2 class="section-title">Income Details</h2>
-    <div class="income-details">
-      <% if @incomes.present? %>
-      <%@incomes.each do |income| %>
-        <p><strong>Date:</strong> <%= income.source %></p>
-        <p><strong>Category:</strong> <%= income.date %></p>
-        <p><strong>Amount:</strong> <%= income.amount %></p>
-      <%end%>
-      <% else %>
-      <p><strong>Date:</strong></p>
-        <p><strong>Category:</strong></p>
-        <p><strong>Amount:</strong>
-      <%end%>
-      </div>
-  </div>
-  <div class="section">
-    <h2 class="section-title">Add Review Notes</h2>
-    <div class="section-content">
-      <div class="form-group">
-        <label for="reviewNotes">Notes:</label>
-        <textarea id="reviewNotes" name="reviewNotes" rows="3" placeholder="Enter any comments on the analysis"></textarea>
-      </div>
-      <button onclick="saveReview()">Save Review</button>
     </div>
   </div>
-</div>
-
-<script>
-  // Function to save review notes
-  function saveReview() {
-    const reviewNotes = document.getElementById('reviewNotes').value;
-    // Perform any necessary actions with the review notes (e.g., save to database)
-    alert('Review notes saved successfully!');
-  }
-  // Add the script provided
-  window.onload = function() {
-    document.getElementById('expenseNotes').innerText = localStorage.getItem('expenseNotes');
-    document.getElementById('expenseDate').innerText = localStorage.getItem('expenseDate');
-    document.getElementById('expenseCategory').innerText = localStorage.getItem('expenseCategory');
-    document.getElementById('incomeSource').innerText = localStorage.getItem('incomeSource');
-    document.getElementById('incomeDate').innerText = localStorage.getItem('incomeDate');
-    document.getElementById('totalExpenses').innerText = localStorage.getItem('totalExpenses');
-    document.getElementById('totalIncome').innerText = localStorage.getItem('totalIncome');
-  };
-</script>
 
 </body>
 </html>

@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   resources :budgets, only: [:index]
-  devise_for :users  
+  devise_for :users
   resources :inventories
   delete '/inventories/:id', to: 'inventories#destroy', as: 'delete_inventory'
-  
+
   # Define the add_to_basket route for baskets controller
   post 'baskets/add_to_basket/:id', to: 'baskets#add_to_basket', as: 'add_to_basket'
 
@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   resources :products do
     post 'add_to_basket', on: :member
   end
-  
-  resources :reviews
 
+  resources :reviews
+  resources :expenses
   resources :basket_items, only: [:index, :show, :create]
   resources :incomes do
     collection do
@@ -21,10 +21,10 @@ Rails.application.routes.draw do
     end
   end
 
- 
+
   get '/assets/swiper', to: redirect('/path/to/swiper/assets')
 
-  
+
   resources :baskets do
     resources :basket_items
   end
