@@ -37,9 +37,15 @@ class BasketsController < ApplicationController
   end
 
   def destroy
+<<<<<<< HEAD
     # @basket_item = BasketItem.find(params[:id])
     @basket.destroy!
     redirect_to basket_path(@basket_item.basket), notice: 'Basket item was successfully deleted.'
+=======
+    @basket_item = BasketItem.find(params[:id])
+    @basket_item.destroy
+    redirect_to basket_path(@basket_item.basket), notice: 'Item was successfully removed from the basket.'
+>>>>>>> heroku/master
   end
 
   def add_to_basket
