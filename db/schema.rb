@@ -57,13 +57,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_192637) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.string "product_name"
-    t.string "product_description"
-    t.string "product_category"
-    t.integer "product_price"
-    t.integer "product_stock"
-    t.string "product_quantity_unit"
-    t.boolean "product_featured"
     t.index ["user_id"], name: "index_baskets_on_user_id"
   end
 

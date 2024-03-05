@@ -1,11 +1,9 @@
 class IncomesController < ApplicationController
   def create
     @income = Income.new(income_params)
-
     if @income.save
-      redirect_to @income, notice: 'Income was successfully created.'
+      redirect_to budgets_path, notice: 'Income was successfully added.'
     else
-      flash.now[:alert] = 'Failed to create income.'
       render :new
     end
   end
