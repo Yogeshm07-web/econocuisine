@@ -20,9 +20,9 @@ Rails.application.routes.draw do
       get 'analysis'
     end
   end
-  resources :expenses
+  
   resources :baskets do
-    resources :basket_items, only: [:destroy]
+    resources :basket_items
   end
   # Define the add_to_basket route with a unique name
   post 'add_to_basket', to: 'baskets#add_to_basket', as: 'add_to_basket_basket'
