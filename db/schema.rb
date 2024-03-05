@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_03_054424) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_03_192637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,12 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_054424) do
   end
 
   create_table "basket_items", force: :cascade do |t|
-    t.bigint "basket_id", null: false
-    t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "price"
+    t.bigint "basket_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.integer "price"
     t.index ["basket_id"], name: "index_basket_items_on_basket_id"
     t.index ["product_id"], name: "index_basket_items_on_product_id"
   end
@@ -57,6 +57,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_054424) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "product_name"
+    t.string "product_description"
+    t.string "product_category"
+    t.integer "product_price"
+    t.integer "product_stock"
+    t.string "product_quantity_unit"
+    t.boolean "product_featured"
     t.index ["user_id"], name: "index_baskets_on_user_id"
   end
 

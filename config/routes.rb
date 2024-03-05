@@ -14,15 +14,19 @@ Rails.application.routes.draw do
   
   resources :reviews
 
-  resources :basket_items, only: [:create]
+  resources :basket_items, only: [:index, :show, :create]
   resources :incomes do
     collection do
       get 'analysis'
     end
   end
   resources :expenses
+ 
+  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
+
+  
   resources :baskets do
-    resources :basket_items, only: [:destroy]
+    resources :basket_items
   end
   # Define the add_to_basket route with a unique name
   post 'add_to_basket', to: 'baskets#add_to_basket', as: 'add_to_basket_basket'
