@@ -2,11 +2,9 @@ class ExpensesController < ApplicationController
 
   def create
     @expense = Expense.new(expense_params)
-
     if @expense.save
-      redirect_to @expense, notice: 'Expense was successfully created.'
+     redirect_to budgets_path, notice: 'Expense was successfully added.'
     else
-      flash.now[:alert] = 'Failed to create expense.'
       render :new
     end
   end
@@ -25,5 +23,3 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:category, :amount, :date, :notes)
   end
 end
-
-

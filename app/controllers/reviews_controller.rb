@@ -1,5 +1,9 @@
-# app/controllers/reviews_controller.rb
+
 class ReviewsController < ApplicationController
+      def index
+        @expenses = Expense.last(5)
+        @incomes = Income.last(5)
+      end
 
   def create
     @review = Review.new(review_params)
