@@ -1,23 +1,11 @@
 class BasketItemsController < ApplicationController
   before_action :set_basket_item, only: [:destroy]
 
-  def create
-    @basket_item = current_user.basket_items.build(basket_item_params)
-    if @basket_item.save
-      redirect_to baskets_path, notice: 'Item added to basket.'
-    else
-      flash[:alert] = 'Failed to add item to basket.'
-      render :new  # Rendering the new action/view for creating basket items again
-    end
-  end
-
-  def show
-    @basket_item = BasketItem.find(params[:id])
-  end
-
   def destroy
+    @basket = Basket.find(params[:basket_id])
+    # @basket_item = @basket.basket_items.find(params[:id])
     @basket_item.destroy
-    redirect_to baskets_path, notice: 'Item removed from basket.'
+    redirect_to @basket, notice: 'Item was successfully removed from the basket.'
   end
 
   private

@@ -9,21 +9,7 @@ class BasketsController < ApplicationController
       @total_price = @basket.basket_items.sum { |item| item.product.price * item.quantity }
     end
   end
-
-  def create
-    current_user.create_basket unless current_user.basket
-    redirect_to baskets_path
-  end
-
-  def show
-    @basket = current_user.basket
-    if @basket
-      @basket_items = @basket.basket_items.includes(:product)
-    else
-      @basket_items = []
-    end
-  end
-
+    
   def edit
     @basket = current_user.basket
   end
@@ -37,15 +23,18 @@ class BasketsController < ApplicationController
   end
 
   def destroy
-    @basket_item = BasketItem.find(params[:id])
     @basket_item.destroy
-    redirect_to basket_path(@basket_item.basket), notice: 'Item was successfully removed from the basket.'
+    redirect_to baskets_path, notice: 'Basket item was successfully deleted.'
   end
-
-  # def show
-  #   @basket_item = BasketItem.find(params[:id])
-  #   # Add any additional logic here if needed
-  # end
+  
+  def show
+    @basket_item = BasketItem.find(params[:id])
+  
+    respond_to do |format|
+      format.html # Responds to HTML requests
+      format.json { render json: @basket_item } # Responds to JSON requests
+    end
+  end
 
   def add_to_basket
     product = Product.find(params[:product_id])
@@ -63,14 +52,7 @@ class BasketsController < ApplicationController
       redirect_to request.referer || products_path, alert: "Failed to add #{product.name} to your basket: #{basket_item.errors.full_messages.to_sentence}."
     end
   end
-
-   
-  # Action for a specific functionality, adjust as needed
-  def le_wagon_supermarket
-    @basket = current_user.basket || current_user.create_basket
-    # Other code related to Le Wagon Supermarket
-  end
-
+  
   private
 
   def set_basket
