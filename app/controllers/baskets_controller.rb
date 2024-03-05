@@ -15,14 +15,14 @@ class BasketsController < ApplicationController
     redirect_to baskets_path
   end
 
-  def show
-    @basket = current_user.basket
-    if @basket
-      @basket_items = @basket.basket_items.includes(:product)
-    else
-      @basket_items = []
-    end
-  end
+  # def show
+  #   @basket = current_user.basket
+  #   if @basket
+  #     @basket_items = @basket.basket_items.includes(:product)
+  #   else
+  #     @basket_items = []
+  #   end
+  # end
 
   def edit
     @basket = current_user.basket
