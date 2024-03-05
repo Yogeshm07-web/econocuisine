@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Price</th>
+      <th>Action</th> <!-- Added a header for the action column -->
     </tr>
   </thead>
   <tbody>
@@ -14,6 +15,11 @@
         <td><%= basket_item.product.name %></td>
         <td><%= basket_item.product.description %></td>
         <td><%= number_to_currency(basket_item.product.price / 100.0) %></td>
+        <td>
+          <%= form_with(url: basket_basket_item_path(@basket, basket_item), method: :delete, data: { confirm: 'Are you sure?' }) do %>
+            <%= submit_tag 'Delete', class: 'delete-btn' %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
