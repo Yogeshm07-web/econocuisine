@@ -1,6 +1,6 @@
 class BasketsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_basket, only: [:show, :edit, :update, :destroy]
+  before_action :set_basket, only: [:show, :destroy]
 
   def index
     @basket = current_user.basket
@@ -25,6 +25,12 @@ class BasketsController < ApplicationController
   def destroy
     @basket_item.destroy
     redirect_to baskets_path, notice: 'Basket item was successfully deleted.'
+  end
+
+  def set_basket
+    @basket = current_user.basket
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: 'Basket not found.'
   end
   
   def show

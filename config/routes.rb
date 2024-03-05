@@ -14,8 +14,6 @@ Rails.application.routes.draw do
   
   resources :reviews
 
-  resources :basket_items, only: [:index, :show, :create, :destroy] # Include destroy action here
-
   resources :incomes do
     collection do
       get 'analysis'
@@ -28,12 +26,10 @@ Rails.application.routes.draw do
 
   
   resources :baskets do
-    resources :basket_items, only: [:destroy]
+    resources :basket_items, only: [:create, :destroy]
   end
   
-  # Define the delete_from_basket route for deleting basket items
-  delete 'baskets/:basket_id/basket_items/:id', to: 'basket_items#destroy', as: 'delete_from_basket'
-
+  
   # Define the add_to_basket route with a unique name
   post 'add_to_basket', to: 'baskets#add_to_basket', as: 'add_to_basket_basket'
 
