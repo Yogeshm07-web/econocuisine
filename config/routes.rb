@@ -30,12 +30,8 @@ Rails.application.routes.draw do
 
   resources :expenses
 
-  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
-
-
-  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
-
-
+  
+  
   resources :baskets do
     resources :basket_items, only: [:destroy]
   end
