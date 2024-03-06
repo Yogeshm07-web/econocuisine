@@ -1,68 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="stylesheet/budget.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Custom styles */
+    .header-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+      border: 2px solid #ccc; /* Light gray border */
+      background-color: #f0f0f0; /* Light gray background color */
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1); /* Soft shadow for glossy effect */
+    }
+    .card-body {
+      padding: 20px; /* Add padding for better appearance */
+    }
+    .input-group-prepend, .input-group-append {
+      min-width: 100px;
+    }
+    .chart-container {
+      height: 300px;
+    }
+    .remaining-balance {
+      color: #007bff; /* Set the color to match the pie chart color */
+    }
+    .transparent-bg {
+      background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+      padding: 10px; /* Add padding for better readability */
+    }
+    .container {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for the container */
+      padding: 20px; /* Add padding to the container */
+    }
+    .row {
+      margin-bottom: 20px; /* Add margin between rows */
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">Incomes Tracking</h1>
-    <div class="form-container">
-      <%= form_with(model: Income.new, url: incomes_path, local: true) do |form| %>
-        <div class="form-group">
-          <%= form.label :source, class: "label" %>
-          <%= form.text_field :source, class: "input" %>
+  <div class="header-section transparent-bg">
+    <h1><b>Budget Page</b></h1>
+    <a href="/" class="home-link">
+            <span class="home-icon">🏠</span>
+    </a>
+  </div>
+  <div class="container transparent-bg">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Budget Overview</h4>
+            <div class="form-group">
+              <label for="totalIncomeInput">Total Income</label>
+              <div class="input-group">
+                <input type="number" id="totalIncomeInput" class="form-control" placeholder="Enter total income" required>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-primary" onclick="editField('totalIncome')">Edit</button>
+                  <button type="button" class="btn btn-danger" onclick="deleteField('totalIncome')">Delete</button>
+                  <button type="button" class="btn btn-success" onclick="saveField('totalIncome')">Save</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="totalExpensesInput">Total Expenses</label>
+              <div class="input-group">
+                <input type="number" id="totalExpensesInput" class="form-control" placeholder="Enter total expenses" required>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-primary" onclick="editField('totalExpenses')">Edit</button>
+                  <button type="button" class="btn btn-danger" onclick="deleteField('totalExpenses')">Delete</button>
+                  <button type="button" class="btn btn-success" onclick="saveField('totalExpenses')">Save</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="totalBasketPriceInput">Total Basket Price</label>
+              <div class="input-group">
+                <input type="number" id="totalBasketPriceInput" class="form-control" placeholder="Enter basket price">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-primary" onclick="editField('totalBasketPrice')">Edit</button>
+                  <button type="button" class="btn btn-danger" onclick="deleteField('totalBasketPrice')">Delete</button>
+                  <button type="button" class="btn btn-success" onclick="saveField('totalBasketPrice')">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="form-group">
-          <%= form.label :amount, class: "label" %>
-          <%= form.text_field :amount, class: "input" %>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Pie Chart</h4>
+            <div class="chart-container">
+              <canvas id="budgetPieChart"></canvas>
+            </div>
+          </div>
         </div>
-
-        <div class="form-group">
-          <%= form.label :date, class: "label" %>
-          <%= form.date_field :date, class: "input" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Remaining Balance</h4>
+            <div id="remainingBalanceDisplay" class="remaining-balance transparent-bg">Total Income: Rs0 | Total Expenses: Rs0 | Total Basket Price: Rs0 | Remaining Balance: Rs0</div>
+          </div>
         </div>
-
-        <div class="form-group">
-          <%= form.submit 'Add Income', class: "btn btn-primary" %>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
-
-  <div class="container">
-    <h1 class="title">Expenses Tracking</h1>
-    <div class="form-container">
-      <%= form_with(model: Expense.new, url: expenses_path, local: true) do |form| %>
-        <div class="form-group">
-          <%= form.label :category, class: "label" %>
-          <%= form.text_field :category, class: "input" %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :amount, class: "label" %>
-          <%= form.number_field :amount, class: "input" %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :date, class: "label" %>
-          <%= form.date_field :date, class: "input" %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :notes, class: "label" %>
-          <%= form.text_area :notes, class: "input" %>
-        </div>
-
-        <div class="form-group">
-          <%= form.submit 'Add Expense', class: "btn btn-primary" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <h1 class="title">Income vs Expenses Analysis</h1>
-
-  <canvas id="analysisChart" width="400" height="400"></canvas>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js"></script>
 </body>
+</html>
+
+<script>
+  // JavaScript functions for handling dynamic fields
+  function editField(fieldName) {
+    const fieldValue = document.getElementById(`${fieldName}Input`).value;
+    console.log(`Editing ${fieldName}: ${fieldValue}`);
+  }
+
+  function deleteField(fieldName) {
+    console.log(`Deleting ${fieldName}`);
+    document.getElementById(`${fieldName}Input`).value = '';
+    updatePieChart();
+  }
+
+  function saveField(fieldName) {
+    const fieldValue = parseFloat(document.getElementById(`${fieldName}Input`).value) || 0;
+    console.log(`Saving ${fieldName}: ${fieldValue}`);
+    
+    // Save the field value in local storage
+    localStorage.setItem(fieldName, fieldValue);
+
+    // Update all relevant parts of the page
+    updatePage();
+  }
+
+  function loadField(fieldName) {
+    // Load the field value from local storage
+    const fieldValue = localStorage.getItem(fieldName) || '';
+
+    document.getElementById(`${fieldName}Input`).value = fieldValue;
+  }
+
+  function calculateRemainingBalance() {
+    const totalIncome = parseFloat(document.getElementById('totalIncomeInput').value) || 0;
+    const totalExpenses = parseFloat(document.getElementById('totalExpensesInput').value) || 0;
+    const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
+    const remainingBalance = totalIncome - totalExpenses - totalBasketPrice;
+    document.getElementById('remainingBalanceDisplay').textContent = `Total Income: Rs${totalIncome} | Total Expenses: Rs${totalExpenses} | Total Basket Price: Rs${totalBasketPrice} | Remaining Balance: Rs${remainingBalance}`;
+    return remainingBalance;
+  }
+
+  function updatePieChart() {
+    console.log('updatePieChart function called');
+
+    const totalExpenses = parseFloat(document.getElementById('totalExpensesInput').value) || 0;
+    const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
+    const remainingBalance = calculateRemainingBalance();
+
+    console.log('totalExpenses:', totalExpenses);
+    console.log('totalBasketPrice:', totalBasketPrice);
+    console.log('remainingBalance:', remainingBalance);
+
+    const ctx = document.getElementById('budgetPieChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Total Expenses', 'Total Basket Price', 'Remaining Balance'],
+        datasets: [{
+          label: 'Amount (Rs)',
+          data: [totalExpenses, totalBasketPrice, remainingBalance],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Allow the chart to be responsive
+      }
+    });
+  }
+
+  function updatePage() {
+    // Update the remaining balance display
+    calculateRemainingBalance();
+
+    // Update the pie chart
+    updatePieChart();
+  }
+
+  window.onload = function() {
+    // Load field values from local storage
+    loadField('totalIncome');
+    loadField('totalExpenses');
+    loadField('totalBasketPrice');
+
+    updatePage();
+  }
+</script>
