@@ -1,5 +1,5 @@
-require 'rails'
-require 'rails/health' # Add the missing import statement for 'rails/health' controller
+# require 'rails'
+# require 'rails/health' # Add the missing import statement for 'rails/health' controller
 
 Rails.application.routes.draw do
   resources :budgets, only: [:index]
