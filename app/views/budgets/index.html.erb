@@ -47,7 +47,7 @@
   <div class="header-section transparent-bg">
     <h1><b>Budget Page</b></h1>
     <a href="/" class="home-link">
-            <span class="home-icon">🏠</span>
+      <span class="home-icon">🏠</span>
     </a>
   </div>
   <div class="container transparent-bg">
@@ -57,24 +57,13 @@
           <div class="card-body">
             <h4 class="card-title">Budget Overview</h4>
             <div class="form-group">
-              <label for="totalIncomeInput">Total Income</label>
+              <label for="totalIncomeInput">My Budget for Groceries</label>
               <div class="input-group">
                 <input type="number" id="totalIncomeInput" class="form-control" placeholder="Enter total income" required>
                 <div class="input-group-append">
                   <button type="button" class="btn btn-primary" onclick="editField('totalIncome')">Edit</button>
                   <button type="button" class="btn btn-danger" onclick="deleteField('totalIncome')">Delete</button>
                   <button type="button" class="btn btn-success" onclick="saveField('totalIncome')">Save</button>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="totalExpensesInput">Total Expenses</label>
-              <div class="input-group">
-                <input type="number" id="totalExpensesInput" class="form-control" placeholder="Enter total expenses" required>
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-primary" onclick="editField('totalExpenses')">Edit</button>
-                  <button type="button" class="btn btn-danger" onclick="deleteField('totalExpenses')">Delete</button>
-                  <button type="button" class="btn btn-success" onclick="saveField('totalExpenses')">Save</button>
                 </div>
               </div>
             </div>
@@ -108,7 +97,7 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Remaining Balance</h4>
-            <div id="remainingBalanceDisplay" class="remaining-balance transparent-bg">Total Income: Rs0 | Total Expenses: Rs0 | Total Basket Price: Rs0 | Remaining Balance: Rs0</div>
+            <div id="remainingBalanceDisplay" class="remaining-balance transparent-bg"></div>
           </div>
         </div>
       </div>
@@ -127,7 +116,7 @@
   function deleteField(fieldName) {
     console.log(`Deleting ${fieldName}`);
     document.getElementById(`${fieldName}Input`).value = '';
-    updatePieChart();
+    updatePieChart(); // You may remove this line if it's not necessary
   }
 
   function saveField(fieldName) {
@@ -150,21 +139,20 @@
 
   function calculateRemainingBalance() {
     const totalIncome = parseFloat(document.getElementById('totalIncomeInput').value) || 0;
-    const totalExpenses = parseFloat(document.getElementById('totalExpensesInput').value) || 0;
     const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
-    const remainingBalance = totalIncome - totalExpenses - totalBasketPrice;
-    document.getElementById('remainingBalanceDisplay').textContent = `Total Income: Rs${totalIncome} | Total Expenses: Rs${totalExpenses} | Total Basket Price: Rs${totalBasketPrice} | Remaining Balance: Rs${remainingBalance}`;
+    const remainingBalance = totalIncome - totalBasketPrice;
+    document.getElementById('remainingBalanceDisplay').textContent = `Remaining Balance: Rs${remainingBalance}`;
     return remainingBalance;
   }
 
   function updatePieChart() {
     console.log('updatePieChart function called');
 
-    const totalExpenses = parseFloat(document.getElementById('totalExpensesInput').value) || 0;
+    const totalIncome = parseFloat(document.getElementById('totalIncomeInput').value) || 0;
     const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
-    const remainingBalance = calculateRemainingBalance();
+    const remainingBalance = totalIncome - totalBasketPrice;
 
-    console.log('totalExpenses:', totalExpenses);
+    console.log('totalIncome:', totalIncome);
     console.log('totalBasketPrice:', totalBasketPrice);
     console.log('remainingBalance:', remainingBalance);
 
@@ -172,19 +160,19 @@
     const myChart = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Total Expenses', 'Total Basket Price', 'Remaining Balance'],
+        labels: ['My Budget for Groceries', 'Total Basket Price', 'Remaining Balance'],
         datasets: [{
           label: 'Amount (Rs)',
-          data: [totalExpenses, totalBasketPrice, remainingBalance],
+          data: [totalIncome, totalBasketPrice, remainingBalance],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
             'rgba(54, 162, 235, 0.5)',
             'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
           ],
           borderColor: [
-            'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
           ],
           borderWidth: 1
         }]
@@ -207,7 +195,6 @@
   window.onload = function() {
     // Load field values from local storage
     loadField('totalIncome');
-    loadField('totalExpenses');
     loadField('totalBasketPrice');
 
     updatePage();

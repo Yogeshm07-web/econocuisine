@@ -4,7 +4,6 @@ class BudgetsController < ApplicationController
   def index
     @basket = current_user.basket
     @budgets = Budget.all
-    # @basket_total = BasketItem.sum(:price) # This calculates the total price of items in the basket
     @basket_items_price = BasketItem.all
   end
 
