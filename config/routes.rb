@@ -20,13 +20,7 @@ Rails.application.routes.draw do
   end
 
   resources :reviews
-  resources :expenses
-  resources :incomes do
-    collection do
-      get 'analysis'
-    end
-  end
-    
+      
    
   # Define the le_wagon_supermarket route
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
