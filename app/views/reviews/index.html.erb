@@ -3,111 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Review Index</title>
+  <title>Tracker Page</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    /* Custom styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://shop.thebudgetmom.com/cdn/shop/products/expense_1200x1200.jpg?v=1553638649') no-repeat center center fixed; /* Background cover image */
+      background-size:  100% 100%;
+      background-blend-mode: overlay;
+    }
+    /* .container{
+      font-family: Arial, sans-serif;
+      background: url('https://cdn.thewirecutter.com/wp-content/media/2023/02/giftbaskets-2048px-4304-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024') no-repeat center center fixed; /* Background cover image */
+      background-size: cover;
+      background-blend-mode: overlay;
+    } */
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .container {
+      padding-top: 50px;
+    }
     .header-section {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
+      padding-top: 20px;
+      background-color: rgba(0, 123, 255, 0.8);
+      color: #fff;
+    }
+    .header-section h1 {
+      font-weight: bold;
+    }
+    .section-title {
+      color: #333;
     }
     .card {
       margin-bottom: 20px;
-      border: 2px solid #ccc; /* Light gray border */
-      background-color: #f0f0f0; /* Light gray background color */
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1); /* Soft shadow for glossy effect */
+      border: none;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     .card-body {
-      padding: 20px; /* Add padding for better appearance */
+      padding: 20px;
     }
     .chart-container {
       height: 300px;
-    }
-    .container {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for the container */
-      padding: 20px; /* Add padding to the container */
-    }
-    .row {
-      margin-bottom: 20px; /* Add margin between rows */
     }
   </style>
 </head>
 <body>
 
-  <h1>Tracker Page</h1>
+<div class="overlay">
+  <div class="header-section">
+    <h1>Expense Tracker</h1>
+  </div>
 
   <div class="container">
+
     <div class="section">
-      <h2 class="section-title">Expense Details</h2>
-      <div class="expense-details">
-        <% if @expenses.present? %>
-          <p><strong>Category:</strong> <%= @expenses.last.category %></p>
-          <p><strong>Amount:</strong> <%= @expenses.last.amount %></p>
-          <p><strong>Date:</strong> <%= @expenses.last.date %></p>
-          <p><strong>Notes:</strong> <%= @expenses.last.notes %></p>
-
-        <% else %>
-          <p>No expenses available</p>
-        <% end %>
-
-  <div class="header-section">
-    <h1><b>Review Index</b></h1>
-  </div>
- <div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Basket Items</h4>
-          <ul>
-            <% @basket_items.each do |basket_item| %>
-              <li><%= basket_item.product.name %> - Rs <%= number_to_currency(basket_item.product.price, unit: '') %></li>
-            <% end %>
-          </ul>
+      <%# <h2 class="section-title">Review Index</h2> %>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Basket Items</h4>
+              <ul>
+                <% @basket_items.each do |basket_item| %>
+                  <li><%= basket_item.product.name %> - Rs <%= number_to_currency(basket_item.product.price, unit: '') %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
         </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Inventory Items</h4>
 
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Inventory Items</h4>
-          <!-- Display inventory items -->
-          <ul>
-            <% @inventory_items.each do |inventory_item| %>
-              <li><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
-            <% end %>
-          </ul>
+              <%# <img src="https://assets-global.website-files.com/5f4e8ec8a6a5b17c5cefcc00/64ed3a8de9fa1f3bf8b32496_%20Inventory%20.jpeg" alt="Inventory Items Image" class="img-fluid mb-3"> %>
+              <ul>
+                <% @inventory_items.each do |inventory_item| %>
+                  <li><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- Include Pie Chart Section here -->
-  <div class="row">
-    <div class="col-md-6">
-      <!-- Pie Chart Section -->
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Pie Chart</h4>
-          <div class="chart-container">
-            <!-- Add canvas element for pie chart here -->
-            <canvas id="budgetPieChart"></canvas>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Pie Chart</h4>
+              <div class="chart-container">
+                <canvas id="budgetPieChart"></canvas>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Remove the remaining balance and budget section -->
   </div>
 </div>
 
-<!-- Include JavaScript libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-<!-- JavaScript code for dynamic functionality -->
+
 <script>
-  // JavaScript code for updating the pie chart
+
   function updatePieChart() {
-    // Dummy data used for demonstration
+
     const totalIncome = 1000;
     const totalBasketPrice = 300;
     const remainingBalance = totalIncome - totalBasketPrice;
@@ -135,7 +139,7 @@
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false, // Allow the chart to be responsive
+        maintainAspectRatio: false,
       }
     });
   }
