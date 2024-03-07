@@ -3,91 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracker</title>
+  <title>Review Index</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 20px;
+    /* Custom styles */
+    .header-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+      border: 2px solid #ccc; /* Light gray border */
+      background-color: #f0f0f0; /* Light gray background color */
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1); /* Soft shadow for glossy effect */
+    }
+    .card-body {
+      padding: 20px; /* Add padding for better appearance */
+    }
+    .chart-container {
+      height: 300px;
     }
     .container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for the container */
+      padding: 20px; /* Add padding to the container */
     }
-    h1 {
-      margin-top: 0;
-    }
-    .section {
-      margin-bottom: 20px;
-    }
-    .section-title {
-      margin-top: 0;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    .section-content {
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .form-group {
-      margin-bottom: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      resize: vertical;
+    .row {
+      margin-bottom: 20px; /* Add margin between rows */
     }
   </style>
 </head>
 <body>
-  <h1>Tracker Page</h1>
-  
-  <div class="container">
-    <div class="section">
-      <a href="/" class="home-link">
-            <span class="home-icon">🏠</span>
-      </a>
-      <h2 class="section-title">Expense Details</h2>
-      <div class="expense-details">
-        <% if @expenses.present? %>
-          <p><strong>Category:</strong> <%= @expenses.last.category %></p>
-          <p><strong>Amount:</strong> <%= @expenses.last.amount %></p>
-          <p><strong>Date:</strong> <%= @expenses.last.date %></p>
-          <p><strong>Notes:</strong> <%= @expenses.last.notes %></p>
-        <% else %>
-          <p>No expenses available</p>
-        <% end %>
+  <div class="header-section">
+    <h1><b>Review Index</b></h1>
+  </div>
+ <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Basket Items</h4>
+          <ul>
+            <% @basket_items.each do |basket_item| %>
+              <li><%= basket_item.product.name %> - Rs <%= number_to_currency(basket_item.product.price, unit: '') %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
-
-    <div class="section">
-      <h2 class="section-title">Income Details</h2>
-      <div class="income-details">
-        <% if @income.present? %>
-          <p><strong>Source:</strong> <%= @incomes.last.source %></p>
-          <p><strong>Amount:</strong> <%= @incomes.last.amount %></p>
-          <p><strong>Date:</strong> <%= @incomes.last.date %></p>
-        <% else %>
-          <p>No income present</p>
-        <% end %>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Inventory Items</h4>
+          <!-- Display inventory items -->
+          <ul>
+            <% @inventory_items.each do |inventory_item| %>
+              <li><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Include Pie Chart Section here -->
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Pie Chart Section -->
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Pie Chart</h4>
+          <div class="chart-container">
+            <!-- Add canvas element for pie chart here -->
+            <canvas id="budgetPieChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Remove the remaining balance and budget section -->
+  </div>
+</div>
 
+<!-- Include JavaScript libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<!-- JavaScript code for dynamic functionality -->
+<script>
+  // JavaScript code for updating the pie chart
+  function updatePieChart() {
+    // Dummy data used for demonstration
+    const totalIncome = 1000;
+    const totalBasketPrice = 300;
+    const remainingBalance = totalIncome - totalBasketPrice;
+
+    const ctx = document.getElementById('budgetPieChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['My Budget for Groceries', 'Total Basket Price', 'Remaining Balance'],
+        datasets: [{
+          label: 'Amount (Rs)',
+          data: [totalIncome, totalBasketPrice, remainingBalance],
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Allow the chart to be responsive
+      }
+    });
+  }
+
+  window.onload = function() {
+    // Update the pie chart
+    updatePieChart();
+  }
+</script>
 </body>
 </html>
