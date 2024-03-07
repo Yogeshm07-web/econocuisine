@@ -1,3 +1,0 @@
-class Expense < ApplicationRecord
-
-end

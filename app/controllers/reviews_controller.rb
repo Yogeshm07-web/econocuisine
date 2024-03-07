@@ -1,31 +1,16 @@
-
 class ReviewsController < ApplicationController
-      def index
-        @expenses = Expense.last(5)
-        @incomes = Income.last(5)
-      end
-
-  def create
-    @review = Review.new(review_params)
-    if @review.save
-      redirect_to @review, notice: 'Review was successfully created.'
-    else
-      render :new
-    end
-  end
-
   def index
-    @review=Review.all
-    @expenses=Expense.all
+    @basket_items = BasketItem.all
+    # @basket_total_price = BasketItem.sum(:price)  # Total price of all basket items
+    @inventory_items = Inventory.all
   end
 
   def show
-    @review = Review.find(params[:id])
+    # Fetch basket items for the current user
+    @basket_items = current_user.basket_items.includes(:product)
+    
+    # Calculate total price of basket items
+    @total_price = @basket_items.sum { |basket_item| basket_item.product.price }
   end
 
-  private
-
-  def review_params
-    params.require(:review).permit(:feedback, :user_id)
-  end
 end

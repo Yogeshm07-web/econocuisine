@@ -1,3 +1,6 @@
+# require 'rails'
+# require 'rails/health' # Add the missing import statement for 'rails/health' controller
+
 Rails.application.routes.draw do
   resources :budgets, only: [:index]
   devise_for :users
@@ -16,36 +19,9 @@ Rails.application.routes.draw do
     post 'add_to_basket', on: :member
   end
 
-
-
   resources :reviews
-  resources :expenses
-  resources :basket_items, only: [:index, :show, :create]
-
-  resources :incomes do
-    collection do
-      get 'analysis'
-    end
-  end
-
-  resources :expenses
-
-  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
-
-
-  get '/assets/swiper', to: redirect('/path/to/swiper/assets')
-
-
-  resources :baskets do
-    resources :basket_items, only: [:destroy]
-  end
-
-  
-  
-  
-  # Define the add_to_basket route with a unique name
-  post 'add_to_basket', to: 'baskets#add_to_basket', as: 'add_to_basket_basket'
-
+      
+   
   # Define the le_wagon_supermarket route
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
 

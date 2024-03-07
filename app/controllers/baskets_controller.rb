@@ -3,6 +3,7 @@ class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :destroy]
 
   def index
+    @budgets = Budget.all
     @basket = current_user.basket
     @basket_total = BasketItem.sum(:price)
     if @basket != nil 
