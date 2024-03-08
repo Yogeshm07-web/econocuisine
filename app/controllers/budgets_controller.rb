@@ -9,27 +9,28 @@ class BudgetsController < ApplicationController
 
   def update
     if @budget.update(budget_params)
-      redirect_to budgets_path, notice: 'Budget was successfully updated.'
+      render json: { status: 'success', message: 'Budget was successfully updated.' }
     else
-      render :edit
+      render json: { status: 'error', message: 'Failed to update budget.' }, status: :unprocessable_entity
     end
   end
 
-  def create
-    budget = Budget.new(budget_params)
-
-    if budget.save
-      render json: { status: 'success', message: 'Budget data saved successfully' }, status: :ok
-    else
-      render json: { status: 'error', message: budget.errors.full_messages.join(', ') }, status: :unprocessable_entity
-    end
+  def budget_data
+    @budget_data = [
+      { name: 'My Budget for Groceries', value: 100 },
+      { name: 'Total Basket Price', value: 50 },
+      { name: 'Remaining Balance', value: 50 }
+    ]
+    render json: @budget_data
   end
 
   private
 
   def set_budget
     @budget = Budget.find_by(id: params[:id])
-    redirect_to budgets_path, alert: 'Budget not found.' unless @budget
+    unless @budget
+      render json: { status: 'error', message: 'Budget not found.' }, status: :not_found
+    end
   end
 
   def budget_params

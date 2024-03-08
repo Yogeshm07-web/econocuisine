@@ -1,27 +1,70 @@
-<div class="container mt-5">
+<style>
+  body {
+    background-image: url('https://images.ctfassets.net/qr8kennq1pom/3dMTMcPoo7uT1nLE3CbFWF/681b126ba784692dafe61f63f02c2374/Untitled_design__10_.png?fm=webp&q=70&w=1920');
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 20px;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .list-group-item {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .btn-secondary,
+  .btn-danger {
+    color: #fff;
+  }
+
+  /* Add silver shadow effect to div and cards */
+  .shadow-effect {
+    box-shadow: 0 0 300px rgba(13, 192, 192, 0.5);
+  }
+</style>
+
+<div class="container mt-5 shadow-effect">
+    <h1 class="text-center mb-0">Welcome to Your Inventory</h1>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h3 class="text-center mb-0">Welcome to Your Inventory</h3>
+      <div class="card shadow-effect">
+        
+        <div class="card-body">
           <a href="/" class="home-link">
             <span class="home-icon">🏠</span>
           </a>
-        </div>
-        <div class="card-body">
           <%= simple_form_for @inventory do |f| %>
-            <div class="form-group">
+            <div class="form-group border border-primary rounded p-3">
               <%= f.label :name, class: "font-weight-bold" %>
-              <%= f.text_field :name, class: 'form-control', placeholder: "Enter item name" %>
+              <%= f.text_field :name, class: 'form-control border-0 bg-transparent', placeholder: "Enter item name" %>
             </div>
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6 border border-primary rounded p-3">
                 <%= f.label :quantity, class: "font-weight-bold" %>
-                <%= f.select :quantity, options_for_select((1..10).map { |n| [n, n] }), {}, class: 'form-control' %>
+                <%= f.select :quantity, options_for_select((1..10).map { |n| [n, n] }), {}, class: 'form-control border-0 bg-transparent' %>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6 border border-primary rounded p-3">
                 <%= f.label :unit, class: "font-weight-bold" %>
-                <%= f.select :unit, options_for_select(['kg', 'grams', 'liters', 'pieces']), {}, class: 'form-control' %>
+                <%= f.select :unit, options_for_select(['kg', 'grams', 'liters', 'pieces']), {}, class: 'form-control border-0 bg-transparent' %>
               </div>
             </div>
             <%= f.button :submit, class: 'btn btn-primary btn-block' %>
@@ -38,7 +81,7 @@
         <% @inventory_items.each do |inventory| %>
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <%= inventory.name %> - <%= inventory.quantity %> <%= inventory.unit %>
-            <div>
+            <div class="btn-group">
               <%= link_to 'Edit', edit_inventory_path(inventory), class: 'btn btn-secondary btn-sm mr-2' %>
               <%= button_to 'Delete', inventory_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
             </div>

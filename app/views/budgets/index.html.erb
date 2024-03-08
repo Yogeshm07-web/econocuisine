@@ -103,10 +103,20 @@
       </div>
     </div>
   </div>
-</body>
-</html>
 
-<script>
+  <script>
+  // JavaScript functions for handling dynamic fields
+  function editField(fieldName) {
+    const fieldValue = document.getElementById(`${fieldName}Input`).value;
+    console.log(`Editing ${fieldName}: ${fieldValue}`);
+  }
+
+  function deleteField(fieldName) {
+    console.log(`Deleting ${fieldName}`);
+    document.getElementById(`${fieldName}Input`).value = '';
+    updatePieChart(); // You may remove this line if it's not necessary
+  }
+
   // JavaScript functions for handling dynamic fields
   function editField(fieldName) {
     const fieldValue = document.getElementById(`${fieldName}Input`).value;
@@ -128,6 +138,30 @@
 
     // Update all relevant parts of the page
     updatePage();
+
+    // Send AJAX request to Rails backend
+    fetch('/budget_data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ field_name: fieldName, field_value: fieldValue })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Response from server:', data);
+      // Update all relevant parts of the page
+      updatePage();
+    })
+    .catch(error => {
+      console.error('Error saving field:', error);
+    });
   }
 
   function loadField(fieldName) {

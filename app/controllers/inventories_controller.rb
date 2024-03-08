@@ -1,6 +1,5 @@
 class InventoriesController < ApplicationController
   before_action :set_inventory, only: [:edit, :update, :destroy]
-  before_action :load_products, only: [:index]
 
   def index
     @inventory_items = Inventory.all
@@ -14,13 +13,13 @@ class InventoriesController < ApplicationController
     if @inventory.save
       redirect_to inventories_path, notice: 'Inventory item was successfully created.'
     else
-      @inventory_items = Inventory.all  # Fetch all inventory items for rendering the index page
+      @inventory_items = Inventory.all
       render :index, status: :unprocessable_entity
     end
   end
 
   def edit
-    @inventory = Inventory.find(params[:id])
+    # No need to find @inventory again, it's already set by before_action :set_inventory
   end
 
   def update
@@ -34,28 +33,17 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
-    @inventory = Inventory.find(params[:id])
     @inventory.destroy
     redirect_to inventories_path, notice: 'Inventory item was successfully deleted.'
   end
 
-  def show
-    redirect_to inventories_path
-  end
-
   private
+  
+  def inventory_params
+    params.require(:inventory).permit(:name, :quantity, :unit)
+  end
 
   def set_inventory
     @inventory = Inventory.find(params[:id])
-  end
-
-  def load_products
-    @products = Product.all
-  end
-
-  private
-
-  def inventory_params
-    params.require(:inventory).permit(:name, :quantity) # Adjust permitted attributes as needed
   end
 end

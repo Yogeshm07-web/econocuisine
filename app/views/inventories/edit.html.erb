@@ -1,17 +1,77 @@
-<div class="inventory-section">
-  <%= simple_form_for @inventory, url: inventory_path(@inventory), method: :patch do |f| %>
-    <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+<style>
+  body {
+    
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    background-image: url('https://imgix.bustle.com/rehost/2016/9/13/6ec0016e-7d28-4688-bcd4-5c755431baae.jpg?w=614&fit=crop&crop=faces&auto=format%2Ccompress&q=50&dpr=2');
+    background-size: cover; 
+    background-position: center;
+    padding: 100px; 
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .inventory-section {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+    color: #001; /* Change text color to black */
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+</head>
+<body>
+  <div class="container">
+    <div class="inventory-section">
+      <%= simple_form_for @inventory, url: inventory_path(@inventory), method: :patch do |f| %>
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :quantity %>
+          <%= f.number_field :quantity %>
+        </div>
+        <div class="field">
+          <%= f.label :unit %>
+          <%= f.select :unit, options_for_select(['kg', 'grams', 'liters', 'pieces']), {}, class: 'form-control' %>
+        </div>
+        <%= f.button :submit, 'Update Inventory Item', class: 'btn btn-primary' %>
+      <% end %>
     </div>
-    <div class="field">
-      <%= f.label :quantity %>
-      <%= f.number_field :quantity %>
-    </div>
-    <div class="field">
-      <%= f.label :unit %>
-      <%= f.text_field :unit %>
-    </div>
-    <%= f.button :submit, 'Update Inventory Item', class: 'btn btn-primary' %>
-  <% end %>
-</div>
+  </div>
+</body>
+</html>
