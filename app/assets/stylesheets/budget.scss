@@ -1,0 +1,22 @@
+/* Custom styles */
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('https://media.istockphoto.com/id/1399582867/photo/woman-checking-the-grocery-receipt.jpg?s=612x612&w=0&k=20&c=tf0m7HeQ1F-U9EYWFz4J2p9-jlMKsCeE_2Qp9S05MQE=');
+  background-size: cover;
+  background-position: center;
+
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+}
+
+.transparent-bg {
+  background-color: rgba(255, 255, 255, 0.8); /* Adjust opacity as needed */
+}

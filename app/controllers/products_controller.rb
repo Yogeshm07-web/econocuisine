@@ -55,6 +55,9 @@ class ProductsController < ApplicationController
     redirect_to le_wagon_supermarket_path, notice: 'Product added to basket successfully.'
   end
 
+  def product_params
+    params.require(:product).permit(:name, :description, :price, :quantity_unit, :image)
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

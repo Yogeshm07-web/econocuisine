@@ -3,6 +3,9 @@ class ReviewsController < ApplicationController
     @basket_items = BasketItem.all
     # @basket_total_price = BasketItem.sum(:price)  # Total price of all basket items
     @inventory_items = Inventory.all
+    
+    @pie_chart_data = params[:pie_chart_data] || {}
+
   end
 
   def show

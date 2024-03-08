@@ -4,102 +4,114 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Budget Page</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    /* Custom styles */
-    .header-section {
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://trabian-canvas-prd-files.s3.amazonaws.com/lacapfcu-org/files/image/food_budget.png?VersionId=YX2RVUjmssWmYJ0oepId93GwmHVT2S3J');
+      background-size: cover;
+      background-position: center;
+          
+    }
+     .header-section {
+      background-color: rgba(0, 0.5, 21, 0.5); /* Semi-transparent blue background */
+      color: #fff;
+      padding: 00px;
       text-align: center;
-      margin-bottom: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
     }
     .card {
       margin-bottom: 20px;
-      border: 2px solid #ccc; /* Light gray border */
-      background-color: #f0f0f0; /* Light gray background color */
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1); /* Soft shadow for glossy effect */
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .card-body {
-      padding: 20px; /* Add padding for better appearance */
+      padding: 20px;
     }
-    .input-group-prepend, .input-group-append {
-      min-width: 100px;
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+    }
+    .input-group input {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      margin-right: 5px;
+    }
+    .input-group button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
     .chart-container {
       height: 300px;
     }
     .remaining-balance {
-      color: #007bff; /* Set the color to match the pie chart color */
-    }
-    .transparent-bg {
-      background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
-      padding: 10px; /* Add padding for better readability */
-    }
-    .container {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for the container */
-      padding: 20px; /* Add padding to the container */
-    }
-    .row {
-      margin-bottom: 20px; /* Add margin between rows */
+      text-align: center;
+      font-size: 18px;
+      color: #007bff;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="header-section transparent-bg">
-    <h1><b>Budget Page</b></h1>
-    <a href="/" class="home-link">
-      <span class="home-icon">🏠</span>
+  <div class="header-section">
+    <h1>Budget Page</h1>
+    <a href="/" style="color: #fff; text-decoration: none;">
+      <span style="font-size: 24px;">🏠</span>
     </a>
   </div>
-  <div class="container transparent-bg">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Budget Overview</h4>
-            <div class="form-group">
-              <label for="totalIncomeInput">My Budget for Groceries</label>
-              <div class="input-group">
-                <input type="number" id="totalIncomeInput" class="form-control" placeholder="Enter total income" required>
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-primary" onclick="editField('totalIncome')">Edit</button>
-                  <button type="button" class="btn btn-danger" onclick="deleteField('totalIncome')">Delete</button>
-                  <button type="button" class="btn btn-success" onclick="saveField('totalIncome')">Save</button>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="totalBasketPriceInput">Total Basket Price</label>
-              <div class="input-group">
-                <input type="number" id="totalBasketPriceInput" class="form-control" placeholder="Enter basket price">
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-primary" onclick="editField('totalBasketPrice')">Edit</button>
-                  <button type="button" class="btn btn-danger" onclick="deleteField('totalBasketPrice')">Delete</button>
-                  <button type="button" class="btn btn-success" onclick="saveField('totalBasketPrice')">Save</button>
-                </div>
-              </div>
-            </div>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h2>Budget Overview</h2>
+        <div class="form-group">
+          <label for="totalIncomeInput">My Budget for Groceries</label>
+          <div class="input-group">
+            <input type="number" id="totalIncomeInput" placeholder="Enter total income" required>
+            <button onclick="editField('totalIncome')">Edit</button>
+            <button onclick="deleteField('totalIncome')">Delete</button>
+            <button onclick="saveField('totalIncome')">Save</button>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Pie Chart</h4>
-            <div class="chart-container">
-              <canvas id="budgetPieChart"></canvas>
-            </div>
+        <div class="form-group">
+          <label for="totalBasketPriceInput">Total Basket Price</label>
+          <div class="input-group">
+            <input type="number" id="totalBasketPriceInput" placeholder="Enter basket price">
+            <button onclick="editField('totalBasketPrice')">Edit</button>
+            <button onclick="deleteField('totalBasketPrice')">Delete</button>
+            <button onclick="saveField('totalBasketPrice')">Save</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Remaining Balance</h4>
-            <div id="remainingBalanceDisplay" class="remaining-balance transparent-bg"></div>
-          </div>
+    <div class="card">
+      <div class="card-body">
+        <h2>Pie Chart</h2>
+        <div class="chart-container">
+          <canvas id="budgetPieChart"></canvas>
         </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h2>Remaining Balance</h2>
+        <div id="remainingBalanceDisplay" class="remaining-balance"></div>
+        <%= link_to 'View Reviews', reviews_path(pie_chart_data: @pie_chart_data) %>
       </div>
     </div>
   </div>

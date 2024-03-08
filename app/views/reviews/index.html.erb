@@ -3,115 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tracker Page</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Expense Tracker</title>
   <style>
     body {
+      background-image: url('https://c0.wallpaperflare.com/preview/560/75/713/board-chalk-feedback-review.jpg');
+      background-color: #f8f9fa;
       font-family: Arial, sans-serif;
-      background: url('https://shop.thebudgetmom.com/cdn/shop/products/expense_1200x1200.jpg?v=1553638649') no-repeat center center fixed; /* Background cover image */
-      background-size:  100% 100%;
-      background-blend-mode: overlay;
+      margin: 0;
+      padding: 0;
     }
-    /* .container{
-      font-family: Arial, sans-serif;
-      background: url('https://cdn.thewirecutter.com/wp-content/media/2023/02/giftbaskets-2048px-4304-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024') no-repeat center center fixed; /* Background cover image */
-      background-size: cover;
-      background-blend-mode: overlay;
-    } */
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.3);
-    }
+
     .container {
-      padding-top: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
-    .header-section {
-      text-align: center;
-      margin-bottom: 40px;
-      padding-top: 20px;
-      background-color: rgba(0, 123, 255, 0.8);
-      color: #fff;
-    }
-    .header-section h1 {
-      font-weight: bold;
-    }
-    .section-title {
-      color: #333;
-    }
+
     .card {
+      flex: 1 1 45%;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
-      border: none;
-      background-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
     .card-body {
       padding: 20px;
     }
+
+    .card-title {
+      margin-top: 0;
+      font-size: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .item-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .item {
+      margin-bottom: 10px;
+    }
+
     .chart-container {
       height: 300px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-<div class="overlay">
-  <div class="header-section">
-    <h1>Expense Tracker</h1>
+<div class="container">
+
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Basket Items</h2>
+      <ul class="item-list">
+        <% @basket_items.group_by(&:product_id).each do |product_id, items| %>
+          <% total_price = items.sum { |item| item.product.price * item.quantity } %>
+          <li class="item"><%= items.first.product.name %> - Rs <%= number_to_currency(total_price, unit: '') %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 
-  <div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Inventory Items</h2>
+      <ul class="item-list">
+        <% @inventory_items.each do |inventory_item| %>
+          <li class="item"><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 
-    <div class="section">
-      <%# <h2 class="section-title">Review Index</h2> %>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Basket Items</h4>
-              <ul>
-                <% @basket_items.each do |basket_item| %>
-                  <li><%= basket_item.product.name %> - Rs <%= number_to_currency(basket_item.product.price, unit: '') %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Inventory Items</h4>
-
-              <%# <img src="https://assets-global.website-files.com/5f4e8ec8a6a5b17c5cefcc00/64ed3a8de9fa1f3bf8b32496_%20Inventory%20.jpeg" alt="Inventory Items Image" class="img-fluid mb-3"> %>
-              <ul>
-                <% @inventory_items.each do |inventory_item| %>
-                  <li><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Pie Chart</h4>
-              <div class="chart-container">
-                <canvas id="budgetPieChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Pie Chart</h2>
+      <div class="chart-container">
+        <canvas id="budgetPieChart"></canvas>
       </div>
     </div>
   </div>
+
 </div>
+
+</body>
+</html>
 
 
 <script>
-
   function updatePieChart() {
-
     const totalIncome = 1000;
     const totalBasketPrice = 300;
     const remainingBalance = totalIncome - totalBasketPrice;

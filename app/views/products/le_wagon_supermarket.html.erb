@@ -1,3 +1,49 @@
+ 
+
+<style>
+  body {
+    background-image: url('https://c0.wallpaperflare.com/preview/874/237/133/vegetable-stand-photo.jpg');
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 20px;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .list-group-item {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .btn-secondary,
+  .btn-danger {
+    color: #fff;
+  }
+
+  /* Add silver shadow effect to div and cards */
+  .shadow-effect {
+    box-shadow: 0 0 300px rgba(13, 192, 192, 0.5);
+  }
+</style>
 <div class="container">
     <h1 class="mb-4 text-center">Welcome to Le Wagon SuperMarket</h1>
     <div class="row justify-content-center">
@@ -13,7 +59,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><%= product.name %></h5>
                     <p class="card-text"><%= product.description %></p>
-                    <p class="card-text">Price: Rs <%= product.price %></p>
+                    <p class="card-text">Price: Rs <%= product.price %> / <%= product.quantity_unit %></p>
                 </div>
                 <div class="card-footer">
                     <%= form_with(url: add_to_basket_path(id: product.id), method: :post, local: true) do |form| %>

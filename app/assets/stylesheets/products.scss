@@ -1,41 +1,46 @@
-/* app/assets/stylesheets/products.css */
+.supermarket-background {
+  background-image: url('https://kimola.com/images/mh/posts/6f80b6a5-41db-4465-abae-18e5526862f9.webp');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding-top: 50px; /* Adjust as needed */
+}
 
 .product-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .product {
-    flex: 0 0 calc(33.333% - 20px); /* Adjust width as needed */
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 5px;
-  }
-  
-  .product h2 {
-    margin-top: 0;
-  }
-  
-  .price {
-    font-weight: bold;
-  }
-  
-  .btn-primary {
-    margin-top: auto;
-    display: block;
-    width: 100%;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.product {
+  flex: 0 0 calc(33.333% - 20px); /* Adjust width as needed */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.product h2 {
+  margin-top: 0;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.btn-primary {
+  margin-top: auto;
+  display: block;
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
