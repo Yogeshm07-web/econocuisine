@@ -21,7 +21,14 @@ Rails.application.routes.draw do
 
   resources :reviews
       
-   
+  resources :budgets do
+    collection do
+      get :budget_data
+    end
+  end
+
+  post '/save_totalIncome', to: 'budget#save_totalIncome'
+  post '/save_totalBasketPrice', to: 'budget#save_totalBasketPrice' 
   # Define the le_wagon_supermarket route
   get 'le_wagon_supermarket', to: 'products#le_wagon_supermarket'
 
