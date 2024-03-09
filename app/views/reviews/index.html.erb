@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expense Tracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
+    /* Paste the styles from the first snippet here */
     body {
       background-image: url('https://c0.wallpaperflare.com/preview/560/75/713/board-chalk-feedback-review.jpg');
       background-color: #f8f9fa;
@@ -17,16 +19,19 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .card {
-      flex: 1 1 45%;
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
 
@@ -35,10 +40,10 @@
     }
 
     .card-title {
-      margin-top: 0;
-      font-size: 20px;
+      font-size: 24px;
       color: #333;
       text-align: center;
+      margin-bottom: 20px;
     }
 
     .item-list {
@@ -55,55 +60,119 @@
       height: 300px;
       margin-top: 20px;
     }
+
+    .home-link {
+      color: #333;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .home-icon {
+      font-size: 24px;
+    }
+
+    .home-icon:hover {
+      transform: scale(1.2);
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Expense Tracker</h1>
 
-<div class="container">
-
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title">Basket Items</h2>
-      <ul class="item-list">
-        <% @basket_items.group_by(&:product_id).each do |product_id, items| %>
-          <% total_price = items.sum { |item| item.product.price * item.quantity } %>
-          <li class="item"><%= items.first.product.name %> - Rs <%= number_to_currency(total_price, unit: '') %></li>
-        <% end %>
-      </ul>
+    <div class="row justify-content-center">
+        <a href="/" class="home-link">
+            <span class="home-icon">🏠</span> Home
+        </a>
     </div>
-  </div>
 
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Basket Items</h2>
+            <ul class="item-list">
+              <% @basket_items.group_by(&:product_id).each do |product_id, items| %>
+                <% total_price = items.sum { |item| item.product.price * item.quantity } %>
+                <li class="item"><%= items.first.product.name %> - Rs <%= number_to_currency(total_price, unit: '') %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+<div class="col-md-4">
   <div class="card">
     <div class="card-body">
       <h2 class="card-title">Inventory Items</h2>
       <ul class="item-list">
         <% @inventory_items.each do |inventory_item| %>
-          <li class="item"><%= inventory_item.name %> - <%= inventory_item.quantity %></li>
+          <li class="item"><%= "#{inventory_item.name} - #{inventory_item.quantity} #{inventory_item.unit}" %></li>
         <% end %>
       </ul>
     </div>
   </div>
-
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title">Pie Chart</h2>
-      <div class="chart-container">
-        <canvas id="budgetPieChart"></canvas>
+</div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Pie Chart</h2>
+            <div class="chart-container">
+              <canvas id="budgetPieChart"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <% if @pie_chart_data %>
+      <script>
+        const pieChartData = <%= @pie_chart_data.to_json.html_safe %>;
+        const ctx = document.getElementById('budgetPieChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['My Budget for Groceries', 'Total Basket Price', 'Remaining Balance'],
+            datasets: [{
+              label: 'Amount (Rs)',
+              data: [pieChartData.totalIncome, pieChartData.totalBasketPrice, pieChartData.remainingBalance],
+              backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+              ],
+              borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+      </script>
+    <% else %>
+      <p>No pie chart data available.</p>
+    <% end %>
+
   </div>
-
-</div>
-
-</body>
-</html>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
-  function updatePieChart() {
-    const totalIncome = 1000;
-    const totalBasketPrice = 300;
+ function updatePieChart() {
+    console.log('updatePieChart function called');
+
+    const totalIncome = parseFloat(document.getElementById('totalIncomeInput').value) || 0;
+    const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
     const remainingBalance = totalIncome - totalBasketPrice;
+
+    console.log('totalIncome:', totalIncome);
+    console.log('totalBasketPrice:', totalBasketPrice);
+    console.log('remainingBalance:', remainingBalance);
 
     const ctx = document.getElementById('budgetPieChart').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -133,9 +202,20 @@
     });
   }
 
-  window.onload = function() {
+  function updatePage() {
+    // Update the remaining balance display
+    calculateRemainingBalance(); // Assuming this function is defined elsewhere in your code
+
     // Update the pie chart
     updatePieChart();
+  }
+
+  window.onload = function() {
+    // Load field values from local storage
+    loadField('totalIncome'); // Assuming this function is defined elsewhere in your code
+    loadField('totalBasketPrice'); // Assuming this function is defined elsewhere in your code
+
+    updatePage();
   }
 </script>
 </body>
