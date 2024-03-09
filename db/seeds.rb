@@ -4,7 +4,6 @@ BasketItem.destroy_all
 # Delete all records in the baskets table
 Basket.destroy_all
 User.destroy_all
-Product.destroy_all
 
 
 # Seed Users
