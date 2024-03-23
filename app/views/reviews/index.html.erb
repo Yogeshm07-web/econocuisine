@@ -88,7 +88,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <h2 class="card-title">Basket Items</h2>
@@ -101,121 +101,19 @@
           </div>
         </div>
       </div>
-<div class="col-md-4">
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title">Inventory Items</h2>
-      <ul class="item-list">
-        <% @inventory_items.each do |inventory_item| %>
-          <li class="item"><%= "#{inventory_item.name} - #{inventory_item.quantity} #{inventory_item.unit}" %></li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title">Pie Chart</h2>
-            <div class="chart-container">
-              <canvas id="budgetPieChart"></canvas>
-            </div>
+            <h2 class="card-title">Inventory Items</h2>
+            <ul class="item-list">
+              <% @inventory_items.each do |inventory_item| %>
+                <li class="item"><%= "#{inventory_item.name} - #{inventory_item.quantity} #{inventory_item.unit}" %></li>
+              <% end %>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-
-    <% if @pie_chart_data %>
-      <script>
-        const pieChartData = <%= @pie_chart_data.to_json.html_safe %>;
-        const ctx = document.getElementById('budgetPieChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: ['My Budget for Groceries', 'Total Basket Price', 'Remaining Balance'],
-            datasets: [{
-              label: 'Amount (Rs)',
-              data: [pieChartData.totalIncome, pieChartData.totalBasketPrice, pieChartData.remainingBalance],
-              backgroundColor: [
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-              ],
-              borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-          }
-        });
-      </script>
-    <% else %>
-      <p>No pie chart data available.</p>
-    <% end %>
-
   </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-<script>
- function updatePieChart() {
-    console.log('updatePieChart function called');
-
-    const totalIncome = parseFloat(document.getElementById('totalIncomeInput').value) || 0;
-    const totalBasketPrice = parseFloat(document.getElementById('totalBasketPriceInput').value) || 0;
-    const remainingBalance = totalIncome - totalBasketPrice;
-
-    console.log('totalIncome:', totalIncome);
-    console.log('totalBasketPrice:', totalBasketPrice);
-    console.log('remainingBalance:', remainingBalance);
-
-    const ctx = document.getElementById('budgetPieChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['My Budget for Groceries', 'Total Basket Price', 'Remaining Balance'],
-        datasets: [{
-          label: 'Amount (Rs)',
-          data: [totalIncome, totalBasketPrice, remainingBalance],
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(75, 192, 192, 0.5)',
-          ],
-          borderColor: [
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    });
-  }
-
-  function updatePage() {
-    // Update the remaining balance display
-    calculateRemainingBalance(); // Assuming this function is defined elsewhere in your code
-
-    // Update the pie chart
-    updatePieChart();
-  }
-
-  window.onload = function() {
-    // Load field values from local storage
-    loadField('totalIncome'); // Assuming this function is defined elsewhere in your code
-    loadField('totalBasketPrice'); // Assuming this function is defined elsewhere in your code
-
-    updatePage();
-  }
-</script>
 </body>
 </html>
