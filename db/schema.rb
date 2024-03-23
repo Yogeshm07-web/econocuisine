@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_08_043236) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_07_115404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,13 +58,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_043236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.string "product_name"
-    t.string "product_description"
-    t.string "product_category"
-    t.integer "product_price"
-    t.integer "product_stock"
-    t.string "product_quantity_unit"
-    t.boolean "product_featured"
     t.index ["user_id"], name: "index_baskets_on_user_id"
   end
 
@@ -76,21 +69,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_043236) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "expenses", force: :cascade do |t|
-    t.string "category"
-    t.decimal "amount"
-    t.date "date"
-    t.text "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "food_items", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
